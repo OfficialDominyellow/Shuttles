@@ -1,4 +1,5 @@
 <resources>
-    <string name="app_name">ShuttlesApp</string>
+    <string name="app_name">Shuttles</string>
     <string name="action_settings">Settings</string>
+
 </resources>
