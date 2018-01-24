@@ -5,6 +5,7 @@ import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.MenuItem;
@@ -23,6 +24,24 @@ public class DashboardActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         initNavigationDrawer();
+        setCardView();
+    }
+
+    public void setCardView(){
+        CardView cvOrder;
+        cvOrder = (CardView)findViewById(R.id.cv_order);
+        cvOrder.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                int id = view.getId();
+
+                switch (id){
+                    case R.id.cv_order:
+                        Toast.makeText(getApplicationContext(), "주문하기", Toast.LENGTH_SHORT).show();
+                        break;
+                }
+            }
+        });
     }
 
     public void initNavigationDrawer() {

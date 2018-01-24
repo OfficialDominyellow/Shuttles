@@ -24,7 +24,7 @@
                 android:id="@+id/dashboard_toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
-                android:background="?attr/colorPrimary"
+                android:background="@color/ultraViolet"
                 app:popupTheme="@style/AppTheme.PopupOverlay">
 
                 <TextView
@@ -36,6 +36,7 @@
                     android:id="@+id/tv_toolbar_title" />
 
                 <ImageView
+                    android:foreground="?android:attr/selectableItemBackground"
                     android:layout_gravity="end"
                     android:layout_width="25dp"
                     android:layout_height="25dp"
