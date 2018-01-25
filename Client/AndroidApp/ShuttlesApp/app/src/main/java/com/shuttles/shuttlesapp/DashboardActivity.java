@@ -1,5 +1,6 @@
 package com.shuttles.shuttlesapp;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
@@ -38,6 +39,8 @@ public class DashboardActivity extends AppCompatActivity {
                 switch (id){
                     case R.id.cv_order:
                         Toast.makeText(getApplicationContext(), "주문하기", Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(getApplicationContext(), CoffeeListActivity.class);
+                        startActivity(intent);
                         break;
                 }
             }
