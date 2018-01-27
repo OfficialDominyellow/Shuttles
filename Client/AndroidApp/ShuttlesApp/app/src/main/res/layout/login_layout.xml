@@ -68,7 +68,8 @@
             <Button
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/bg_login"
+                android:id="@+id/btn_login"
+                android:background="@drawable/bg_login_selector"
                 android:text="로그인"
                 android:textColor="#f16f7d"
                 android:textAllCaps="false"
