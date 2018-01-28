@@ -76,7 +76,9 @@
                 android:padding="16dp"
                 android:clickable="true"
                 android:layout_marginTop="24dp"/>
-            <Button
+
+            <com.kakao.usermgmt.LoginButton
+                android:id="@+id/com_kakao_login"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/bg_kakao"
