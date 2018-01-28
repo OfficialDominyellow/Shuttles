@@ -19,4 +19,14 @@ router.get('/testdb',function(req,res,next){
   })
 })
 
+router.post('/testpost',function(req,res,next){
+  console.log(req.body);
+
+  var obj = {"process" : 1,
+             "result" : "ok"};
+
+  res.json(obj);
+})
+
+
 module.exports = router;
