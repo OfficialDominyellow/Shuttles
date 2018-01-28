@@ -41,6 +41,11 @@
             android:name=".CoffeeListActivity"
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
+
+        <activity
+            android:name=".DrinkOrderDetailActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+        </activity>
     </application>
 
 </manifest>
