@@ -51,9 +51,6 @@
         <activity android:name=".KakaoSignupActivity"/>
 
         <meta-data
-            android:name="com.kakao.sdk.ClientSecret"
-            android:value="47jDDYyntIZoAecx3WQ1peEDGMYMyf9A"/>
-        <meta-data
             android:name="com.kakao.sdk.AppKey"
             android:value="@string/kakao_app_key" />
 
