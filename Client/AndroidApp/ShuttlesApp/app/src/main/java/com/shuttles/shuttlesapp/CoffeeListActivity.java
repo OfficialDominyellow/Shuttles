@@ -1,6 +1,7 @@
 package com.shuttles.shuttlesapp;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -36,7 +37,7 @@ public class CoffeeListActivity extends AppCompatActivity {
         setContentView(R.layout.coffee_list_layout);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.tb_coffee_list);
-        toolbar.setNavigationIcon(R.drawable.ic_lock_white_18dp); // your drawable
+        toolbar.setNavigationIcon(R.drawable.ic_chevron_left_white_18dp); // your drawable
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -95,6 +96,8 @@ public class CoffeeListActivity extends AppCompatActivity {
                     int price = drinkListVO.getPrice();
 
                     Toast.makeText(getContext(), "name : " + name + ", price : " + price + ", pos : " + i, Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(getContext(), DrinkOrderDetailActivity.class);
+                    startActivity(intent);
                 }
             });
             lvDrinkList.setAdapter(coffeeListViewAdapter);

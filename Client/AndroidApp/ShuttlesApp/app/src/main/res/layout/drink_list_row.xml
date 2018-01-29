@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="horizontal" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:padding="8dp">
 
     <ImageView
         android:layout_width="70dp"
@@ -18,7 +19,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="New Text"
+            android:text="커피이름"
             android:id="@+id/tv_drink_name"
             android:textSize="16dp"
             android:textColor="@color/black"
@@ -28,11 +29,12 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="New Text"
+            android:text="얼마"
             android:id="@+id/tv_drink_price"
             android:textSize="24dp"
             android:textColor="@color/ultraViolet"
-            android:layout_weight="1" />
+            android:layout_weight="1"
+            android:textStyle="bold"/>
     </LinearLayout>
 
 </LinearLayout>
