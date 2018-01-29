@@ -1,6 +1,8 @@
-package com.shuttles.shuttlesapp;
+package com.shuttles.shuttlesapp.ConnectionController;
 
 import android.os.AsyncTask;
+
+import com.shuttles.shuttlesapp.AsyncCallback;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -11,7 +13,7 @@ import java.net.URL;
 /**
  * Created by daeyonglee on 2018. 1. 22..
  */
-public class RequestHandler extends AsyncTask<String, Void, String> {
+public class RequestHandler extends AsyncTask<UploadData, Void, String> {
     private AsyncCallback delegate;
     private HttpURLConnection conn;
     private BufferedReader reader;
@@ -27,36 +29,44 @@ public class RequestHandler extends AsyncTask<String, Void, String> {
 
 
     @Override
-    protected String doInBackground(String... params) {//params[0] ip params[1] method
+    protected String doInBackground(UploadData... uploadData) {//params[0] ip params[1] method
         String result = null;
 
         try {
-            URL requestURL = new URL(params[0]);
+            URL requestURL = new URL(uploadData[0].getRestURL());
             conn = (HttpURLConnection)requestURL.openConnection();
 
             /*TODO: set detail options and timeout exception*/
 
-            conn.setReadTimeout(10000);
-            conn.setConnectTimeout(10000);
-            conn.setRequestMethod(params[1]);
-            if(params[1].equals("POST"))
+            conn.setReadTimeout(3000);
+            conn.setConnectTimeout(3000);
+            conn.setRequestMethod(uploadData[0].getMethod());
+
+
+            if(uploadData[0].equals("POST") || uploadData[0].equals("PUT")) {
                 conn.setDoOutput(true);
+                //get json data for post or put method
+                uploadData[0].getUploadJson();
+            }
+
+
             conn.setDoInput(true);
             //conn.setDoOutput(false);
             conn.setUseCaches(false);
             conn.setDefaultUseCaches(false);
 
-            StringBuilder builder = new StringBuilder();
-            String line;
+            if(conn.getResponseCode() == HttpURLConnection.HTTP_OK) {//check server connection state
+                StringBuilder builder = new StringBuilder();
+                String line;
 
-            reader = new BufferedReader(new InputStreamReader(conn.getInputStream()
-                    ,"UTF-8"));
+                reader = new BufferedReader(new InputStreamReader(conn.getInputStream()
+                        , "UTF-8"));
 
-            while((line = reader.readLine())!=null){
-                builder.append((line));
+                while ((line = reader.readLine()) != null) {
+                    builder.append((line));
+                }
+                result = builder.toString();
             }
-            result = builder.toString();
-
         } catch (IOException e) {
             e.printStackTrace();
         }finally {
@@ -81,10 +91,8 @@ public class RequestHandler extends AsyncTask<String, Void, String> {
     @Override
     protected void onPostExecute(String result) {
         super.onPostExecute(result);
-
-        delegate.onTaskFinish(result);//callback Activity after communicating to the server
-
-
+        //return result to caller
+        delegate.onTaskFinish(result);
     }
 
 
