@@ -16,7 +16,6 @@
             android:id="@+id/tb_drink_order_detail"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="@color/ultraViolet"
             app:popupTheme="@style/AppTheme.PopupOverlay">
 
             <TextView
@@ -83,7 +82,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textColor="@color/ultraViolet"
+                        android:textColor="@color/hotpink"
                         android:textSize="24dp"
                         android:text="4,000원"
                         android:layout_marginTop="8dp"
@@ -122,23 +121,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="@color/black"
-                    android:text="사이즈"/>
-            </LinearLayout>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/lightGray"/>
-
-            <LinearLayout
-                android:orientation="horizontal"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="16dp">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/black"
                     android:text="옵션"/>
             </LinearLayout>
 
@@ -157,7 +139,7 @@
                     android:layout_height="wrap_content"
                     android:background="@drawable/bg_login_selector"
                     android:text="장바구니에 담기"
-                    android:textColor="@color/colorAccent"
+                    android:textColor="@color/hotpink"
                     android:textAllCaps="false"
                     android:padding="10dp"
                     android:clickable="true"
@@ -168,7 +150,7 @@
                     android:id="@+id/btn_login"
                     android:background="@drawable/bg_login_selector"
                     android:text="바로주문하기"
-                    android:textColor="@color/colorAccent"
+                    android:textColor="@color/hotpink"
                     android:textAllCaps="false"
                     android:padding="10dp"
                     android:clickable="true"

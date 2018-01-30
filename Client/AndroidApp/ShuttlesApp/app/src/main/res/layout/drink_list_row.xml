@@ -32,7 +32,7 @@
             android:text="얼마"
             android:id="@+id/tv_drink_price"
             android:textSize="24dp"
-            android:textColor="@color/ultraViolet"
+            android:textColor="@color/hotpink"
             android:layout_weight="1"
             android:textStyle="bold"/>
     </LinearLayout>

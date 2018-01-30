@@ -1,11 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#3F51B5</color>
-    <color name="colorPrimaryDark">#303F9F</color>
-    <color name="colorAccent">#FF4081</color>
+    <color name="colorPrimary">#3e3c3b</color>
+    <color name="colorPrimaryDark">#212020</color>
+    <color name="colorAccent">#e2b12e</color>
+    <color name="hotpink">#FF4081</color>
     <color name="ultraViolet">#5d4d92</color>
     <color name="white">#fff</color>
     <color name="black">#000</color>
     <color name="lightGray">#FFF4F4F4</color>
     <color name="darkGray">#FFBABABA</color>
+    <color name="shuttlesGray">#3e3c3b</color>
+    <color name="shuttlesOrange">#e2b12e</color>
 </resources>

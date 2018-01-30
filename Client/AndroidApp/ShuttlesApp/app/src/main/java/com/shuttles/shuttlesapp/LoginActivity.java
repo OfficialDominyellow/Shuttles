@@ -30,6 +30,7 @@ public class LoginActivity extends Activity {
         startActivity(splashIntent);
 
         Button btnLogin = (Button)findViewById(R.id.btn_login);
+        /*
         btnLogin.setOnClickListener(new Button.OnClickListener(){
             @Override
             public void onClick(View view) {
@@ -37,7 +38,7 @@ public class LoginActivity extends Activity {
                 startActivity(dashboardIntent);
             }
         });
-
+        */
         callback = new SessionCallback();
         Session.getCurrentSession().addCallback(callback);
     }
