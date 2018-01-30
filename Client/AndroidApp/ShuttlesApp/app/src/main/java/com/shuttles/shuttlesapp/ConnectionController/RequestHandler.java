@@ -48,7 +48,7 @@ public class RequestHandler extends AsyncTask<UploadData, Void, String> {
                 //get json data for post or put method
                 uploadData[0].getUploadJson();
             }
-
+            /*Should set different options when using GET,DELET and POST,PUT*/
 
             conn.setDoInput(true);
             //conn.setDoOutput(false);
@@ -94,7 +94,5 @@ public class RequestHandler extends AsyncTask<UploadData, Void, String> {
         //return result to caller
         delegate.onTaskFinish(result);
     }
-
-
 }
 
