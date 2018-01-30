@@ -9,12 +9,19 @@ import org.json.JSONObject;
 public class UploadData {
     private String method;
     private String restURL;
+    private String data;//json format string
     JSONObject uploadJson;
 
     public UploadData(){
-        method = null;
-        restURL = null;
-        uploadJson = null;
+        this.method = null;
+        this.restURL = null;
+        this.data = null;
+    }
+
+    public UploadData(String method, String restURL, String data){
+        this.method = method;
+        this.restURL = restURL;
+        this.data = data;
     }
 
     public String getMethod() {
@@ -39,5 +46,13 @@ public class UploadData {
 
     public JSONObject getUploadJson(){
         return uploadJson;
+    }
+
+    public String getData() {
+        return data;
+    }
+
+    public void setData(String data) {
+        this.data = data;
     }
 }
