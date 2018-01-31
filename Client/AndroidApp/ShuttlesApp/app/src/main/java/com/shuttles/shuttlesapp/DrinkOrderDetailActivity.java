@@ -36,7 +36,7 @@ public class DrinkOrderDetailActivity extends AppCompatActivity {
         setContentView(R.layout.drink_order_detail_layout);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.tb_drink_order_detail);
-        toolbar.setNavigationIcon(R.drawable.ic_chevron_left_white_18dp); // your drawable
+        toolbar.setNavigationIcon(R.drawable.ic_chevron_left_white_12dp); // your drawable
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

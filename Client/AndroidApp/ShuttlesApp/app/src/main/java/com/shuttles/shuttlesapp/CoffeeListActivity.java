@@ -37,7 +37,7 @@ public class CoffeeListActivity extends AppCompatActivity {
         setContentView(R.layout.coffee_list_layout);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.tb_coffee_list);
-        toolbar.setNavigationIcon(R.drawable.ic_chevron_left_white_18dp); // your drawable
+        toolbar.setNavigationIcon(R.drawable.ic_chevron_left_white_12dp); // your drawable
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -53,6 +53,13 @@ public class CoffeeListActivity extends AppCompatActivity {
         tlCoffeeList.setupWithViewPager(vpCoffeeList);
         vpCoffeeList.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tlCoffeeList));
 
+        ImageView ivCart = (ImageView) findViewById(R.id.iv_cart_in_coffee_list);
+        ivCart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getApplicationContext(), "장바구니", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     public static class CoffeeListFragment extends Fragment {

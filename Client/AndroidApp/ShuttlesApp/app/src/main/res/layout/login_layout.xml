@@ -88,6 +88,14 @@
                 android:padding="16dp"
                 android:clickable="true"
                 android:layout_marginTop="16dp"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/colorAccent"
+                android:text="V1.0"
+                android:textStyle="bold"
+                android:gravity="center_horizontal"/>
         </LinearLayout>
     </ScrollView>
 </LinearLayout>

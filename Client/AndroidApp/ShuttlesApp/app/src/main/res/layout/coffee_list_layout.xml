@@ -22,11 +22,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="24sp"
+                android:textStyle="bold"
                 android:text="주문하기"
+                android:textColor="@color/colorAccent"
                 android:layout_gravity="center"
                 android:id="@+id/tv_toolbar_title" />
 
             <ImageView
+                android:id="@+id/iv_cart_in_coffee_list"
                 android:foreground="?android:attr/selectableItemBackground"
                 android:layout_gravity="end"
                 android:layout_width="25dp"
@@ -34,17 +37,7 @@
                 android:layout_marginRight="10dp"
                 android:layout_centerHorizontal="true"
                 android:layout_centerVertical="true"
-                android:src="@drawable/ic_add_alert_white_18dp" />
-
-            <ImageView
-                android:foreground="?android:attr/selectableItemBackground"
-                android:layout_gravity="end"
-                android:layout_width="25dp"
-                android:layout_height="25dp"
-                android:layout_marginRight="10dp"
-                android:layout_centerHorizontal="true"
-                android:layout_centerVertical="true"
-                android:src="@drawable/ic_add_alert_white_18dp" />
+                android:src="@drawable/ic_shopping_cart_white_12dp" />
 
         </android.support.v7.widget.Toolbar>
 

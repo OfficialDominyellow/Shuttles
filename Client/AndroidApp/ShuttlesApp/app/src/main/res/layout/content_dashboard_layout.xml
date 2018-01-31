@@ -58,6 +58,7 @@
                     android:layout_width="64dp"
                     android:layout_height="64dp"
                     android:background="@drawable/bg_circle_primary"
+                    android:src="@drawable/ic_person_white_48dp"
                     android:padding="10dp"/>
                 <TextView
                     android:layout_width="wrap_content"
@@ -96,6 +97,7 @@
                     android:layout_width="64dp"
                     android:layout_height="64dp"
                     android:background="@drawable/bg_circle_primary"
+                    android:src="@drawable/ic_event_note_white_48dp"
                     android:padding="10dp"/>
                 <TextView
                     android:layout_width="wrap_content"
@@ -147,6 +149,7 @@
                     android:layout_width="64dp"
                     android:layout_height="64dp"
                     android:background="@drawable/bg_circle_primary"
+                    android:src="@drawable/ic_attach_money_white_48dp"
                     android:padding="10dp"/>
                 <TextView
                     android:layout_width="wrap_content"

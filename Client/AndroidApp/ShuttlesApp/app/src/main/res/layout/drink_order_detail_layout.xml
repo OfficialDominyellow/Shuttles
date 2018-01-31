@@ -23,10 +23,13 @@
                 android:layout_height="wrap_content"
                 android:textSize="24sp"
                 android:text="메뉴정보"
+                android:textStyle="bold"
+                android:textColor="@color/colorAccent"
                 android:layout_gravity="center"
                 android:id="@+id/tv_toolbar_title" />
 
             <ImageView
+                android:id="@+id/iv_cart_in_drink_order_detail"
                 android:foreground="?android:attr/selectableItemBackground"
                 android:layout_gravity="end"
                 android:layout_width="25dp"
@@ -34,17 +37,7 @@
                 android:layout_marginRight="10dp"
                 android:layout_centerHorizontal="true"
                 android:layout_centerVertical="true"
-                android:src="@drawable/ic_add_alert_white_18dp" />
-
-            <ImageView
-                android:foreground="?android:attr/selectableItemBackground"
-                android:layout_gravity="end"
-                android:layout_width="25dp"
-                android:layout_height="25dp"
-                android:layout_marginRight="10dp"
-                android:layout_centerHorizontal="true"
-                android:layout_centerVertical="true"
-                android:src="@drawable/ic_add_alert_white_18dp" />
+                android:src="@drawable/ic_shopping_cart_white_12dp" />
 
         </android.support.v7.widget.Toolbar>
 
@@ -139,7 +132,7 @@
                     android:layout_height="wrap_content"
                     android:background="@drawable/bg_login_selector"
                     android:text="장바구니에 담기"
-                    android:textColor="@color/hotpink"
+                    android:textColor="@color/colorAccent"
                     android:textAllCaps="false"
                     android:padding="10dp"
                     android:clickable="true"
@@ -150,7 +143,7 @@
                     android:id="@+id/btn_login"
                     android:background="@drawable/bg_login_selector"
                     android:text="바로주문하기"
-                    android:textColor="@color/hotpink"
+                    android:textColor="@color/colorAccent"
                     android:textAllCaps="false"
                     android:padding="10dp"
                     android:clickable="true"
