@@ -14,14 +14,12 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.ListViewCompat;
 import android.support.v7.widget.Toolbar;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -29,14 +27,14 @@ import com.shuttles.shuttlesapp.vo.DrinkListVO;
 
 import java.util.ArrayList;
 
-public class CoffeeListActivity extends AppCompatActivity {
+public class DrinkListActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.coffee_list_layout);
+        setContentView(R.layout.drink_list_layout);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.tb_coffee_list);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.tb_drink_list);
         toolbar.setNavigationIcon(R.drawable.ic_chevron_left_white_12dp); // your drawable
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
@@ -44,40 +42,42 @@ public class CoffeeListActivity extends AppCompatActivity {
                 onBackPressed(); // Implemented by activity
             }
         });
-        TabLayout tlCoffeeList = (TabLayout)findViewById(R.id.tl_coffee_list);
-        ViewPager vpCoffeeList = (ViewPager)findViewById(R.id.vp_coffee_list);
-        CoffeeListPagerAdapter coffeeListPagerAdapter = new CoffeeListPagerAdapter(getSupportFragmentManager());
-        vpCoffeeList.setAdapter(coffeeListPagerAdapter);
-        tlCoffeeList.setTabsFromPagerAdapter(coffeeListPagerAdapter);
+        TabLayout tlDrinkList = (TabLayout)findViewById(R.id.tl_drink_list);
+        ViewPager vpDrinkList = (ViewPager)findViewById(R.id.vp_drink_list);
+        DrinkListPagerAdapter drinkListPagerAdapter = new DrinkListPagerAdapter(getSupportFragmentManager());
+        vpDrinkList.setAdapter(drinkListPagerAdapter);
+        tlDrinkList.setTabsFromPagerAdapter(drinkListPagerAdapter);
 
-        tlCoffeeList.setupWithViewPager(vpCoffeeList);
-        vpCoffeeList.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tlCoffeeList));
+        tlDrinkList.setupWithViewPager(vpDrinkList);
+        vpDrinkList.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tlDrinkList));
 
-        ImageView ivCart = (ImageView) findViewById(R.id.iv_cart_in_coffee_list);
+        ImageView ivCart = (ImageView) findViewById(R.id.iv_cart_in_drink_list);
         ivCart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Toast.makeText(getApplicationContext(), "장바구니", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(getApplicationContext(), CartActivity.class);
+                startActivity(intent);
             }
         });
     }
 
-    public static class CoffeeListFragment extends Fragment {
+    public static class DrinkListFragment extends Fragment {
 
         public static final java.lang.String ARG_PAGE = "arg_page";
 
-        public CoffeeListFragment(){
+        public DrinkListFragment(){
 
         }
 
-        public static CoffeeListFragment newInstance(int pageNumber){
-            CoffeeListFragment coffeeListFragment = new CoffeeListFragment();
+        public static DrinkListFragment newInstance(int pageNumber){
+            DrinkListFragment drinkListFragment = new DrinkListFragment();
             Bundle arguments = new Bundle();
             arguments.putInt(ARG_PAGE, pageNumber);
-            coffeeListFragment.setArguments(arguments);
+            drinkListFragment.setArguments(arguments);
 
             //return fragment including drink list which is suitable with each drink type(ex. all, new, shake, frappuccino, etc...)
-            return coffeeListFragment;
+            return drinkListFragment;
         }
 
         @Nullable
@@ -88,9 +88,9 @@ public class CoffeeListActivity extends AppCompatActivity {
             View view = inflater.inflate(R.layout.drink_list_in_tab_layout, container,false);
 
             ListViewCompat lvDrinkList;
-            CoffeeListViewAdapter coffeeListViewAdapter;
+            DrinkListViewAdapter drinkListViewAdapter;
 
-            coffeeListViewAdapter = new CoffeeListViewAdapter();
+            drinkListViewAdapter = new DrinkListViewAdapter();
             lvDrinkList = (ListViewCompat) view.findViewById(R.id.lv_drink_tab);
 
             //onItemClickListener gogo
@@ -107,11 +107,11 @@ public class CoffeeListActivity extends AppCompatActivity {
                     startActivity(intent);
                 }
             });
-            lvDrinkList.setAdapter(coffeeListViewAdapter);
+            lvDrinkList.setAdapter(drinkListViewAdapter);
 
             //add dummy data
             for(int i=0; i<pageNumber; i++){
-                coffeeListViewAdapter.addItem(ContextCompat.getDrawable(getContext(), R.drawable.img_coffee_example), "아메리카노", 1234);
+                drinkListViewAdapter.addItem(ContextCompat.getDrawable(getContext(), R.drawable.img_coffee_example), "아메리카노", 1234);
             }
 
             return view;
@@ -119,15 +119,15 @@ public class CoffeeListActivity extends AppCompatActivity {
     }
 }
 
-class CoffeeListPagerAdapter extends FragmentStatePagerAdapter{
+class DrinkListPagerAdapter extends FragmentStatePagerAdapter{
 
-    public CoffeeListPagerAdapter(FragmentManager fm){
+    public DrinkListPagerAdapter(FragmentManager fm){
         super(fm);
     }
     @Override
     public Fragment getItem(int position) {
-        CoffeeListActivity.CoffeeListFragment coffeeListFragment = CoffeeListActivity.CoffeeListFragment.newInstance(position);
-        return coffeeListFragment;
+        DrinkListActivity.DrinkListFragment drinkListFragment = DrinkListActivity.DrinkListFragment.newInstance(position);
+        return drinkListFragment;
     }
 
     @Override
@@ -153,12 +153,12 @@ class CoffeeListPagerAdapter extends FragmentStatePagerAdapter{
     }
 }
 
-class CoffeeListViewAdapter extends BaseAdapter{
+class DrinkListViewAdapter extends BaseAdapter{
     // Adapter에 추가된 데이터를 저장하기 위한 ArrayList
     private ArrayList<DrinkListVO> listViewItemList = new ArrayList<DrinkListVO>() ;
 
-    // CoffeeListViewAdapter 생성자
-    public CoffeeListViewAdapter() {
+    // DrinkListViewAdapter 생성자
+    public DrinkListViewAdapter() {
 
     }
 

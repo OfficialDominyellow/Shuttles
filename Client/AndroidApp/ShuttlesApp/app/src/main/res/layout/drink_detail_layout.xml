@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.shuttles.shuttlesapp.DrinkOrderDetailActivity">
+    tools:context="com.shuttles.shuttlesapp.DrinkDetailActivity">
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
@@ -13,7 +13,7 @@
         android:theme="@style/AppTheme.AppBarOverlay">
 
         <android.support.v7.widget.Toolbar
-            android:id="@+id/tb_drink_order_detail"
+            android:id="@+id/tb_drink_detail"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             app:popupTheme="@style/AppTheme.PopupOverlay">
@@ -22,21 +22,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="24sp"
-                android:text="음료 정보"
+                android:text="음료 정보 조회"
                 android:textStyle="bold"
                 android:textColor="@color/colorAccent"
-                android:layout_gravity="center" />
-
-            <ImageView
-                android:id="@+id/iv_cart_in_drink_order_detail"
-                android:foreground="?android:attr/selectableItemBackground"
-                android:layout_gravity="end"
-                android:layout_width="25dp"
-                android:layout_height="25dp"
-                android:layout_marginRight="10dp"
-                android:layout_centerHorizontal="true"
-                android:layout_centerVertical="true"
-                android:src="@drawable/ic_shopping_cart_white_12dp" />
+                android:layout_gravity="center"
+                android:id="@+id/tv_toolbar_title" />
 
         </android.support.v7.widget.Toolbar>
 
@@ -141,51 +131,6 @@
                     android:layout_height="wrap_content"
                     android:textColor="@color/black"
                     android:text="옵션"/>
-            </LinearLayout>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/lightGray"/>
-
-            <LinearLayout
-                android:orientation="vertical"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="16dp">
-                <Button
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/bg_login_selector"
-                    android:text="장바구니에 담기"
-                    android:textColor="@color/colorAccent"
-                    android:textAllCaps="false"
-                    android:padding="10dp"
-                    android:clickable="true"
-                    android:layout_marginTop="8dp"/>
-                <Button
-                    android:id="@+id/btn_order_with_food"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/bg_login_selector"
-                    android:text="스페셜푸드와 함께 주문하기"
-                    android:textColor="@color/colorAccent"
-                    android:textAllCaps="false"
-                    android:padding="10dp"
-                    android:clickable="true"
-                    android:layout_marginTop="8dp"/>
-                <Button
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/btn_login"
-                    android:background="@drawable/bg_login_selector"
-                    android:text="바로주문하기"
-                    android:textColor="@color/colorAccent"
-                    android:textAllCaps="false"
-                    android:padding="10dp"
-                    android:clickable="true"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginBottom="8dp"/>
             </LinearLayout>
 
             <View

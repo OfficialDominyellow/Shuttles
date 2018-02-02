@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.shuttles.shuttlesapp.MainActivity">
+    tools:context="com.shuttles.shuttlesapp.FoodListActivity">
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
@@ -13,7 +13,7 @@
         android:theme="@style/AppTheme.AppBarOverlay">
 
         <android.support.v7.widget.Toolbar
-            android:id="@+id/tb_coffee_list"
+            android:id="@+id/tb_food_list"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             app:popupTheme="@style/AppTheme.PopupOverlay">
@@ -23,13 +23,13 @@
                 android:layout_height="wrap_content"
                 android:textSize="24sp"
                 android:textStyle="bold"
-                android:text="주문하기"
+                android:text="스페셜푸드 주문하기"
                 android:textColor="@color/colorAccent"
                 android:layout_gravity="center"
                 android:id="@+id/tv_toolbar_title" />
 
             <ImageView
-                android:id="@+id/iv_cart_in_coffee_list"
+                android:id="@+id/iv_cart_in_food_list"
                 android:foreground="?android:attr/selectableItemBackground"
                 android:layout_gravity="end"
                 android:layout_width="25dp"
@@ -45,7 +45,7 @@
 
 
     <android.support.design.widget.TabLayout
-        android:id="@+id/tl_coffee_list"
+        android:id="@+id/tl_food_list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:tabGravity="fill"
@@ -57,7 +57,7 @@
     </android.support.design.widget.TabLayout>
 
     <android.support.v4.view.ViewPager
-        android:id="@+id/vp_coffee_list"
+        android:id="@+id/vp_food_list"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1">

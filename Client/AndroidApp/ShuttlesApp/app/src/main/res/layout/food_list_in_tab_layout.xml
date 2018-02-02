@@ -9,11 +9,11 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertival_margin"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context=".DrinkListActivity"
+    tools:context=".FoodListActivity"
     tools:showIn="@layout/drink_list_layout">
 
     <android.support.v7.widget.ListViewCompat
-        android:id="@+id/lv_drink_tab"
+        android:id="@+id/lv_food_tab"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:dividerHeight="1dp"

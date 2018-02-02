@@ -17,5 +17,9 @@
             android:id="@+id/itm_introduce"
             android:title="제품소개"
             android:icon="@drawable/ic_lock_white_18dp"/>
+        <item
+            android:id="@+id/itm_order_history"
+            android:title="주문내역조회"
+            android:icon="@drawable/ic_lock_white_18dp"/>
     </group>
 </menu>
