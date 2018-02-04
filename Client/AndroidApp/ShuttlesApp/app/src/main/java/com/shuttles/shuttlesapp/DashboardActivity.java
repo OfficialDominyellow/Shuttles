@@ -20,6 +20,7 @@ public class DashboardActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.dashboard_layout);
         toolbar = (Toolbar) findViewById(R.id.dashboard_toolbar);
         setSupportActionBar(toolbar);
@@ -29,22 +30,36 @@ public class DashboardActivity extends AppCompatActivity {
     }
 
     public void setCardView(){
-        CardView cvOrder;
-        cvOrder = (CardView)findViewById(R.id.cv_order);
+        CardView cvModifyPersonal = (CardView) findViewById(R.id.cv_modify_personal);
+        cvModifyPersonal.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getApplicationContext(), "개인정보수정", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(getApplicationContext(), ModifyPersonalActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        CardView cvNotice = (CardView) findViewById(R.id.cv_notice);
+        cvNotice.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getApplicationContext(), "공지사항", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(getApplicationContext(), NoticeActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        CardView cvOrder = (CardView)findViewById(R.id.cv_order);
         cvOrder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                int id = view.getId();
-
-                switch (id){
-                    case R.id.cv_order:
-                        Toast.makeText(getApplicationContext(), "주문하기", Toast.LENGTH_SHORT).show();
-                        Intent intent = new Intent(getApplicationContext(), CoffeeListActivity.class);
-                        startActivity(intent);
-                        break;
-                }
+                Toast.makeText(getApplicationContext(), "주문하기", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(getApplicationContext(), DrinkListActivity.class);
+                startActivity(intent);
             }
         });
+
     }
 
     public void initNavigationDrawer() {
@@ -70,6 +85,13 @@ public class DashboardActivity extends AppCompatActivity {
                         break;
                     case R.id.itm_introduce:
                         Toast.makeText(getApplicationContext(),"소개",Toast.LENGTH_SHORT).show();
+                        break;
+                    case R.id.itm_order_history:
+                        Toast.makeText(getApplicationContext(),"주문내역조회",Toast.LENGTH_SHORT).show();
+                        drawerLayout.closeDrawers();
+                        Intent intent = new Intent(getApplicationContext(), OrderHistoryActivity.class);
+                        startActivity(intent);
+                        break;
 
                 }
                 return true;

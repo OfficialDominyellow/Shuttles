@@ -7,7 +7,7 @@
     android:paddingRight="18dp"
     android:paddingTop="@dimen/activity_vertival_margin"
     android:paddingBottom="@dimen/activity_horizontal_margin"
-    android:background="@drawable/login_gradients">
+    android:background="@color/colorPrimary">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -21,14 +21,15 @@
             <!-- Put our logo or img -->
 
             <ImageView
-                android:layout_width="360dp"
-                android:layout_height="180dp"
+                android:layout_width="240dp"
+                android:layout_height="240dp"
                 android:layout_gravity="center_horizontal"
                 android:padding="16dp"
-                android:layout_marginTop="48dp"
+                android:layout_marginTop="148dp"
                 android:layout_marginBottom="20dp"
-                android:src="@drawable/img_white_shuttles"/>
+                android:src="@drawable/img_shuttles"/>
 
+            <!--
             <EditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -76,16 +77,25 @@
                 android:padding="16dp"
                 android:clickable="true"
                 android:layout_marginTop="24dp"/>
-            <Button
+            -->
+            <com.kakao.usermgmt.LoginButton
+                android:id="@+id/com_kakao_login"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/bg_kakao"
-                android:text="카카오로"
+                android:text="Log in with KAKAO"
                 android:textColor="#fff"
                 android:textAllCaps="false"
                 android:padding="16dp"
                 android:clickable="true"
                 android:layout_marginTop="16dp"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/colorAccent"
+                android:text="V1.0"
+                android:textStyle="bold"
+                android:gravity="center_horizontal"/>
         </LinearLayout>
     </ScrollView>
 </LinearLayout>

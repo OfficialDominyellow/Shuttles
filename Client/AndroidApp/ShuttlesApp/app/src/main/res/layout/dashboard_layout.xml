@@ -24,26 +24,17 @@
                 android:id="@+id/dashboard_toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
-                android:background="@color/ultraViolet"
                 app:popupTheme="@style/AppTheme.PopupOverlay">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="24sp"
+                    android:textStyle="bold"
                     android:text="SHUTTLES"
+                    android:textColor="@color/colorAccent"
                     android:layout_gravity="center"
                     android:id="@+id/tv_toolbar_title" />
-
-                <ImageView
-                    android:foreground="?android:attr/selectableItemBackground"
-                    android:layout_gravity="end"
-                    android:layout_width="25dp"
-                    android:layout_height="25dp"
-                    android:layout_marginRight="10dp"
-                    android:layout_centerHorizontal="true"
-                    android:layout_centerVertical="true"
-                    android:src="@drawable/ic_add_alert_white_18dp" />
 
             </android.support.v7.widget.Toolbar>
 
