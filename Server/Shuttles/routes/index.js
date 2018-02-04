@@ -8,7 +8,7 @@ router.get('/', function(req, res, next) {
 });
 
 router.get('/test',function(req,res,next){
-  var obj = {"result" : "ok"}
+  var obj = {"name" : "americano", "url" : "https://s3.ap-northeast-2.amazonaws.com/shuttles/coffee/jimin.png"}
   res.json(obj);
 });
 
