@@ -19,7 +19,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.shuttles.shuttlesapp.vo.CartListVO;
-import com.shuttles.shuttlesapp.vo.DrinkListVO;
 
 import java.util.ArrayList;
 

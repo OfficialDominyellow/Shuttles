@@ -22,7 +22,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="24sp"
-                android:text="주문내역 조회"
+                android:text="주문내역 상세"
                 android:textStyle="bold"
                 android:textColor="@color/colorAccent"
                 android:layout_gravity="center"
@@ -40,7 +40,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="주문내역에 또 list네 "/>
+            android:text="됴깐네"/>
 
     </ScrollView>
 
