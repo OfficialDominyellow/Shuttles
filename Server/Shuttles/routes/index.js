@@ -14,8 +14,9 @@ router.get('/test',function(req,res,next){
 
 router.get('/testdb',function(req,res,next){
   var obj = {"db":"connected"};
-  db.test(obj,function(success){
-    res.json(obj);
+  db.getCoffee(obj,function(success){
+    console.log('success : ',success);
+    res.json(success);
   })
 })
 
