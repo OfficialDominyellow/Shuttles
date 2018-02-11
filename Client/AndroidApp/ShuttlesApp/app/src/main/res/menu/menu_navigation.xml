@@ -21,5 +21,10 @@
             android:id="@+id/itm_order_history"
             android:title="주문내역조회"
             android:icon="@drawable/ic_lock_white_18dp"/>
+        <!--admin menu item -->
+        <item
+            android:id="@+id/itm_order_manage"
+            android:title="주문내역관리"
+            android:icon="@drawable/ic_lock_white_18dp"/>
     </group>
 </menu>

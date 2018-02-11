@@ -1,12 +1,10 @@
 package com.shuttles.shuttlesapp.vo;
 
-import android.graphics.drawable.Drawable;
-
 /**
  * Created by domin on 2018-01-28.
  */
 
-public class OrderHistoryListVO {
+public class OrderManageListVO {
     public static final int ORDER_PEND = 0; //주문 대기
     public static final int ORDER_COMPETE = 1; // 주문 완료
     public static final int DELIVERY_BEGIN = 2; //배달중
