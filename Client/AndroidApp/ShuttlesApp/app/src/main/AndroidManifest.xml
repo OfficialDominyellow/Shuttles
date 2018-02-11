@@ -103,6 +103,16 @@
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
 
+        <activity
+            android:name=".OrderManageActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+        </activity>
+
+        <activity
+            android:name=".OrderManageDetailActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+        </activity>
+
         <activity android:name=".KakaoSignupActivity"/>
 
         <meta-data

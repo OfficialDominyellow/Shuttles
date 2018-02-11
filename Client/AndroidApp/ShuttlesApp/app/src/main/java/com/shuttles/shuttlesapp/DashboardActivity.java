@@ -70,7 +70,7 @@ public class DashboardActivity extends AppCompatActivity {
             public boolean onNavigationItemSelected(MenuItem menuItem) {
 
                 int id = menuItem.getItemId();
-
+                Intent intent;
                 switch (id){
                     case R.id.itm_home:
                         Toast.makeText(getApplicationContext(),"홈",Toast.LENGTH_SHORT).show();
@@ -89,7 +89,12 @@ public class DashboardActivity extends AppCompatActivity {
                     case R.id.itm_order_history:
                         Toast.makeText(getApplicationContext(),"주문내역조회",Toast.LENGTH_SHORT).show();
                         drawerLayout.closeDrawers();
-                        Intent intent = new Intent(getApplicationContext(), OrderHistoryActivity.class);
+                        intent = new Intent(getApplicationContext(), OrderHistoryActivity.class);
+                        startActivity(intent);
+                    case R.id.itm_order_manage:
+                        Toast.makeText(getApplicationContext(),"주문내역관리(사장님)",Toast.LENGTH_SHORT).show();
+                        drawerLayout.closeDrawers();
+                        intent = new Intent(getApplicationContext(), OrderManageActivity.class);
                         startActivity(intent);
                         break;
 
@@ -98,8 +103,8 @@ public class DashboardActivity extends AppCompatActivity {
             }
         });
         View header = navigationView.getHeaderView(0);
-        TextView tv_email = (TextView)header.findViewById(R.id.tv_email);
-        tv_email.setText("dominyellow@gmail.com");
+        TextView tvUserName = (TextView)header.findViewById(R.id.tv_user_name);
+        tvUserName.setText("러블리즈 미주");
         drawerLayout = (DrawerLayout)findViewById(R.id.drawer_dashboard);
 
         ActionBarDrawerToggle actionBarDrawerToggle = new ActionBarDrawerToggle(this,drawerLayout,toolbar,R.string.drawer_open,R.string.drawer_close){

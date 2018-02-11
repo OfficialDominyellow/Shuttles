@@ -2,9 +2,7 @@ package com.shuttles.shuttlesapp;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.ListViewCompat;
 import android.support.v7.widget.Toolbar;
@@ -13,22 +11,22 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.shuttles.shuttlesapp.vo.OrderHistoryListVO;
+import com.shuttles.shuttlesapp.vo.OrderManageListVO;
+import com.shuttles.shuttlesapp.vo.OrderManageListVO;
 
 import java.util.ArrayList;
 
-public class OrderHistoryActivity extends AppCompatActivity {
+public class OrderManageActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.order_history_layout);
+        setContentView(R.layout.order_manage_layout);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.tb_order_history);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.tb_order_manage);
         toolbar.setNavigationIcon(R.drawable.ic_chevron_left_white_12dp); // your drawable
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
@@ -37,41 +35,41 @@ public class OrderHistoryActivity extends AppCompatActivity {
             }
         });
 
-        ListViewCompat lvOrderHistory = (ListViewCompat) findViewById(R.id.lv_order_history);
-        final OrderHistoryListViewAdapter orderHistoryListViewAdapter = new OrderHistoryListViewAdapter();
+        ListViewCompat lvOrderManage = (ListViewCompat) findViewById(R.id.lv_order_manage);
+        final OrderManageListViewAdapter orderManageListViewAdapter = new OrderManageListViewAdapter();
 
-        lvOrderHistory.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        lvOrderManage.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                OrderHistoryListVO orderHistoryListVO = (OrderHistoryListVO) adapterView.getItemAtPosition(i);
+                OrderManageListVO orderManageListVO = (OrderManageListVO) adapterView.getItemAtPosition(i);
 
-                String title = orderHistoryListVO.getTitle();
-                String orderSerial = orderHistoryListVO.getOrderSerial();
-                int status = orderHistoryListVO.getStatus();
-                String statusStatement = orderHistoryListVO.getStatusStatement();
+                String title = orderManageListVO.getTitle();
+                String orderSerial = orderManageListVO.getOrderSerial();
+                int status = orderManageListVO.getStatus();
+                String statusStatement = orderManageListVO.getStatusStatement();
 
                 Toast.makeText(getApplicationContext(), "titlie : " + title + ", serial : " + orderSerial + ", status : " + status + ", statusStatement : " + statusStatement +", pos : " + i, Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(getApplicationContext(), OrderReceiptActivity.class);
+                Intent intent = new Intent(getApplicationContext(), OrderManageDetailActivity.class);
                 startActivity(intent);
             }
         });
 
         //add dummy data
         for(int i=0; i<15; i++){
-            orderHistoryListViewAdapter.addItem("제육 외 " + i + "건", "AA"+i+"A"+i+"BB", i%4) ;
-            orderHistoryListViewAdapter.addItem("커피 외 " + i + "건", "AA"+i+"A"+i+"BB", i%4) ;
+            orderManageListViewAdapter.addItem("제육 외 " + i + "건", "AA"+i+"A"+i+"BB", i%4) ;
+            orderManageListViewAdapter.addItem("커피 외 " + i + "건", "AA"+i+"A"+i+"BB", i%4) ;
         }
 
-        lvOrderHistory.setAdapter(orderHistoryListViewAdapter);
+        lvOrderManage.setAdapter(orderManageListViewAdapter);
     }
 }
 
-class OrderHistoryListViewAdapter extends BaseAdapter {
+class OrderManageListViewAdapter extends BaseAdapter {
     // Adapter에 추가된 데이터를 저장하기 위한 ArrayList
-    private ArrayList<OrderHistoryListVO> listViewItemList = new ArrayList<OrderHistoryListVO>() ;
+    private ArrayList<OrderManageListVO> listViewItemList = new ArrayList<OrderManageListVO>() ;
 
-    // OrderHistoryListViewAdapter 생성자
-    public OrderHistoryListViewAdapter() {
+    // OrderManageListViewAdapter 생성자
+    public OrderManageListViewAdapter() {
 
     }
 
@@ -90,22 +88,22 @@ class OrderHistoryListViewAdapter extends BaseAdapter {
         // "listview_item" Layout을 inflate하여 convertView 참조 획득.
         if (convertView == null) {
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            convertView = inflater.inflate(R.layout.order_history_list_row, parent, false);
+            convertView = inflater.inflate(R.layout.order_manage_list_row, parent, false);
         }
 
         // 화면에 표시될 View(Layout이 inflate된)으로부터 위젯에 대한 참조 획득
-        TextView tvOrderHistoryTitle = (TextView) convertView.findViewById(R.id.tv_order_history_title);
-        TextView tvOrderHistorySerial = (TextView) convertView.findViewById(R.id.tv_order_history_serial);
-        TextView tvOrderHistoryStatus = (TextView) convertView.findViewById(R.id.tv_order_history_status);
+        TextView tvOrderManageTitle = (TextView) convertView.findViewById(R.id.tv_order_manage_title);
+        TextView tvOrderManageSerial = (TextView) convertView.findViewById(R.id.tv_order_manage_serial);
+        TextView tvOrderManageStatus = (TextView) convertView.findViewById(R.id.tv_order_manage_status);
 
 
         // Data Set(listViewItemList)에서 position에 위치한 데이터 참조 획득
-        OrderHistoryListVO orderHistoryListVO = listViewItemList.get(position);
+        OrderManageListVO orderManageListVO = listViewItemList.get(position);
 
         // 아이템 내 각 위젯에 데이터 반영
-        tvOrderHistoryTitle.setText(orderHistoryListVO.getTitle());
-        tvOrderHistorySerial.setText(orderHistoryListVO.getOrderSerial());
-        tvOrderHistoryStatus.setText(orderHistoryListVO.getStatusStatement());
+        tvOrderManageTitle.setText(orderManageListVO.getTitle());
+        tvOrderManageSerial.setText(orderManageListVO.getOrderSerial());
+        tvOrderManageStatus.setText(orderManageListVO.getStatusStatement());
 
 
         return convertView;
@@ -125,7 +123,7 @@ class OrderHistoryListViewAdapter extends BaseAdapter {
 
     // 아이템 데이터 추가를 위한 함수. 개발자가 원하는대로 작성 가능.
     public void addItem(String title, String orderSerial, int status) {
-        OrderHistoryListVO item = new OrderHistoryListVO();
+        OrderManageListVO item = new OrderManageListVO();
 
         item.setTitle(title);
         item.setOrderSerial(orderSerial);

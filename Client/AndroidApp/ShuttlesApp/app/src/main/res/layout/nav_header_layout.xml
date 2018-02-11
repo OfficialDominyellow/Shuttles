@@ -24,7 +24,7 @@
     </LinearLayout>
 
     <TextView
-        android:id="@+id/tv_email"
+        android:id="@+id/tv_user_name"
         android:textColor="@color/white"
         android:textSize="18sp"
         android:layout_gravity="center"

@@ -37,10 +37,62 @@
         android:layout_height="match_parent"
         android:padding="5dp">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="공지사항 본문 보기"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="8dp"
+            android:orientation="vertical">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="12dp"
+                android:orientation="vertical">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/black"
+                    android:textSize="16dp"
+                    android:text="po제목wer"
+                    android:textStyle="bold"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="2017-02-02"/>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="2dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="8dp"
+                    android:background="@color/black"/>
+
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="16dp">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/black"
+                        android:text="공지사항내용나안멍히ㅓㅁ나ㅣㅇ허ㅣㅏㅁㄴ엏;ㅣㅏㅓㄴㅁㅇ;ㅣㅏㅓㄴ미ㅏ어공지사하이ㅏㅁ넝히ㅏㅓㅁㄴㅇㅎ
+
+ㄴㅁ이ㅏ헌마ㅣ이ㅏㅎㅁㄴ어ㅏㅣ허ㅣㅏ
+ㅁㄴㅇ
+
+ㄴㅁㅇ히ㅏㅓㅓㅏㅣㅁㄴㅇㅎ"/>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginBottom="8dp"
+                        android:background="@color/lightGray"/>
+
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
 
     </ScrollView>
 

@@ -22,7 +22,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="주문제목"
-                android:id="@+id/tv_order_history_title"
+                android:id="@+id/tv_order_manage_title"
                 android:textSize="20dp"
                 android:textColor="@color/shuttlesGray"
                 android:textStyle="bold"/>
@@ -44,7 +44,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="주문번호"
-                android:id="@+id/tv_order_history_serial"
+                android:id="@+id/tv_order_manage_serial"
                 android:textSize="16dp"
                 android:textColor="@color/darkGray"
                 android:gravity="center_vertical" />
@@ -54,7 +54,7 @@
                 android:layout_marginLeft="10dp"
                 android:text="주문상태"
                 android:background="@color/darkGray"
-                android:id="@+id/tv_order_history_status"
+                android:id="@+id/tv_order_manage_status"
                 android:textSize="12dp"
                 android:textColor="@color/hotpink"
                 android:gravity="center" />
