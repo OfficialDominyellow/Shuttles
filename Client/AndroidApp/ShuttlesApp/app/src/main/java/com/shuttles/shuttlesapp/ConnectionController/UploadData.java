@@ -9,14 +9,9 @@ import org.json.JSONObject;
 public class UploadData {
     private String method;
     private String restURL;
-    private String data;//json format string
-    JSONObject uploadJson;
+    private String data;//json format string only use for post and update
 
-    public UploadData(){
-        this.method = null;
-        this.restURL = null;
-        this.data = null;
-    }
+    JSONObject uploadJson;
 
     public UploadData(String method, String restURL, String data){
         this.method = method;

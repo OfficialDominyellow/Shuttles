@@ -26,9 +26,9 @@ import android.widget.Toast;
 import com.shuttles.shuttlesapp.vo.DrinkListVO;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class DrinkListActivity extends AppCompatActivity {
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -100,7 +100,7 @@ public class DrinkListActivity extends AppCompatActivity {
                     DrinkListVO drinkListVO = (DrinkListVO) adapterView.getItemAtPosition(i);
 
                     String name = drinkListVO.getName();
-                    int price = drinkListVO.getPrice();
+                    String price = drinkListVO.getPrice();
 
                     Toast.makeText(getContext(), "name : " + name + ", price : " + price + ", pos : " + i, Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(getContext(), DrinkOrderDetailActivity.class);
@@ -109,11 +109,17 @@ public class DrinkListActivity extends AppCompatActivity {
             });
             lvDrinkList.setAdapter(drinkListViewAdapter);
 
-            //add dummy data
-            for(int i=0; i<pageNumber; i++){
-                drinkListViewAdapter.addItem(ContextCompat.getDrawable(getContext(), R.drawable.img_coffee_example), "아메리카노", 1234);
+
+            List<DrinkListVO> drinkList = GlobalApplication.drinkList;
+
+            for(DrinkListVO element : drinkList){
+                drinkListViewAdapter.addItem(element.getImg(), element.getName(), element.getPrice());
             }
 
+            /*
+            for(int i=0; i<pageNumber; i++){
+                drinkListViewAdapter.addItem(ContextCompat.getDrawable(getContext(), R.drawable.img_coffee_example), "아메리카노", "1234");
+            }*/
             return view;
         }
     }
@@ -209,7 +215,7 @@ class DrinkListViewAdapter extends BaseAdapter{
     }
 
     // 아이템 데이터 추가를 위한 함수. 개발자가 원하는대로 작성 가능.
-    public void addItem(Drawable img, String name, int price) {
+    public void addItem(Drawable img, String name, String price) {
         DrinkListVO item = new DrinkListVO();
 
         item.setImg(img);

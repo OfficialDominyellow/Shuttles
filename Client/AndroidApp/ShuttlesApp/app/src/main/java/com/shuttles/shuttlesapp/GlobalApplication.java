@@ -5,6 +5,7 @@ package com.shuttles.shuttlesapp;
 import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
+import android.util.Log;
 
 import com.kakao.auth.ApprovalType;
 import com.kakao.auth.AuthType;
@@ -13,6 +14,12 @@ import com.kakao.auth.ISessionConfig;
 import com.kakao.auth.KakaoAdapter;
 import com.kakao.auth.KakaoSDK;
 import com.kakao.util.helper.log.Logger;
+import com.shuttles.shuttlesapp.Utils.Constants;
+import com.shuttles.shuttlesapp.vo.DrinkListVO;
+import com.shuttles.shuttlesapp.vo.FoodListVO;
+import com.shuttles.shuttlesapp.vo.Product;
+
+import java.util.List;
 
 /**
  * 이미지를 캐시를 앱 수준에서 관리하기 위한 애플리케이션 객체이다.
@@ -23,6 +30,21 @@ import com.kakao.util.helper.log.Logger;
 public class GlobalApplication extends Application {
     private static volatile GlobalApplication instance = null;
     private static volatile Activity currentActivity = null;
+
+    public static volatile List<DrinkListVO> drinkList = null;
+    public static volatile List<FoodListVO> specialFoodList = null;
+
+    public void setCoffeList(List<DrinkListVO> drinkList) {
+        this.drinkList = drinkList;
+        for(DrinkListVO element : drinkList){
+            Log.i(Constants.LOG_TAG,element.toString());
+            element.convertURLtoFileName();
+        }
+    }
+
+    public void setSpecialFoodList(List<FoodListVO> specialFoodLsit) {
+        this.specialFoodList = specialFoodLsit;
+    }
 
     private static class KakaoSDKAdapter extends KakaoAdapter {
         /**

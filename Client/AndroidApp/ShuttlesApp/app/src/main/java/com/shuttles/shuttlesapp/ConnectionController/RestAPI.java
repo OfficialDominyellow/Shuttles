@@ -5,8 +5,8 @@ package com.shuttles.shuttlesapp.ConnectionController;
  */
 
 public class RestAPI {
-    public static String serverIP = "http://13.125.114.13:3000";
-    /*example*/
-    public static String TEST = serverIP+"/test";
-
+    public static final String SERVER_IP = "http://13.125.114.13:3000";
+    public static final String TEST = SERVER_IP+"/test";
+    public static final String COFFE_LIST = SERVER_IP + "/coffee";
+    public static final String ORDER = SERVER_IP +"/order";
 }
