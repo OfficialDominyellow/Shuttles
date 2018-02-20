@@ -1,12 +1,17 @@
 package com.shuttles.shuttlesapp.ConnectionController;
 
 import android.os.AsyncTask;
+import android.util.Log;
 
-import com.shuttles.shuttlesapp.AsyncCallback;
+import com.shuttles.shuttlesapp.ServerResultCallback;
+import com.shuttles.shuttlesapp.Utils.Constants;
+
+import org.json.JSONArray;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
@@ -14,11 +19,12 @@ import java.net.URL;
  * Created by daeyonglee on 2018. 1. 22..
  */
 public class RequestHandler extends AsyncTask<UploadData, Void, String> {
-    private AsyncCallback delegate;
-    private HttpURLConnection conn;
-    private BufferedReader reader;
+    private ServerResultCallback delegate = null;
+    private HttpURLConnection conn = null;
+    private BufferedReader reader = null;
+    private UploadData uploadData = null;
 
-    public RequestHandler(AsyncCallback delegate){
+    public RequestHandler(ServerResultCallback delegate){
         this.delegate=delegate;
     }
 
@@ -27,31 +33,30 @@ public class RequestHandler extends AsyncTask<UploadData, Void, String> {
         super.onPreExecute();
     }
 
-
     @Override
-    protected String doInBackground(UploadData... uploadData) {//params[0] ip params[1] method
+    protected String doInBackground(UploadData... params) {
         String result = null;
-
+        uploadData = params[0];
         try {
-            URL requestURL = new URL(uploadData[0].getRestURL());
+            URL requestURL = new URL(uploadData.getRestURL());
             conn = (HttpURLConnection)requestURL.openConnection();
 
             /*TODO: set detail options and timeout exception*/
+            conn.setReadTimeout(Constants.CONNECTION_TIME_OUT);
+            conn.setConnectTimeout(Constants.READ_TIME_OUT);
+            conn.setRequestMethod(uploadData.getMethod());
+            //conn.setRequestProperty("Content-Type","Application/json");
 
-            conn.setReadTimeout(3000);
-            conn.setConnectTimeout(3000);
-            conn.setRequestMethod(uploadData[0].getMethod());
-
-
-            if(uploadData[0].equals("POST") || uploadData[0].equals("PUT")) {
-                conn.setDoOutput(true);
-                //get json data for post or put method
-                uploadData[0].getUploadJson();
+            if(uploadData.getMethod().equals("POST") || uploadData.getMethod().equals("PUT")) {
+                conn.setDoOutput(true); //only use post or put
+                OutputStream os = conn.getOutputStream();
+                os.write(uploadData.getUploadJsonArray().toString().getBytes());
+                os.flush();
+                Log.i(Constants.LOG_TAG, "upload : "+uploadData.getUploadJsonArray().toString());
+                os.close();
             }
-            /*Should set different options when using GET,DELET and POST,PUT*/
 
             conn.setDoInput(true);
-            //conn.setDoOutput(false);
             conn.setUseCaches(false);
             conn.setDefaultUseCaches(false);
 
@@ -70,14 +75,12 @@ public class RequestHandler extends AsyncTask<UploadData, Void, String> {
         } catch (IOException e) {
             e.printStackTrace();
         }finally {
-            if(conn!=null)
-                conn.disconnect();
-            if(reader!=null)
-                try {
-                    reader.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+            conn.disconnect();
+            try {
+                reader.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
 
         return result;
@@ -92,7 +95,7 @@ public class RequestHandler extends AsyncTask<UploadData, Void, String> {
     protected void onPostExecute(String result) {
         super.onPostExecute(result);
         //return result to caller
-        delegate.onTaskFinish(result);
+        delegate.onTaskFinish(Constants.TYPE_REQUEST_HANDLER, result);
     }
 }
 

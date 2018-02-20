@@ -4,6 +4,7 @@ package com.shuttles.shuttlesapp;
  */
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -22,12 +23,14 @@ import com.shuttles.shuttlesapp.ConnectionController.RestAPI;
 import com.shuttles.shuttlesapp.ConnectionController.UploadData;
 import com.shuttles.shuttlesapp.Utils.Constants;
 import com.shuttles.shuttlesapp.vo.DrinkListVO;
-import com.shuttles.shuttlesapp.vo.Product;
 
 import java.util.List;
 
-public class KakaoSignupActivity extends Activity implements AsyncCallback{
+public class KakaoSignupActivity extends Activity implements ServerResultCallback {
     private GlobalApplication globalApplication;
+    private ProgressDialog dialog;
+    private String userData;
+
     /**
      * Main으로 넘길지 가입 페이지를 그릴지 판단하기 위해 me를 호출한다.
      * @param savedInstanceState 기존 session 정보가 저장된 객체
@@ -36,6 +39,7 @@ public class KakaoSignupActivity extends Activity implements AsyncCallback{
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        dialog = new ProgressDialog(KakaoSignupActivity.this);
         globalApplication = (GlobalApplication)getApplicationContext();
         requestMe();
     }
@@ -74,30 +78,26 @@ public class KakaoSignupActivity extends Activity implements AsyncCallback{
             public void onSuccess(UserProfile userProfile) {  //성공 시 userProfile 형태로 반환
                 //user의 유니크한 정보를 여기서 추출
                 Log.i(Constants.LOG_TAG,"User ID:"+userProfile.getId()+" userNickname: "+userProfile.getNickname()
-                        +"UUID:"+userProfile.getUUID()+"email : "+userProfile.getEmail());
-                redirectDashboardActivity(userProfile.getUUID()); // 로그인 성공시 MainActivity로
+                        +" UUID:"+userProfile.getUUID()+" email : "+userProfile.getEmail());
+                setValueObjectClass(); // 로그인 성공시 data set
             }
         });
     }
-
-    private void redirectDashboardActivity(String userUUID) {
-        /*TODO
-        UUID 바뀌는지 안바뀌는지 확인해봐야함
-         */
+    private void setValueObjectClass(){
+        dialog.setMessage("Loading...");
+        dialog.show();
 
         //Set All Data
         UploadData requestCoffeList = new UploadData("GET",RestAPI.COFFE_LIST,null);
         new RequestHandler(this).execute(requestCoffeList);
+    }
 
-        /*TOTO
-        request special food list
-         */
-
+    private void redirectDashboardActivity() {
         Intent intent = new Intent(this,DashboardActivity.class);
-        Log.i(Constants.LOG_TAG,"UserProfile : " + userUUID);
-        intent.putExtra("userID",userUUID);
+        intent.putExtra("userData : ", userData);
         startActivity(intent);
         finish();
+
     }
 
     protected void redirectLoginActivity() {
@@ -108,13 +108,24 @@ public class KakaoSignupActivity extends Activity implements AsyncCallback{
     }
 
     @Override
-    public void onTaskFinish(String resultJsonArray) {
-        //after request
-        Gson gson = new Gson();
-        List<DrinkListVO> drinkList = gson.fromJson(resultJsonArray, new TypeToken<List<DrinkListVO>>(){}.getType());
+    public void onTaskFinish(int type, String resultJsonArray) {
+        switch(type) {
+            case Constants.TYPE_REQUEST_HANDLER :
+                if(resultJsonArray == null) {
+                    dialog.dismiss();
+                    redirectLoginActivity();//data load failed
+                }
 
-        globalApplication.setCoffeList(drinkList);
+                Gson gson = new Gson();
+                List<DrinkListVO> drinkList = gson.fromJson(resultJsonArray, new TypeToken<List<DrinkListVO>>() {}.getType());
+                globalApplication.setCoffeList(drinkList);
+                new ImageLoadHandler(this).execute(drinkList);
+                break;
 
-        new ImageLoadHandler(this).execute(drinkList);
+            case Constants.TYPE_IMAGE_LOAD_HANDLER :
+                dialog.dismiss();
+                redirectDashboardActivity();
+                break;
+        }
     }
 }

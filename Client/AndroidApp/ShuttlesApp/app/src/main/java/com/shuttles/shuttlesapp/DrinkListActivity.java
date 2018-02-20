@@ -112,14 +112,13 @@ public class DrinkListActivity extends AppCompatActivity {
 
             List<DrinkListVO> drinkList = GlobalApplication.drinkList;
 
-            for(DrinkListVO element : drinkList){
-                drinkListViewAdapter.addItem(element.getImg(), element.getName(), element.getPrice());
+            /*TODO 애초에 null이면 여기까지도 오면 안됨 null인경우는 데이터 못받아온경우임*/
+            if(drinkList!=null) {
+                for (DrinkListVO element : drinkList) {
+                    drinkListViewAdapter.addItem(element.getImg(), element.getName(), element.getPrice());
+                }
             }
 
-            /*
-            for(int i=0; i<pageNumber; i++){
-                drinkListViewAdapter.addItem(ContextCompat.getDrawable(getContext(), R.drawable.img_coffee_example), "아메리카노", "1234");
-            }*/
             return view;
         }
     }

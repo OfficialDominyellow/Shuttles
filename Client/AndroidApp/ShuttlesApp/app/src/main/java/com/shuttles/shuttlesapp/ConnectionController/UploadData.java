@@ -1,5 +1,6 @@
 package com.shuttles.shuttlesapp.ConnectionController;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 /**
@@ -11,7 +12,7 @@ public class UploadData {
     private String restURL;
     private String data;//json format string only use for post and update
 
-    JSONObject uploadJson;
+    private JSONArray uploadJsonArray;
 
     public UploadData(String method, String restURL, String data){
         this.method = method;
@@ -35,19 +36,19 @@ public class UploadData {
         this.restURL = restURL;
     }
 
-    public void setUploadJson(JSONObject json){
-        this.uploadJson = json;
-    }
-
-    public JSONObject getUploadJson(){
-        return uploadJson;
-    }
-
     public String getData() {
         return data;
     }
 
     public void setData(String data) {
         this.data = data;
+    }
+
+    public JSONArray getUploadJsonArray() {
+        return uploadJsonArray;
+    }
+
+    public void setUploadJsonArray(JSONArray uploadJsonArray) {
+        this.uploadJsonArray = uploadJsonArray;
     }
 }
