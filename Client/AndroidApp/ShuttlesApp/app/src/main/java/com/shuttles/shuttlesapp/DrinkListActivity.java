@@ -104,6 +104,7 @@ public class DrinkListActivity extends AppCompatActivity {
 
                     Toast.makeText(getContext(), "name : " + name + ", price : " + price + ", pos : " + i, Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(getContext(), DrinkOrderDetailActivity.class);
+                    intent.putExtra("DRINK_VO",i);
                     startActivity(intent);
                 }
             });

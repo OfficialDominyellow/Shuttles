@@ -7,14 +7,28 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.shuttles.shuttlesapp.vo.DrinkListVO;
+
 public class DrinkOrderDetailActivity extends AppCompatActivity {
+    private DrinkListVO drinkListVO = null;
+    private TextView textView = null;
+    private ImageView drinkImageView = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.drink_order_detail_layout);
+
+        int num = (int) getIntent().getExtras().getInt("DRINK_VO");
+        drinkListVO = GlobalApplication.drinkList.get(num);
+
+        if(drinkListVO!=null){
+            drinkImageView = (ImageView)findViewById(R.id.drink_img);
+            drinkImageView.setImageDrawable(drinkListVO.getImg());
+        }
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.tb_drink_order_detail);
         toolbar.setNavigationIcon(R.drawable.ic_chevron_left_white_12dp); // your drawable
@@ -26,6 +40,8 @@ public class DrinkOrderDetailActivity extends AppCompatActivity {
         });
 
         ImageView ivCart = (ImageView) findViewById(R.id.iv_cart_in_drink_order_detail);
+
+
         ivCart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
