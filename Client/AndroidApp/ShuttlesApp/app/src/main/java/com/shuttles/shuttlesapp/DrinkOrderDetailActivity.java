@@ -14,7 +14,8 @@ import com.shuttles.shuttlesapp.vo.DrinkListVO;
 
 public class DrinkOrderDetailActivity extends AppCompatActivity {
     private DrinkListVO drinkListVO = null;
-    private TextView textView = null;
+    private TextView drinkPriceTextView = null;
+    private TextView drinkNameTextView = null;
     private ImageView drinkImageView = null;
 
     @Override
@@ -28,6 +29,12 @@ public class DrinkOrderDetailActivity extends AppCompatActivity {
         if(drinkListVO!=null){
             drinkImageView = (ImageView)findViewById(R.id.drink_img);
             drinkImageView.setImageDrawable(drinkListVO.getImg());
+
+            drinkPriceTextView = (TextView)findViewById(R.id.drink_price);
+            drinkPriceTextView.setText(drinkListVO.getPrice());
+
+            drinkNameTextView = (TextView)findViewById(R.id.drink_name);
+            drinkNameTextView.setText(drinkListVO.getName());
         }
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.tb_drink_order_detail);
