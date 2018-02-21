@@ -16,7 +16,9 @@ public class DrinkOrderDetailActivity extends AppCompatActivity {
     private DrinkListVO drinkListVO = null;
     private TextView drinkPriceTextView = null;
     private TextView drinkNameTextView = null;
+    private TextView drinkDescription = null;
     private ImageView drinkImageView = null;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +37,9 @@ public class DrinkOrderDetailActivity extends AppCompatActivity {
 
             drinkNameTextView = (TextView)findViewById(R.id.drink_name);
             drinkNameTextView.setText(drinkListVO.getName());
+
+            drinkDescription = (TextView)findViewById(R.id.drink_description);
+            drinkDescription.setText(drinkListVO.getDescription());
         }
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.tb_drink_order_detail);

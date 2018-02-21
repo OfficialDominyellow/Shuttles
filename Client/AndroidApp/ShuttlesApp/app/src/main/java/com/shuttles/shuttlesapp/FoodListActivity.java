@@ -23,9 +23,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.shuttles.shuttlesapp.vo.DrinkListVO;
 import com.shuttles.shuttlesapp.vo.FoodListVO;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class FoodListActivity extends AppCompatActivity {
 
@@ -101,7 +103,7 @@ public class FoodListActivity extends AppCompatActivity {
                     FoodListVO foodListVO = (FoodListVO) adapterView.getItemAtPosition(i);
 
                     String name = foodListVO.getName();
-                    int price = foodListVO.getPrice();
+                    String price = foodListVO.getPrice();
 
                     Toast.makeText(getContext(), "name : " + name + ", price : " + price + ", pos : " + i, Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(getContext(), FoodOrderDetailActivity.class);
@@ -110,9 +112,13 @@ public class FoodListActivity extends AppCompatActivity {
             });
             lvFoodList.setAdapter(foodListViewAdapter);
 
-            //add dummy data
-            for(int i=0; i<pageNumber; i++){
-                foodListViewAdapter.addItem(ContextCompat.getDrawable(getContext(), R.drawable.img_jeyuk), "제육제육", 4321);
+            List<FoodListVO> specialFoodList = GlobalApplication.specialFoodList;
+
+            /*TODO 애초에 null이면 여기까지도 오면 안됨 null인경우는 데이터 못받아온경우임*/
+            if(specialFoodList!=null) {
+                for (FoodListVO element : specialFoodList) {
+                    foodListViewAdapter.addItem(element.getImg(), element.getName(), element.getPrice());
+                }
             }
 
             return view;
@@ -210,7 +216,7 @@ class FoodListViewAdapter extends BaseAdapter {
     }
 
     // 아이템 데이터 추가를 위한 함수. 개발자가 원하는대로 작성 가능.
-    public void addItem(Drawable img, String name, int price) {
+    public void addItem(Drawable img, String name, String price) {
         FoodListVO item = new FoodListVO();
 
         item.setImg(img);

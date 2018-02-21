@@ -8,9 +8,6 @@ import android.graphics.drawable.Drawable;
 
 public class DrinkListVO extends Product{
     private String coffee_id;
-    private String name;
-    private String price;
-    private String state;
 
     public String getCoffee_id() {
         return coffee_id;
@@ -20,31 +17,4 @@ public class DrinkListVO extends Product{
         this.coffee_id = coffee_id;
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getPrice() {
-        return price;
-    }
-
-    public void setPrice(String price) {
-        this.price = price;
-    }
-
-    public String getState() {
-        return state;
-    }
-
-    public void setState(String state) {
-        this.state = state;
-    }
-
-    public String toString(){
-        return "[ id =" + coffee_id + ", name =" + name + ", price =" + price + ", state =" + state + "]";
-    }
 }
