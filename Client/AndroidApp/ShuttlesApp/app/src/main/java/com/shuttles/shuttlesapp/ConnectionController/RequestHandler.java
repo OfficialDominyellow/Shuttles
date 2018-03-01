@@ -74,9 +74,11 @@ public class RequestHandler extends AsyncTask<RequestData, Void, String> {
                 builder.append((line));
             }
             result = builder.toString();
+            Log.i(Constants.LOG_TAG,"request result : "+result);
 
         } catch (IOException e) {
             e.printStackTrace();
+            result = null;
         } finally {
             if(conn!=null)
                 conn.disconnect();
