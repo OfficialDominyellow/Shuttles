@@ -79,6 +79,8 @@ public class DashboardActivity extends AppCompatActivity {
                     case R.id.itm_order:
                         Toast.makeText(getApplicationContext(),"주문하기",Toast.LENGTH_SHORT).show();
                         drawerLayout.closeDrawers();
+                        intent = new Intent(getApplicationContext(), DrinkListVtcActivity.class);
+                        startActivity(intent);
                         break;
                     case R.id.itm_event:
                         Toast.makeText(getApplicationContext(),"이벤트",Toast.LENGTH_SHORT).show();

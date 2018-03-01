@@ -43,6 +43,11 @@
         </activity>
 
         <activity
+            android:name=".DrinkListVtcActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+        </activity>
+
+        <activity
             android:name=".DrinkOrderDetailActivity"
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
@@ -50,6 +55,11 @@
         <activity
             android:name=".DrinkDetailActivity"
             android:theme="@style/AppTheme.NoActionBar">
+        </activity>
+
+        <activity
+            android:name=".DrinkOrderDetailPopActivity"
+            android:theme="@style/AppTheme.Popup">
         </activity>
 
         <activity
