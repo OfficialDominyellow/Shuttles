@@ -1,23 +1,24 @@
 package com.shuttles.shuttlesapp.ConnectionController;
 
 import org.json.JSONArray;
-import org.json.JSONObject;
 
 /**
  * Created by daeyonglee on 2018. 1. 29..
  */
 
-public class UploadData {
+public class RequestData {
     private String method;
     private String restURL;
-    private String data;//json format string only use for post and update
+    private String result; //result from server request
+    private int request_type;
 
     private JSONArray uploadJsonArray;
 
-    public UploadData(String method, String restURL, String data){
+    public RequestData(String method, String restURL, int request_type, JSONArray uploadJsonArray){
         this.method = method;
         this.restURL = restURL;
-        this.data = data;
+        this.request_type = request_type;
+        this.uploadJsonArray = uploadJsonArray;
     }
 
     public String getMethod() {
@@ -36,19 +37,27 @@ public class UploadData {
         this.restURL = restURL;
     }
 
-    public String getData() {
-        return data;
-    }
-
-    public void setData(String data) {
-        this.data = data;
-    }
-
     public JSONArray getUploadJsonArray() {
         return uploadJsonArray;
     }
 
     public void setUploadJsonArray(JSONArray uploadJsonArray) {
         this.uploadJsonArray = uploadJsonArray;
+    }
+
+    public String getResult() {
+        return result;
+    }
+
+    public void setResult(String result) {
+        this.result = result;
+    }
+
+    public int getRequest_type() {
+        return request_type;
+    }
+
+    public void setRequest_type(int request_type) {
+        this.request_type = request_type;
     }
 }

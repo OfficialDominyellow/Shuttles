@@ -26,7 +26,7 @@ public class LoginActivity extends Activity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login_layout);
-
+        Log.i(Constants.LOG_TAG,"onCreate");
         //call splash
         Intent splashIntent = new Intent(this, SplashActivity.class);
         startActivity(splashIntent);
@@ -44,7 +44,10 @@ public class LoginActivity extends Activity {
         callback = new SessionCallback();
         Session.getCurrentSession().addCallback(callback);
     }
-
+    protected void onResume(){
+        super.onResume();
+        Log.i(Constants.LOG_TAG,"onResume");
+    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {

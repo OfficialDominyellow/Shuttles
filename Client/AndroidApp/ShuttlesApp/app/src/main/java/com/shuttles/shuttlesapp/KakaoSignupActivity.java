@@ -18,21 +18,27 @@ import com.kakao.usermgmt.callback.MeResponseCallback;
 import com.kakao.usermgmt.response.model.UserProfile;
 
 import com.shuttles.shuttlesapp.ConnectionController.ImageLoadHandler;
+import com.shuttles.shuttlesapp.ConnectionController.RequestData;
 import com.shuttles.shuttlesapp.ConnectionController.RequestHandler;
 import com.shuttles.shuttlesapp.ConnectionController.RestAPI;
-import com.shuttles.shuttlesapp.ConnectionController.UploadData;
+import com.shuttles.shuttlesapp.ConnectionController.ServerResultCallback;
 import com.shuttles.shuttlesapp.Utils.Constants;
 import com.shuttles.shuttlesapp.vo.DrinkListVO;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.List;
 
 public class KakaoSignupActivity extends Activity implements ServerResultCallback {
     private GlobalApplication globalApplication;
     private ProgressDialog dialog;
-    private String userData;
+    private UserProfile profile;
 
     /**
      * Main으로 넘길지 가입 페이지를 그릴지 판단하기 위해 me를 호출한다.
+     *
      * @param savedInstanceState 기존 session 정보가 저장된 객체
      */
 
@@ -40,7 +46,7 @@ public class KakaoSignupActivity extends Activity implements ServerResultCallbac
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         dialog = new ProgressDialog(KakaoSignupActivity.this);
-        globalApplication = (GlobalApplication)getApplicationContext();
+        globalApplication = (GlobalApplication) getApplicationContext();
         requestMe();
     }
 
@@ -52,7 +58,7 @@ public class KakaoSignupActivity extends Activity implements ServerResultCallbac
             @Override
             public void onFailure(ErrorResult errorResult) {
                 String message = "failed to get user info. msg=" + errorResult;
-                Log.d(Constants.LOG_TAG,message);
+                Log.d(Constants.LOG_TAG, message);
 
                 ErrorCode result = ErrorCode.valueOf(errorResult.getErrorCode());
                 if (result == ErrorCode.CLIENT_ERROR_CODE) {
@@ -77,24 +83,34 @@ public class KakaoSignupActivity extends Activity implements ServerResultCallbac
             @Override
             public void onSuccess(UserProfile userProfile) {  //성공 시 userProfile 형태로 반환
                 //user의 유니크한 정보를 여기서 추출
-                Log.i(Constants.LOG_TAG,"User ID:"+userProfile.getId()+" userNickname: "+userProfile.getNickname()
-                        +" UUID:"+userProfile.getUUID()+" email : "+userProfile.getEmail());
-                setValueObjectClass(); // 로그인 성공시 data set
+                Log.i(Constants.LOG_TAG, "User ID:" + userProfile.getId() + " userNickname: " + userProfile.getNickname()
+                        + " UUID:" + userProfile.getUUID() + " email : " + userProfile.getEmail());
+                profile = userProfile;
+                redirectDashboardActivity();
+                //sendUserProfile();
             }
         });
     }
-    private void setValueObjectClass(){
-        dialog.setMessage("Loading...");
-        dialog.show();
 
-        //Set All Data
-        UploadData requestCoffeList = new UploadData("GET",RestAPI.COFFE_LIST,null);
-        new RequestHandler(this).execute(requestCoffeList);
+    private void sendUserProfile() {
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("user_id", profile.getEmail());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        JSONArray jsonArray = new JSONArray();
+        jsonArray.put(jsonObject);
+
+        RequestData postUserData = new RequestData("POST", RestAPI.USER, RestAPI.REQUEST_TYPE_USER ,jsonArray);
+
+        new RequestHandler(this).execute(postUserData);
     }
 
     private void redirectDashboardActivity() {
-        Intent intent = new Intent(this,DashboardActivity.class);
-        intent.putExtra("userData : ", userData);
+        Intent intent = new Intent(this, DashboardActivity.class);
+        intent.putExtra("userData : ", profile.getEmail());
         startActivity(intent);
         finish();
 
@@ -108,24 +124,28 @@ public class KakaoSignupActivity extends Activity implements ServerResultCallbac
     }
 
     @Override
-    public void onTaskFinish(int type, String resultJsonArray) {
-        switch(type) {
-            case Constants.TYPE_REQUEST_HANDLER :
-                if(resultJsonArray == null) {
-                    dialog.dismiss();
-                    redirectLoginActivity();//data load failed
-                }
+    public void onTaskFinish(int REQUEST_TYPE) {
 
+        switch (REQUEST_TYPE) {
+            case RestAPI.REQUEST_TYPE_FAILED:
+                redirectLoginActivity();
+                break;
+
+            case RestAPI.REQUEST_TYPE_USER:
+                dialog.dismiss();
+                redirectDashboardActivity();
+                break;
+            /*
+            case Constants.TYPE_IMAGE_LOAD_HANDLER :
+                dialog.dismiss();
                 Gson gson = new Gson();
                 List<DrinkListVO> drinkList = gson.fromJson(resultJsonArray, new TypeToken<List<DrinkListVO>>() {}.getType());
                 globalApplication.setCoffeList(drinkList);
                 new ImageLoadHandler(this).execute(drinkList);
-                break;
-
-            case Constants.TYPE_IMAGE_LOAD_HANDLER :
-                dialog.dismiss();
                 redirectDashboardActivity();
                 break;
+                */
         }
+
     }
 }

@@ -1,4 +1,4 @@
-package com.shuttles.shuttlesapp;
+package com.shuttles.shuttlesapp.ConnectionController;
 
 import com.shuttles.shuttlesapp.Utils.Constants;
 
@@ -7,5 +7,5 @@ import com.shuttles.shuttlesapp.Utils.Constants;
  */
 
 public interface ServerResultCallback {
-    public void onTaskFinish(int type, String result);
+    public void onTaskFinish(int REQUEST_TYPE);
 }

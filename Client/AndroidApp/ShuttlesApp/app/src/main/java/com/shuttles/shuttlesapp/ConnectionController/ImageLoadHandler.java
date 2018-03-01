@@ -9,7 +9,6 @@ import android.os.AsyncTask;
 import android.util.Log;
 
 import com.shuttles.shuttlesapp.GlobalApplication;
-import com.shuttles.shuttlesapp.ServerResultCallback;
 import com.shuttles.shuttlesapp.Utils.Constants;
 import com.shuttles.shuttlesapp.vo.Product;
 
@@ -27,7 +26,7 @@ import java.util.List;
  * Created by daeyonglee on 2018. 2. 11..
  */
 
-public class ImageLoadHandler extends AsyncTask<List<? extends Product>, Void, String> implements ServerResultCallback{
+public class ImageLoadHandler extends AsyncTask<List<? extends Product>, Void, String> {
     private ServerResultCallback delegate = null;
     private Context context = null;
     private List<Product> productList = null;
@@ -59,6 +58,12 @@ public class ImageLoadHandler extends AsyncTask<List<? extends Product>, Void, S
 
                 URL imgURL = new URL(element.getPicture_url());
                 HttpURLConnection conn = (HttpURLConnection) imgURL.openConnection();
+                if(conn.getResponseCode() != HttpURLConnection.HTTP_OK){
+                    Log.e(Constants.LOG_TAG, "HTTP Connection Error");
+                    conn.disconnect();
+                    continue;
+                }
+
                 byte[] buf = new byte[1024];
                 InputStream is = conn.getInputStream();
 
@@ -108,16 +113,12 @@ public class ImageLoadHandler extends AsyncTask<List<? extends Product>, Void, S
 
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
+                element.setImg(null);
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
         Log.i(Constants.LOG_TAG,"End Download");
-        delegate.onTaskFinish(Constants.TYPE_IMAGE_LOAD_HANDLER, null);
-    }
-
-    @Override
-    public void onTaskFinish(int type, String result) {
-        delegate.onTaskFinish(Constants.TYPE_IMAGE_LOAD_HANDLER, result);
+        delegate.onTaskFinish(RestAPI.REQUEST_TYPE_IMAGE_LOAD);
     }
 }

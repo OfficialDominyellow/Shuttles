@@ -44,6 +44,10 @@ public class GlobalApplication extends Application {
 
     public void setSpecialFoodList(List<FoodListVO> specialFoodLsit) {
         this.specialFoodList = specialFoodLsit;
+        for(FoodListVO element : specialFoodLsit){
+            Log.i(Constants.LOG_TAG,element.toString());
+            element.convertURLtoFileName();
+        }
     }
 
     private static class KakaoSDKAdapter extends KakaoAdapter {
