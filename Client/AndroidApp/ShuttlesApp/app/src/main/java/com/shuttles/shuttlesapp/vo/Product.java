@@ -12,9 +12,11 @@ import com.shuttles.shuttlesapp.Utils.Constants;
 public class Product {
     private String name;
     private String price;
+    private String picture_url;
+    private String picture_version;
+    private String state;
     private String description;
 
-    private String picture_url;
     private String pictureFileName;
     private Drawable img;
 
@@ -71,5 +73,21 @@ public class Product {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public String getPicture_version() {
+        return picture_version;
+    }
+
+    public void setPicture_version(String picture_version) {
+        this.picture_version = picture_version;
+    }
+
+    public String getState() {
+        return state;
+    }
+
+    public void setState(String state) {
+        this.state = state;
     }
 }

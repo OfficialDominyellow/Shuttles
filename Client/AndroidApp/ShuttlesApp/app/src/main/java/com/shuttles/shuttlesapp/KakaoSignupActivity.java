@@ -9,29 +9,23 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import com.kakao.auth.ErrorCode;
 import com.kakao.network.ErrorResult;
 import com.kakao.usermgmt.UserManagement;
 import com.kakao.usermgmt.callback.MeResponseCallback;
 import com.kakao.usermgmt.response.model.UserProfile;
 
-import com.shuttles.shuttlesapp.ConnectionController.ImageLoadHandler;
 import com.shuttles.shuttlesapp.ConnectionController.RequestData;
 import com.shuttles.shuttlesapp.ConnectionController.RequestHandler;
 import com.shuttles.shuttlesapp.ConnectionController.RestAPI;
-import com.shuttles.shuttlesapp.ConnectionController.ServerResultCallback;
+import com.shuttles.shuttlesapp.ConnectionController.ConnectionImpl;
 import com.shuttles.shuttlesapp.Utils.Constants;
-import com.shuttles.shuttlesapp.vo.DrinkListVO;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.List;
-
-public class KakaoSignupActivity extends Activity implements ServerResultCallback {
+public class KakaoSignupActivity extends Activity implements ConnectionImpl {
     private GlobalApplication globalApplication;
     private ProgressDialog dialog;
     private UserProfile profile;
@@ -87,25 +81,9 @@ public class KakaoSignupActivity extends Activity implements ServerResultCallbac
                         + " UUID:" + userProfile.getUUID() + " email : " + userProfile.getEmail());
                 profile = userProfile;
                 redirectDashboardActivity();
-                //sendUserProfile();
+                //initData();
             }
         });
-    }
-
-    private void sendUserProfile() {
-        JSONObject jsonObject = new JSONObject();
-        try {
-            jsonObject.put("user_id", profile.getEmail());
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-        JSONArray jsonArray = new JSONArray();
-        jsonArray.put(jsonObject);
-
-        RequestData postUserData = new RequestData("POST", RestAPI.USER, RestAPI.REQUEST_TYPE_USER ,jsonArray);
-
-        new RequestHandler(this).execute(postUserData);
     }
 
     private void redirectDashboardActivity() {
@@ -124,7 +102,24 @@ public class KakaoSignupActivity extends Activity implements ServerResultCallbac
     }
 
     @Override
-    public void onTaskFinish(int REQUEST_TYPE) {
+    public void initData() {
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("user_id", profile.getEmail());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        JSONArray jsonArray = new JSONArray();
+        jsonArray.put(jsonObject);
+
+        RequestData postUserData = new RequestData("POST", RestAPI.USER, RestAPI.REQUEST_TYPE_USER ,jsonArray);
+
+        new RequestHandler(this).execute(postUserData);
+    }
+
+    @Override
+    public void requestCallback(int REQUEST_TYPE) {
 
         switch (REQUEST_TYPE) {
             case RestAPI.REQUEST_TYPE_FAILED:

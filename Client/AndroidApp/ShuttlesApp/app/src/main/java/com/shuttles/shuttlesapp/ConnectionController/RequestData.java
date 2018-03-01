@@ -14,6 +14,12 @@ public class RequestData {
 
     private JSONArray uploadJsonArray;
 
+    public RequestData(String method, String restURL, int request_type){
+        this.method = method;
+        this.restURL = restURL;
+        this.request_type = request_type;
+    }
+
     public RequestData(String method, String restURL, int request_type, JSONArray uploadJsonArray){
         this.method = method;
         this.restURL = restURL;

@@ -16,12 +16,12 @@ import java.net.URL;
  * Created by daeyonglee on 2018. 1. 22..
  */
 public class RequestHandler extends AsyncTask<RequestData, Void, String> {
-    private ServerResultCallback delegate = null;
+    private ConnectionImpl delegate = null;
     private HttpURLConnection conn = null;
     private BufferedReader reader = null;
     private RequestData requestData = null;
 
-    public RequestHandler(ServerResultCallback delegate) {
+    public RequestHandler(ConnectionImpl delegate) {
         this.delegate = delegate;
     }
 
@@ -38,21 +38,21 @@ public class RequestHandler extends AsyncTask<RequestData, Void, String> {
             URL requestURL = new URL(requestData.getRestURL());
             conn = (HttpURLConnection) requestURL.openConnection();
 
+            /*TODO: set detail options and timeout exception*/
+            conn.setReadTimeout(Constants.CONNECTION_TIME_OUT);
+            conn.setConnectTimeout(Constants.READ_TIME_OUT);
+            conn.setRequestMethod(requestData.getMethod());
+            //conn.setRequestProperty("Content-Type", "Application/json");
+
+            conn.setDoInput(true);
+            conn.setUseCaches(false);
+            conn.setDefaultUseCaches(false);
+
             if (conn.getResponseCode() != HttpURLConnection.HTTP_OK) {//check server connection state
                 Log.e(Constants.LOG_TAG, "HTTP Connection Error");
                 conn.disconnect();
                 return null;
             }
-
-            /*TODO: set detail options and timeout exception*/
-            conn.setReadTimeout(Constants.CONNECTION_TIME_OUT);
-            conn.setConnectTimeout(Constants.READ_TIME_OUT);
-            conn.setRequestMethod(requestData.getMethod());
-            conn.setRequestProperty("Content-Type", "Application/json");
-
-            conn.setDoInput(true);
-            conn.setUseCaches(false);
-            conn.setDefaultUseCaches(false);
 
             if (requestData.getMethod().equals("POST") || requestData.getMethod().equals("PUT")) {
                 conn.setDoOutput(true); //only use post or put
@@ -78,7 +78,8 @@ public class RequestHandler extends AsyncTask<RequestData, Void, String> {
         } catch (IOException e) {
             e.printStackTrace();
         } finally {
-            conn.disconnect();
+            if(conn!=null)
+                conn.disconnect();
             try {
                 if (reader != null)
                     reader.close();
@@ -104,7 +105,7 @@ public class RequestHandler extends AsyncTask<RequestData, Void, String> {
         if(requestData.getResult()==null)
             requestData.setRequest_type(RestAPI.REQUEST_TYPE_FAILED);
 
-        delegate.onTaskFinish(requestData.getRequest_type());
+        delegate.requestCallback(requestData.getRequest_type());
     }
 }
 

@@ -27,11 +27,11 @@ import java.util.List;
  */
 
 public class ImageLoadHandler extends AsyncTask<List<? extends Product>, Void, String> {
-    private ServerResultCallback delegate = null;
+    private ConnectionImpl delegate = null;
     private Context context = null;
     private List<Product> productList = null;
 
-    public ImageLoadHandler(ServerResultCallback delegate){
+    public ImageLoadHandler(ConnectionImpl delegate){
         this.context = GlobalApplication.getGlobalApplicationContext();
         this.delegate = delegate;
     }
@@ -119,6 +119,6 @@ public class ImageLoadHandler extends AsyncTask<List<? extends Product>, Void, S
             }
         }
         Log.i(Constants.LOG_TAG,"End Download");
-        delegate.onTaskFinish(RestAPI.REQUEST_TYPE_IMAGE_LOAD);
+        delegate.requestCallback(RestAPI.REQUEST_TYPE_IMAGE_LOAD);
     }
 }

@@ -6,6 +6,7 @@ import com.shuttles.shuttlesapp.Utils.Constants;
  * Created by daeyonglee on 2018. 1. 24..
  */
 
-public interface ServerResultCallback {
-    public void onTaskFinish(int REQUEST_TYPE);
+public interface ConnectionImpl {
+    public void initData();
+    public void requestCallback(int REQUEST_TYPE);
 }
