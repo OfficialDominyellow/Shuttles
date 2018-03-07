@@ -1,13 +1,19 @@
 package com.shuttles.shuttlesapp;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.kakao.auth.ISessionCallback;
 import com.kakao.auth.Session;
@@ -25,25 +31,40 @@ public class LoginActivity extends Activity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.login_layout);
         Log.i(Constants.LOG_TAG,"onCreate");
         //call splash
-        Intent splashIntent = new Intent(this, SplashActivity.class);
-        startActivity(splashIntent);
+        //Intent splashIntent = new Intent(this, SplashActivity.class);
+        //startActivity(splashIntent);
 
-        Button btnLogin = (Button)findViewById(R.id.btn_login);
-        /*
-        btnLogin.setOnClickListener(new Button.OnClickListener(){
-            @Override
-            public void onClick(View view) {
-                Intent dashboardIntent = new Intent(getApplicationContext(), DashboardActivity.class);
-                startActivity(dashboardIntent);
-            }
-        });
-        */
         callback = new SessionCallback();
         Session.getCurrentSession().addCallback(callback);
+
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED
+                && ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED){
+            setContentView(R.layout.login_layout);
+        } else{
+            ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE,Manifest.permission.READ_EXTERNAL_STORAGE},0);
+            Log.i(Constants.LOG_TAG,"checkselfPermission");
+        }
     }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResult){
+        super.onRequestPermissionsResult(requestCode, permissions, grantResult);
+        if(requestCode == 0){
+            if(grantResult[0] == 0
+                    && grantResult[1] == 0){
+                //해당 권한이 승낙된 경우.
+                Log.i(Constants.LOG_TAG,"granted!");
+                setContentView(R.layout.login_layout);
+            }else{
+                //해당 권한이 거절된 경우.
+                Toast.makeText(getApplicationContext(), "접근 권한이 필요합니다",Toast.LENGTH_LONG).show();
+                finish();
+            }
+        }
+    }
+
     protected void onResume(){
         super.onResume();
         Log.i(Constants.LOG_TAG,"onResume");
