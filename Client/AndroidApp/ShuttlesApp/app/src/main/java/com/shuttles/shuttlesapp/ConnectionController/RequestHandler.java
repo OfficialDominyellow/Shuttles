@@ -41,6 +41,9 @@ public class RequestHandler extends AsyncTask<RequestData, Void, String> {
             /*TODO: set detail options and timeout exception*/
             conn.setReadTimeout(Constants.CONNECTION_TIME_OUT);
             conn.setConnectTimeout(Constants.READ_TIME_OUT);
+            if (requestData.getMethod().equals("POST") || requestData.getMethod().equals("PUT")) {
+                conn.setDoOutput(true); //only use post or put
+            }
             conn.setRequestMethod(requestData.getMethod());
             //conn.setRequestProperty("Content-Type", "Application/json");
 
@@ -55,14 +58,13 @@ public class RequestHandler extends AsyncTask<RequestData, Void, String> {
             }
 
             if (requestData.getMethod().equals("POST") || requestData.getMethod().equals("PUT")) {
-                conn.setDoOutput(true); //only use post or put
+                //conn.setDoOutput(true); //only use post or put
                 OutputStream os = conn.getOutputStream();
                 os.write(requestData.getUploadJsonArray().toString().getBytes("UTF-8"));
                 os.flush();
                 Log.i(Constants.LOG_TAG, "upload : " + requestData.getUploadJsonArray().toString());
                 os.close();
             }
-
 
             StringBuilder builder = new StringBuilder();
             String line;

@@ -16,66 +16,19 @@
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
+
             <LinearLayout
-                android:orientation="horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="16dp">
-                <ImageView
-                    android:id="@+id/drink_img"
-                    android:layout_width="150dp"
-                    android:layout_height="150dp"
-                    android:src="@drawable/img_coffee_example"/>
-                <LinearLayout
-                    android:orientation="vertical"
+                android:padding="20dp">
+                <TextView
+                    android:id="@+id/tv_drink_title"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:padding="16dp">
-                    <TextView
-                        android:id="@+id/drink_name"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textColor="@color/black"
-                        android:textSize="16dp"
-                        android:text="커피이름"/>
-                    <TextView
-                        android:id="@+id/drink_price"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textColor="@color/hotpink"
-                        android:textSize="24dp"
-                        android:text="4,000원"
-                        android:layout_marginTop="8dp"
-                        android:textStyle="bold"/>
-                    <LinearLayout
-                        android:orientation="horizontal"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
-                        <Button
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:background="@drawable/bg_btn_pressed"
-                            android:text="HOT"
-                            android:textColor="@color/colorAccent"
-                            android:textAllCaps="false"
-                            android:padding="10dp"
-                            android:clickable="true"
-                            android:layout_marginTop="8dp"
-                            android:layout_weight="1"/>
-                        <Button
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:background="@drawable/bg_btn"
-                            android:text="ICE"
-                            android:textColor="@color/colorAccent"
-                            android:textAllCaps="false"
-                            android:padding="10dp"
-                            android:clickable="true"
-                            android:layout_marginTop="8dp"
-                            android:layout_weight="1"/>
-                    </LinearLayout>
-                </LinearLayout>
+                    android:text="존나커피이름"
+                    android:textColor="@color/black"
+                    android:textAlignment="center"
+                    android:textSize="18dp"/>
             </LinearLayout>
 
             <View
@@ -87,12 +40,27 @@
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:focusableInTouchMode="true"
+                android:focusable="true"
                 android:padding="16dp">
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:textColor="@color/black"
+                    android:layout_weight="5"
+                    android:textAlignment="viewStart"
                     android:text="수량"/>
+
+                <EditText
+                    android:id="@+id/et_drink_order_count"
+                    android:layout_width="40dp"
+                    android:layout_height="wrap_content"
+                    android:maxLines="1"
+                    android:layout_weight="1"
+                    android:text="1"
+                    android:textAlignment="center"
+                    android:inputType="number"
+                    />
             </LinearLayout>
 
             <View
@@ -116,6 +84,102 @@
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:background="@color/lightGray"/>
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingHorizontal="24dp"
+                android:paddingVertical="8dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingVertical="4dp"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="3"
+                        android:textSize="12dp"
+                        android:text="구분"/>
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:textAlignment="center"
+                        android:textSize="12dp"
+                        android:text="금액"/>
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:textAlignment="center"
+                        android:textSize="12dp"
+                        android:text="추가"/>
+                </LinearLayout>
+
+                <TableLayout
+                    android:id="@+id/tl_drink_option_table"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingVertical="4dp">
+                    <TableRow
+                        android:id="@+id/tr_drink_option">
+                        <TextView
+                            android:id="@+id/tv_drink_option_name"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/black"
+                            android:layout_weight="3"
+                            android:text="존나과라나"/>
+                        <TextView
+                            android:id="@+id/tv_drink_option_price"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/hotpink"
+                            android:layout_weight="1"
+                            android:textAlignment="center"
+                            android:text="500원"/>
+                        <Switch
+                            android:id="@+id/sw_drink_option_addition"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1" />
+                    </TableRow>
+
+                </TableLayout>
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/lightGray"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:paddingVertical="8dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Total : "
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="20sp" />
+
+                <TextView
+                    android:id="@+id/tv_drink_total_price"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=" ~~~~원"
+                    android:textColor="@color/hotpink"
+                    android:textSize="30sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
 
             <LinearLayout
                 android:orientation="vertical"
@@ -146,7 +210,7 @@
                 <Button
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/btn_login"
+                    android:id="@+id/btn_order_now"
                     android:background="@drawable/bg_login_selector"
                     android:text="바로주문하기"
                     android:textColor="@color/colorAccent"
@@ -184,23 +248,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:background="@color/lightGray"/>
-
-            <LinearLayout
-                android:orientation="vertical"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="16dp">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/black"
-                    android:text="| 제품영양정보"
-                    android:layout_marginTop="16dp"/>
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="12500kcal..."/>
-            </LinearLayout>
 
         </LinearLayout>
     </ScrollView>

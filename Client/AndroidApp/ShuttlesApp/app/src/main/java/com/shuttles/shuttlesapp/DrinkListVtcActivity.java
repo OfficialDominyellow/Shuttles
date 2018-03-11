@@ -90,8 +90,6 @@ public class DrinkListVtcActivity extends AppCompatActivity implements Connectio
                 //set VO class
                 Gson gson = new Gson();
 
-                Log.i("TTT", requestData.getResult());
-
                 drinkList = gson.fromJson(requestData.getResult(), new TypeToken<List<DrinkListVO>>() {
                 }.getType());
 
@@ -124,9 +122,14 @@ public class DrinkListVtcActivity extends AppCompatActivity implements Connectio
 
                         String name = drinkListVO.getName();
                         String url = drinkListVO.getPicture_url();
+                        String coffeeID = drinkListVO.getCoffee_id();
+                        String price = drinkListVO.getPrice();
 
                         Toast.makeText(getApplicationContext(), groupPosition + " " + childPosition + " " + name + " " + url, Toast.LENGTH_SHORT).show();
                         Intent intent = new Intent(getApplicationContext(), DrinkOrderDetailPopActivity.class);
+                        intent.putExtra("coffee_id", coffeeID);
+                        intent.putExtra("name", name);
+                        intent.putExtra("price", price);
                         startActivity(intent);
                         return false;
                     }

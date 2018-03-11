@@ -10,6 +10,7 @@ public class RestAPI {
     public static final String USER = SERVER_IP+"/user";
     public static final String DRINK_LIST = SERVER_IP + "/drink/list";
     public static final String ORDER = SERVER_IP +"/order";
+    public static final String DRINK_OPTION = SERVER_IP +"/drink/detail"; //show coffee option detail
 
     public static final int REQUEST_TYPE_FAILED = -1;
     public static final int REQUEST_TYPE_USER = 0;
@@ -17,4 +18,5 @@ public class RestAPI {
     public static final int REQUEST_TYPE_ORDER = 2;
     public static final int REQUEST_TYPE_IMAGE_LOAD = 3;
 
+    public static final int REQUEST_TYPE_DRINK_OPTION_LIST = 4;
 }

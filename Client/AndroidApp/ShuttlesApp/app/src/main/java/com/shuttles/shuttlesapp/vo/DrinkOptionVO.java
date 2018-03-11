@@ -5,24 +5,64 @@ package com.shuttles.shuttlesapp.vo;
  */
 
 public class DrinkOptionVO {
-    private int espressoShot;
-    private int whippingCream;
-    //...
+    //gson variables
+    private int option_id;
+    private String option_name;
+    private int option_price;
 
+    //Not gson variables
+    private boolean addition;
+    private int resId;
 
-    public int getEspressoShot() {
-        return espressoShot;
+    public int getOption_id() {
+        return option_id;
     }
 
-    public void setEspressoShot(int espressoShot) {
-        this.espressoShot = espressoShot;
+    public void setOption_id(int option_id) {
+        this.option_id = option_id;
     }
 
-    public int getWhippingCream() {
-        return whippingCream;
+    public String getOption_name() {
+        return option_name;
     }
 
-    public void setWhippingCream(int whippingCream) {
-        this.whippingCream = whippingCream;
+    public void setOption_name(String option_name) {
+        this.option_name = option_name;
+    }
+
+    public int getOption_price() {
+        return option_price;
+    }
+
+    public void setOption_price(int option_price) {
+        this.option_price = option_price;
+    }
+
+
+    public boolean isAddition() {
+        return addition;
+    }
+
+    public void setAddition(boolean addition) {
+        this.addition = addition;
+    }
+
+    public int getResId() {
+        return resId;
+    }
+
+    public void setResId(int resId) {
+        this.resId = resId;
+    }
+
+    @Override
+    public String toString() {
+        String str = "";
+        str += "option_id : " + getOption_id() + "\n";
+        str += "option_name : " + getOption_name() + "\n";
+        str += "option_price : " + getOption_id() + "\n";
+        str += "Addition : " + isAddition() + "\n";
+        str += "resId : " + getResId() + "\n";
+        return str;
     }
 }
