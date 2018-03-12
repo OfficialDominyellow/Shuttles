@@ -32,10 +32,7 @@ public class LoginActivity extends Activity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Log.i(Constants.LOG_TAG,"onCreate");
-        //call splash
-        //Intent splashIntent = new Intent(this, SplashActivity.class);
-        //startActivity(splashIntent);
-
+      
         callback = new SessionCallback();
         Session.getCurrentSession().addCallback(callback);
 

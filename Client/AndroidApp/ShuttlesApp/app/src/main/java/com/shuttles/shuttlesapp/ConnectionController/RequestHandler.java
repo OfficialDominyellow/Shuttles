@@ -38,24 +38,31 @@ public class RequestHandler extends AsyncTask<RequestData, Void, String> {
             URL requestURL = new URL(requestData.getRestURL());
             conn = (HttpURLConnection) requestURL.openConnection();
 
+            conn.setRequestMethod(requestData.getMethod());
+
             /*TODO: set detail options and timeout exception*/
             conn.setReadTimeout(Constants.CONNECTION_TIME_OUT);
             conn.setConnectTimeout(Constants.READ_TIME_OUT);
-            if (requestData.getMethod().equals("POST") || requestData.getMethod().equals("PUT")) {
-                conn.setDoOutput(true); //only use post or put
-            }
-            conn.setRequestMethod(requestData.getMethod());
-            //conn.setRequestProperty("Content-Type", "Application/json");
 
             conn.setDoInput(true);
+            if (requestData.getMethod().equals("POST") || requestData.getMethod().equals("PUT")) {
+                conn.setDoOutput(true); //only use post or put
+                Log.i(Constants.LOG_TAG, requestData.getMethod()+" RESTAPI:"+requestData.getRestURL());
+            } else
+                conn.setDoOutput(false);
+
+            //conn.setRequestProperty("Content-Type", "Application/json");
+
             conn.setUseCaches(false);
             conn.setDefaultUseCaches(false);
 
-            if (conn.getResponseCode() != HttpURLConnection.HTTP_OK) {//check server connection state
+            /*
+           if (conn.getResponseCode() != HttpURLConnection.HTTP_OK) {//check server connection state
                 Log.e(Constants.LOG_TAG, "HTTP Connection Error");
                 conn.disconnect();
                 return null;
-            }
+            }*/
+
 
             if (requestData.getMethod().equals("POST") || requestData.getMethod().equals("PUT")) {
                 //conn.setDoOutput(true); //only use post or put
