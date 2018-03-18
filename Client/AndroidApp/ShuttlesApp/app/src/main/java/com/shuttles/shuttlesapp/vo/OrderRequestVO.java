@@ -23,6 +23,11 @@ public class OrderRequestVO {
         getFood().add(new FoodElement(foodName, foodCount, foodUnitPrice, optionNameList));
     }
 
+    public void clearOrderRequestVO(){
+        coffee.clear();
+        food.clear();
+    }
+
     public String getUser_id() {
         return user_id;
     }

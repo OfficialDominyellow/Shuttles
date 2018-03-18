@@ -20,6 +20,7 @@ import com.kakao.auth.Session;
 import com.kakao.util.exception.KakaoException;
 import com.kakao.util.helper.log.Logger;
 import com.shuttles.shuttlesapp.Utils.Constants;
+import com.shuttles.shuttlesapp.Utils.Utils;
 
 /**
  * Created by domin on 2018-01-12.
@@ -32,7 +33,11 @@ public class LoginActivity extends Activity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Log.i(Constants.LOG_TAG,"onCreate");
-      
+
+        if(!Utils.checkNetworkState()){
+            finish();
+        }
+
         callback = new SessionCallback();
         Session.getCurrentSession().addCallback(callback);
 

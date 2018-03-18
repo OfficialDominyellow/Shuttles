@@ -1,9 +1,14 @@
 package com.shuttles.shuttlesapp.ConnectionController;
 
+import android.content.Context;
+import android.net.ConnectivityManager;
 import android.os.AsyncTask;
 import android.util.Log;
+import android.widget.Toast;
 
+import com.shuttles.shuttlesapp.GlobalApplication;
 import com.shuttles.shuttlesapp.Utils.Constants;
+import com.shuttles.shuttlesapp.Utils.Utils;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -17,23 +22,31 @@ import java.net.URL;
  */
 public class RequestHandler extends AsyncTask<RequestData, Void, String> {
     private ConnectionImpl delegate = null;
+    private Context context = null;
     private HttpURLConnection conn = null;
     private BufferedReader reader = null;
     private RequestData requestData = null;
+    private String result = null;
+    private boolean isNetworkConnected = true;
 
     public RequestHandler(ConnectionImpl delegate) {
+        this.context = GlobalApplication.getGlobalApplicationContext();
         this.delegate = delegate;
     }
 
     @Override
     protected void onPreExecute() {
         super.onPreExecute();
+        if (!Utils.checkNetworkState())
+            isNetworkConnected = false;
     }
 
     @Override
     protected String doInBackground(RequestData... params) {
-        String result = null;
         requestData = params[0];
+        if (!isNetworkConnected)
+            return "fail";
+
         try {
             URL requestURL = new URL(requestData.getRestURL());
             conn = (HttpURLConnection) requestURL.openConnection();
@@ -47,7 +60,7 @@ public class RequestHandler extends AsyncTask<RequestData, Void, String> {
             conn.setDoInput(true);
             if (requestData.getMethod().equals("POST") || requestData.getMethod().equals("PUT")) {
                 conn.setDoOutput(true); //only use post or put
-                Log.i(Constants.LOG_TAG, requestData.getMethod()+" RESTAPI:"+requestData.getRestURL());
+                Log.i(Constants.LOG_TAG, requestData.getMethod() + " RESTAPI:" + requestData.getRestURL());
             } else
                 conn.setDoOutput(false);
 
@@ -62,7 +75,6 @@ public class RequestHandler extends AsyncTask<RequestData, Void, String> {
                 conn.disconnect();
                 return null;
             }*/
-
 
             if (requestData.getMethod().equals("POST") || requestData.getMethod().equals("PUT")) {
                 //conn.setDoOutput(true); //only use post or put
@@ -83,13 +95,16 @@ public class RequestHandler extends AsyncTask<RequestData, Void, String> {
                 builder.append((line));
             }
             result = builder.toString();
-            Log.i(Constants.LOG_TAG,"request result : "+result);
+            Log.i(Constants.LOG_TAG, "request result : " + result);
 
         } catch (IOException e) {
             e.printStackTrace();
-            result = null;
+            result = "fail";
+        } catch (Exception e) {
+            e.printStackTrace();
+            result = "fail";
         } finally {
-            if(conn!=null)
+            if (conn != null)
                 conn.disconnect();
             try {
                 if (reader != null)
@@ -111,10 +126,10 @@ public class RequestHandler extends AsyncTask<RequestData, Void, String> {
     protected void onPostExecute(String result) {
         super.onPostExecute(result);
 
-        requestData.setResult(result);
-
-        if(requestData.getResult()==null)
+        if (result == null || result.equals("fail"))
             requestData.setRequest_type(RestAPI.REQUEST_TYPE_FAILED);
+        else
+            requestData.setResult(result);
 
         delegate.requestCallback(requestData.getRequest_type());
     }

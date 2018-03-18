@@ -17,6 +17,7 @@ import com.kakao.util.helper.log.Logger;
 import com.shuttles.shuttlesapp.Utils.Constants;
 import com.shuttles.shuttlesapp.vo.DrinkListVO;
 import com.shuttles.shuttlesapp.vo.FoodListVO;
+import com.shuttles.shuttlesapp.vo.OrderRequestVO;
 import com.shuttles.shuttlesapp.vo.Product;
 
 import java.util.List;
@@ -30,6 +31,9 @@ import java.util.List;
 public class GlobalApplication extends Application {
     private static volatile GlobalApplication instance = null;
     private static volatile Activity currentActivity = null;
+
+    public static OrderRequestVO orderRequestVO = new OrderRequestVO();
+
 
     public static volatile List<DrinkListVO> drinkList = null;
     public static volatile List<FoodListVO> specialFoodList = null;
@@ -49,6 +53,7 @@ public class GlobalApplication extends Application {
             element.convertURLtoFileName();
         }
     }
+
 
     private static class KakaoSDKAdapter extends KakaoAdapter {
         /**

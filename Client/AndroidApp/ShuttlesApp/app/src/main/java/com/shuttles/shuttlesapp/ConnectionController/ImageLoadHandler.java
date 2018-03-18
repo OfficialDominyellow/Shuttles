@@ -5,11 +5,15 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.shuttles.shuttlesapp.GlobalApplication;
 import com.shuttles.shuttlesapp.Utils.Constants;
+import com.shuttles.shuttlesapp.Utils.Utils;
 import com.shuttles.shuttlesapp.vo.Product;
 
 import java.io.File;
@@ -30,6 +34,7 @@ public class ImageLoadHandler extends AsyncTask<List<? extends Product>, Void, S
     private ConnectionImpl delegate = null;
     private Context context = null;
     private List<Product> productList = null;
+    private boolean isNetworkConnected = true;
 
     public ImageLoadHandler(ConnectionImpl delegate){
         this.context = GlobalApplication.getGlobalApplicationContext();
@@ -39,12 +44,17 @@ public class ImageLoadHandler extends AsyncTask<List<? extends Product>, Void, S
     @Override
     protected void onPreExecute() {
         super.onPreExecute();
+        if(!Utils.checkNetworkState())
+            isNetworkConnected = false;
     }
 
     @Override
     protected String doInBackground(List<? extends Product>... params) {
         String result = "success";
         productList = (List<Product>) params[0];
+        if(!isNetworkConnected)
+            return "fail";
+
         //Download picture
         for(Product element : productList)
         {
@@ -80,7 +90,11 @@ public class ImageLoadHandler extends AsyncTask<List<? extends Product>, Void, S
                 conn.disconnect();
             }
             catch (IOException e) {
-                result = null;
+                result = "fail";
+                e.printStackTrace();
+            }
+            catch (Exception e){
+                result = "fail";
                 e.printStackTrace();
             }
         }
@@ -96,29 +110,36 @@ public class ImageLoadHandler extends AsyncTask<List<? extends Product>, Void, S
     @Override
     protected void onPostExecute(String result) {
         super.onPostExecute(result);
-        for(Product element : productList){
-            //Load image to VO class
-            try {
-                FileInputStream fis = context.openFileInput(element.getPictureFileName());
-                int len;
-                byte buf[] = new byte[fis.available()];
-                while((len = fis.read(buf))!=-1){
-                    Log.i(Constants.LOG_TAG,"Load image from storage "+len);
-                }
-                fis.close();
-                Bitmap bitmap = BitmapFactory.decodeByteArray(buf,0,buf.length);
-                //convert bitmap to drwable
-                Drawable drawble = new BitmapDrawable(context.getResources(), bitmap);
-                element.setImg(drawble);
 
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-                element.setImg(null);
-            } catch (IOException e) {
-                e.printStackTrace();
+        if (result == null || result.equals("fail")) {
+            Log.e(Constants.LOG_TAG, "Image download fail!");
+            delegate.requestCallback(RestAPI.REQUEST_TYPE_FAILED);
+        } else if (result.equals("success")) {
+            for (Product element : productList) {
+                //Load image to VO class
+                try {
+                    FileInputStream fis = context.openFileInput(element.getPictureFileName());
+                    int len;
+                    byte buf[] = new byte[fis.available()];
+                    while ((len = fis.read(buf)) != -1) {
+                        Log.i(Constants.LOG_TAG, "Load image from storage " + len);
+                    }
+                    fis.close();
+                    Bitmap bitmap = BitmapFactory.decodeByteArray(buf, 0, buf.length);
+                    //convert bitmap to drwable
+                    Drawable drawble = new BitmapDrawable(context.getResources(), bitmap);
+                    element.setImg(drawble);
+
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                    element.setImg(null);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    element.setImg(null);
+                }
             }
+            Log.i(Constants.LOG_TAG, "End Download");
+            delegate.requestCallback(RestAPI.REQUEST_TYPE_IMAGE_LOAD);
         }
-        Log.i(Constants.LOG_TAG,"End Download");
-        delegate.requestCallback(RestAPI.REQUEST_TYPE_IMAGE_LOAD);
     }
 }
