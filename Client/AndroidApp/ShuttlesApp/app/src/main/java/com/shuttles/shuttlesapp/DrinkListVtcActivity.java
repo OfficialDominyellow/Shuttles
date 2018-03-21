@@ -144,9 +144,6 @@ public class DrinkListVtcActivity extends AppCompatActivity implements Connectio
                         listHashMap.put(header, new ArrayList<DrinkListVO>());
                     }
                     listHashMap.get(header).add(element);
-
-                    //dummy
-                    listHashMap.get(header).add(element);listHashMap.get(header).add(element);listHashMap.get(header).add(element);listHashMap.get(header).add(element);listHashMap.get(header).add(element);listHashMap.get(header).add(element);
                 }
 
                 listAdapter = new ExpandableListAdapter(this, listHeader, listHashMap);

@@ -10,6 +10,10 @@
             android:title="주문하기"
             android:icon="@drawable/ic_lock_white_18dp"/>
         <item
+            android:id="@+id/itm_address"
+            android:title="주소록"
+            android:icon="@drawable/ic_lock_white_18dp"/>
+        <item
             android:id="@+id/itm_event"
             android:title="이벤트"
             android:icon="@drawable/ic_lock_white_18dp"/>
