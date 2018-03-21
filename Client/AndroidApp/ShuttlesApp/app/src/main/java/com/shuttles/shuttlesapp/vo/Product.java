@@ -9,14 +9,14 @@ import com.shuttles.shuttlesapp.Utils.Constants;
  * Created by daeyonglee on 2018. 2. 11..
  */
 
-public class Product {
+public abstract  class Product {
     private String name;
     private String price;
     private String picture_url;
     private String picture_version;
     private String state;
     private String description;
-
+    private String type;
     private String pictureFileName;
     private Drawable img;
 
@@ -26,6 +26,7 @@ public class Product {
             Log.i(Constants.LOG_TAG,"File Name : "+pictureFileName);
         }
     }
+    public abstract String getID();
 
     public String getPicture_url() {
         return picture_url;
@@ -89,5 +90,13 @@ public class Product {
 
     public void setState(String state) {
         this.state = state;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 }

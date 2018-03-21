@@ -1,6 +1,7 @@
 package com.shuttles.shuttlesapp.ConnectionController;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
@@ -36,9 +37,33 @@ public class ImageLoadHandler extends AsyncTask<List<? extends Product>, Void, S
     private List<Product> productList = null;
     private boolean isNetworkConnected = true;
 
-    public ImageLoadHandler(ConnectionImpl delegate){
+    private static SharedPreferences preferences = GlobalApplication.getGlobalApplicationContext().getSharedPreferences("image_cache", GlobalApplication.getGlobalApplicationContext().MODE_PRIVATE);
+    private static SharedPreferences.Editor editor = preferences.edit();
+
+
+    public ImageLoadHandler(ConnectionImpl delegate) {
         this.context = GlobalApplication.getGlobalApplicationContext();
         this.delegate = delegate;
+    }
+
+    public boolean isCached(Product element) {
+        String prefKey = element.getType() + element.getID();
+        String prefValue = preferences.getString(prefKey, null);
+
+        File file = context.getFileStreamPath(element.getPictureFileName());
+        if (file.exists() && prefValue != null) {
+            if (prefValue.equals(element.getPicture_version())) {
+                Log.i(Constants.LOG_TAG, "File exist, Name : " + element.getPictureFileName() + " prefKey : " +prefKey +" prefValue : "+prefValue + " == "+element.getPicture_version() );
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public void savePreference(String key, String value) {
+        editor.putString(key, value);
+        editor.commit();
+
     }
 
     @Override
@@ -50,33 +75,36 @@ public class ImageLoadHandler extends AsyncTask<List<? extends Product>, Void, S
 
     @Override
     protected String doInBackground(List<? extends Product>... params) {
-        String result = "success";
-        productList = (List<Product>) params[0];
         if(!isNetworkConnected)
             return "fail";
 
+        String result = Constants.RESPONSE_SUCCESS;
+        productList = (List<Product>) params[0];
+
+        Log.i(Constants.LOG_TAG, "start download" + productList.size());
         //Download picture
         for(Product element : productList)
         {
             try {
-                File file = context.getFileStreamPath(element.getPictureFileName());
-                if (file.exists()) {
-                    //file name 확인 후 이미 저장되어 있으면 continue
-                    Log.i(Constants.LOG_TAG, "File already exist, Name : " + element.getPictureFileName());
+                if (isCached(element))
                     continue;
-                }
+
+                Log.i(Constants.LOG_TAG, "not cachend");
 
                 URL imgURL = new URL(element.getPicture_url());
                 HttpURLConnection conn = (HttpURLConnection) imgURL.openConnection();
+
+                /*
                 if(conn.getResponseCode() != HttpURLConnection.HTTP_OK){
                     Log.e(Constants.LOG_TAG, "HTTP Connection Error");
                     conn.disconnect();
-                    continue;
+                    throw new IOException();
                 }
+                */
 
+                //Download Product's picture from server
                 byte[] buf = new byte[1024];
                 InputStream is = conn.getInputStream();
-
                 FileOutputStream fos = context.openFileOutput(element.getPictureFileName(), Context.MODE_PRIVATE);
 
                 Log.i(Constants.LOG_TAG, "Start Download " + element.getPictureFileName());
@@ -85,16 +113,17 @@ public class ImageLoadHandler extends AsyncTask<List<? extends Product>, Void, S
                     Log.i(Constants.LOG_TAG, "Now downloading... " + len);
                     fos.write(buf, 0, len);
                 }
+
+                savePreference(element.getType() + element.getID(), element.getPicture_version());
+
                 is.close();
                 fos.close();
                 conn.disconnect();
             }
             catch (IOException e) {
-                result = "fail";
                 e.printStackTrace();
             }
             catch (Exception e){
-                result = "fail";
                 e.printStackTrace();
             }
         }
@@ -111,10 +140,7 @@ public class ImageLoadHandler extends AsyncTask<List<? extends Product>, Void, S
     protected void onPostExecute(String result) {
         super.onPostExecute(result);
 
-        if (result == null || result.equals("fail")) {
-            Log.e(Constants.LOG_TAG, "Image download fail!");
-            delegate.requestCallback(RestAPI.REQUEST_TYPE_FAILED);
-        } else if (result.equals("success")) {
+        if (result.equals(Constants.RESPONSE_SUCCESS)) {
             for (Product element : productList) {
                 //Load image to VO class
                 try {
@@ -138,8 +164,11 @@ public class ImageLoadHandler extends AsyncTask<List<? extends Product>, Void, S
                     element.setImg(null);
                 }
             }
-            Log.i(Constants.LOG_TAG, "End Download");
+            Log.i(Constants.LOG_TAG, "End Load Picture");
             delegate.requestCallback(RestAPI.REQUEST_TYPE_IMAGE_LOAD);
+        } else {
+            Log.e(Constants.LOG_TAG, "Image download fail!");
+            delegate.requestCallback(RestAPI.REQUEST_TYPE_FAILED);
         }
     }
 }

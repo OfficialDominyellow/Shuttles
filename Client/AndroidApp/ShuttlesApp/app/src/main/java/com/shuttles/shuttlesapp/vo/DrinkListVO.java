@@ -17,4 +17,8 @@ public class DrinkListVO extends Product{
         this.coffee_id = coffee_id;
     }
 
+    @Override
+    public String getID() {
+        return coffee_id;
+    }
 }

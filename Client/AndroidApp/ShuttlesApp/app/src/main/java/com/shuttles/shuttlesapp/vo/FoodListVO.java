@@ -16,4 +16,9 @@ public class FoodListVO extends Product{
     public void setFood_id(String food_id) {
         this.food_id = food_id;
     }
+
+    @Override
+    public String getID() {
+        return food_id;
+    }
 }
