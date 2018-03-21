@@ -80,8 +80,8 @@ public class KakaoSignupActivity extends Activity implements ConnectionImpl {
                 Log.i(Constants.LOG_TAG, "User ID:" + userProfile.getId() + " userNickname: " + userProfile.getNickname()
                         + " UUID:" + userProfile.getUUID() + " email : " + userProfile.getEmail());
                 profile = userProfile;
-                redirectDashboardActivity();
-                //initData();
+                //redirectDashboardActivity();
+                initData();
             }
         });
     }
@@ -113,7 +113,7 @@ public class KakaoSignupActivity extends Activity implements ConnectionImpl {
         JSONArray jsonArray = new JSONArray();
         jsonArray.put(jsonObject);
 
-        RequestData postUserData = new RequestData("POST", RestAPI.USER, RestAPI.REQUEST_TYPE_USER ,jsonArray);
+        RequestData postUserData = new RequestData("POST", RestAPI.USER, RestAPI.REQUEST_TYPE_USER ,jsonObject);
 
         new RequestHandler(this).execute(postUserData);
     }
@@ -123,6 +123,7 @@ public class KakaoSignupActivity extends Activity implements ConnectionImpl {
 
         switch (REQUEST_TYPE) {
             case RestAPI.REQUEST_TYPE_FAILED:
+                Log.e(Constants.LOG_TAG, "request failed!");
                 redirectLoginActivity();
                 break;
 
