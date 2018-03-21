@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:paddingLeft="18dp"
     android:paddingRight="18dp"
-    android:paddingTop="@dimen/activity_vertival_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
     android:paddingBottom="@dimen/activity_horizontal_margin"
     android:background="@color/colorPrimary">
 
