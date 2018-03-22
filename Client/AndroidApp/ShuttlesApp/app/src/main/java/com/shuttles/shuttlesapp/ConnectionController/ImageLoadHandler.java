@@ -47,7 +47,7 @@ public class ImageLoadHandler extends AsyncTask<List<? extends Product>, Void, S
     }
 
     public boolean isCached(Product element) {
-        String prefKey = element.getType() + element.getID();
+        String prefKey = element.getName() + element.getID();
         String prefValue = preferences.getString(prefKey, null);
 
         File file = context.getFileStreamPath(element.getPictureFileName());
@@ -114,7 +114,7 @@ public class ImageLoadHandler extends AsyncTask<List<? extends Product>, Void, S
                     fos.write(buf, 0, len);
                 }
 
-                savePreference(element.getType() + element.getID(), element.getPicture_version());
+                savePreference(element.getName() + element.getID(), element.getPicture_version());
 
                 is.close();
                 fos.close();
