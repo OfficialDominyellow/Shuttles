@@ -131,7 +131,7 @@ public class RequestHandler extends AsyncTask<RequestData, Void, String> {
         super.onPostExecute(result);
 
         //TODO change response Logic
-        if(result.equals(Constants.RESPONSE_FAIL))
+        if(result.equals(Constants.RESPONSE_FAIL) || result == null)
             requestData.setRequest_type(RestAPI.REQUEST_TYPE_FAILED);
         else
             requestData.setResult(result);

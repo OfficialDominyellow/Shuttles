@@ -80,7 +80,18 @@ public class KakaoSignupActivity extends Activity implements ConnectionImpl {
                 Log.i(Constants.LOG_TAG, "User ID:" + userProfile.getId() + " userNickname: " + userProfile.getNickname()
                         + " UUID:" + userProfile.getUUID() + " email : " + userProfile.getEmail());
                 profile = userProfile;
-                sendRequestData();
+                JSONObject jsonObject = new JSONObject();
+                try {
+                    jsonObject.put("user_id", profile.getEmail());
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+                JSONArray jsonArray = new JSONArray();
+                jsonArray.put(jsonObject);
+
+                RequestData postUserData = new RequestData("POST", RestAPI.USER, RestAPI.REQUEST_TYPE_USER ,jsonObject);
+                sendRequestData(postUserData);
             }
         });
     }
@@ -100,20 +111,9 @@ public class KakaoSignupActivity extends Activity implements ConnectionImpl {
         finish();
     }
 
-    public void sendRequestData() {
-        JSONObject jsonObject = new JSONObject();
-        try {
-            jsonObject.put("user_id", profile.getEmail());
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+    public void sendRequestData(RequestData requestData) {
 
-        JSONArray jsonArray = new JSONArray();
-        jsonArray.put(jsonObject);
-
-        RequestData postUserData = new RequestData("POST", RestAPI.USER, RestAPI.REQUEST_TYPE_USER ,jsonObject);
-
-        new RequestHandler(this).execute(postUserData);
+        new RequestHandler(this).execute(requestData);
     }
 
     @Override

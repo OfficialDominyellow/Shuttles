@@ -116,8 +116,8 @@ public class DrinkOrderDetailPopActivity extends AppCompatActivity implements Co
                 }
             }
         });
-
-        sendRequestData();
+        requestData = new RequestData("GET", RestAPI.DRINK_OPTION + "/" + mCoffeeID, RestAPI.REQUEST_TYPE_DRINK_OPTION_LIST);
+        sendRequestData(requestData);
     }
 
     private void orderRequest(OrderRequestVO e){
@@ -126,14 +126,12 @@ public class DrinkOrderDetailPopActivity extends AppCompatActivity implements Co
         String jsonStr = gson.toJson(e);
         jsonArray.put(jsonStr);
         Log.i(TAG, jsonStr);
-
         orderRequestData = new RequestData("POST", RestAPI.ORDER, RestAPI.REQUEST_TYPE_ORDER, jsonArray);
-        new RequestHandler(this).execute(orderRequestData);
+        sendRequestData(orderRequestData);
     }
 
     @Override
-    public void sendRequestData() {
-        requestData = new RequestData("GET", RestAPI.DRINK_OPTION + "/" + mCoffeeID, RestAPI.REQUEST_TYPE_DRINK_OPTION_LIST);
+    public void sendRequestData(RequestData requestData) {
         new RequestHandler(this).execute(requestData);
     }
 
