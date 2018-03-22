@@ -44,11 +44,11 @@ public class DrinkListActivity extends AppCompatActivity implements ConnectionIm
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        initData();
+        sendRequestData();
     }
 
     @Override
-    public void initData() {
+    public void sendRequestData() {
         requestData = new RequestData("GET", RestAPI.DRINK_LIST, RestAPI.REQUEST_TYPE_DRINK_LIST);
         new RequestHandler(this).execute(requestData);
     }

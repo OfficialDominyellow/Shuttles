@@ -44,7 +44,7 @@ public class DrinkListVtcActivity extends AppCompatActivity implements Connectio
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        initData();
+        sendRequestData();
     }
 
     public void setCardView(){
@@ -75,7 +75,7 @@ public class DrinkListVtcActivity extends AppCompatActivity implements Connectio
     }
 
     @Override
-    public void initData() {
+    public void sendRequestData() {
         requestData = new RequestData("GET", RestAPI.DRINK_LIST, RestAPI.REQUEST_TYPE_DRINK_LIST);
         new RequestHandler(this).execute(requestData);
     }

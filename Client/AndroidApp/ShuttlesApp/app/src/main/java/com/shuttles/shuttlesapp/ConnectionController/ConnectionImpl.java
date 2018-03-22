@@ -7,6 +7,6 @@ import com.shuttles.shuttlesapp.Utils.Constants;
  */
 
 public interface ConnectionImpl {
-    public void initData();
+    public void sendRequestData();
     public void requestCallback(int REQUEST_TYPE);
 }

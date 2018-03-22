@@ -117,7 +117,7 @@ public class DrinkOrderDetailPopActivity extends AppCompatActivity implements Co
             }
         });
 
-        initData();
+        sendRequestData();
     }
 
     private void orderRequest(OrderRequestVO e){
@@ -132,7 +132,7 @@ public class DrinkOrderDetailPopActivity extends AppCompatActivity implements Co
     }
 
     @Override
-    public void initData() {
+    public void sendRequestData() {
         requestData = new RequestData("GET", RestAPI.DRINK_OPTION + "/" + mCoffeeID, RestAPI.REQUEST_TYPE_DRINK_OPTION_LIST);
         new RequestHandler(this).execute(requestData);
     }
