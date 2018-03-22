@@ -82,6 +82,12 @@ public class DashboardActivity extends AppCompatActivity {
                         intent = new Intent(getApplicationContext(), DrinkListVtcActivity.class);
                         startActivity(intent);
                         break;
+                    case R.id.itm_address:
+                        Toast.makeText(getApplicationContext(),"주소록",Toast.LENGTH_SHORT).show();
+                        drawerLayout.closeDrawers();
+                        intent = new Intent(getApplicationContext(), AddressListActivity.class);
+                        startActivity(intent);
+                        break;
                     case R.id.itm_event:
                         Toast.makeText(getApplicationContext(),"이벤트",Toast.LENGTH_SHORT).show();
                         break;
