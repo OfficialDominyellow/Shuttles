@@ -1,5 +1,7 @@
 package com.shuttles.shuttlesapp;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
@@ -57,6 +59,12 @@ public class AddressSearchActivity extends AppCompatActivity {
                     result.setText(String.format("(%s) %s %s", arg1, arg2, arg3));
                     // WebView를 초기화 하지않으면 재사용할 수 없음
                     init_webView();
+                    Intent resultIntent = new Intent();
+                    resultIntent.putExtra("zipcode", arg1);
+                    resultIntent.putExtra("address1", arg2);
+                    resultIntent.putExtra("address2", arg3);
+                    setResult(Activity.RESULT_OK, resultIntent);
+                    finish();
                 }
             });
         }

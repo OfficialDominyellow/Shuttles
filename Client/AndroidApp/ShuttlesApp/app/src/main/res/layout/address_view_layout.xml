@@ -22,7 +22,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="24sp"
-                android:text="자주 이용하는 주소"
+                android:text="주소록"
                 android:textStyle="bold"
                 android:textColor="@color/colorAccent"
                 android:layout_gravity="center"
@@ -36,6 +36,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:padding="5dp">
+
+
         <LinearLayout
             android:orientation="vertical"
             android:layout_width="match_parent"
@@ -46,15 +48,35 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="16dp">
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="@color/black"
+                    android:paddingVertical="8dp"
                     android:text="주소"/>
 
-                <EditText
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:weightSum="2"
+                    android:orientation="horizontal">
+                    <EditText
+                        android:id="@+id/et_zipcode"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:inputType="none"
+                        android:focusable="false"
+                        android:maxLines="1"
+                        />
+                </LinearLayout>
+                <EditText
+                    android:id="@+id/et_full_address"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="none"
+                    android:focusable="false"
                     android:maxLines="4"
                     />
             </LinearLayout>
@@ -62,26 +84,82 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="@color/lightGray"/>
-
+                android:background="@color/lightGray"
+                android:layout_marginVertical="2dp"/>
 
             <LinearLayout
                 android:orientation="vertical"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="16dp">
-                <Button
-                    android:layout_width="match_parent"
+
+                <TextView
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/bg_login_selector"
-                    android:text="삭제"
-                    android:textColor="@color/colorAccent"
-                    android:textAllCaps="false"
-                    android:padding="10dp"
-                    android:clickable="true"
-                    android:layout_marginTop="8dp"/>
+                    android:textColor="@color/black"
+                    android:paddingVertical="8dp"
+                    android:text="상세주소"/>
+
+                <EditText
+                    android:id="@+id/et_address_extra"
+                    android:background="@drawable/bg_edittext_border"
+                    android:layout_width="match_parent"
+                    android:layout_height="56dp"
+                    android:maxLength="30"
+                    android:lines="2"
+                    android:maxLines="2"
+                    android:inputType="none"
+                    android:focusable="false"
+                    />
             </LinearLayout>
 
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/lightGray"
+                android:layout_marginVertical="2dp"/>
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="16dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/black"
+                    android:paddingVertical="8dp"
+                    android:text="장소명"/>
+
+                <EditText
+                    android:id="@+id/et_address_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:maxLength="30"
+                    android:inputType="none"
+                    android:focusable="false"
+                    />
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="16dp">
+
+                <Button
+                    android:id="@+id/btn_delete_address"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:background="@drawable/bg_login_selector"
+                    android:clickable="true"
+                    android:padding="10dp"
+                    android:text="삭제"
+                    android:textAllCaps="false"
+                    android:textColor="@color/colorAccent" />
+            </LinearLayout>
         </LinearLayout>
     </ScrollView>
 

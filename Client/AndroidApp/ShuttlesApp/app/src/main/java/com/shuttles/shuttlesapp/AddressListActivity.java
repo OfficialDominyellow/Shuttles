@@ -15,9 +15,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.shuttles.shuttlesapp.vo.AddressListVO;
+import com.shuttles.shuttlesapp.vo.AddressVO;
 
 import java.util.ArrayList;
+
+import io.realm.Realm;
+import io.realm.RealmResults;
 
 /**
  * Created by domin on 2018-03-22.
@@ -39,29 +42,8 @@ public class AddressListActivity extends AppCompatActivity {
             }
         });
 
-        ListViewCompat lvAddressList = (ListViewCompat) findViewById(R.id.lv_address_list);
-        final AddressListViewAdapter addressListViewAdapter = new AddressListViewAdapter();
-
-        lvAddressList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                AddressListVO addressListVO = (AddressListVO) adapterView.getItemAtPosition(i);
-
-                String fullAddress = addressListVO.getFullAddress();
-
-                Toast.makeText(getApplicationContext(), "full Address : " + fullAddress + " pos : " + i, Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(getApplicationContext(), AddressViewActivity.class);
-                startActivity(intent);
-            }
-        });
-
-        //add dummy data
-        for(int i=0; i<15; i++){
-            addressListViewAdapter.addItem("존나 주소") ;
-            addressListViewAdapter.addItem("띠벌주소") ;
-        }
-
-        lvAddressList.setAdapter(addressListViewAdapter);
+        //init Realm
+        Realm.init(getApplicationContext());
 
         ImageView ivCart = (ImageView) findViewById(R.id.iv_add_address);
         ivCart.setOnClickListener(new View.OnClickListener() {
@@ -73,11 +55,46 @@ public class AddressListActivity extends AppCompatActivity {
             }
         });
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        final AddressListViewAdapter addressListViewAdapter = new AddressListViewAdapter();
+        ListViewCompat lvAddressList = (ListViewCompat) findViewById(R.id.lv_address_list);
+
+        lvAddressList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                AddressVO addressVO = (AddressVO) adapterView.getItemAtPosition(i);
+
+                int id = addressVO.getId();
+
+                Toast.makeText(getApplicationContext(), "id : " + id + " pos : " + i, Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(getApplicationContext(), AddressViewActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        Realm realm = Realm.getDefaultInstance();
+        RealmResults<AddressVO> results = realm.where(AddressVO.class).findAll();
+
+        for(AddressVO e : results){
+            addressListViewAdapter.addItem(e.getId(), e.getAddressName(), e.getZipcode(), e.getAddress1(), e.getAddress2(), e.getAddressExtra()) ;
+        }
+        //add dummy data
+        for(int i=0; i<15; i++){
+            addressListViewAdapter.addItem(9998, "주소명1", "12345", "ㅁㅇㅇ1", "ㅁㅇㅇ2", "ㅎㅎㅎ") ;
+            addressListViewAdapter.addItem(9999, "주소명22", "1455", "ㅁㅇㅇ22", "ㅁㅇㅇ33", "ㅁㄴㅇㄻㄴㅇㄹ") ;
+        }
+
+        lvAddressList.setAdapter(addressListViewAdapter);
+    }
 }
 
 class AddressListViewAdapter extends BaseAdapter {
     // Adapter에 추가된 데이터를 저장하기 위한 ArrayList
-    private ArrayList<AddressListVO> listViewItemList = new ArrayList<AddressListVO>() ;
+    private ArrayList<AddressVO> listViewItemList = new ArrayList<AddressVO>() ;
 
     // AddressListViewAdapter 생성자
     public AddressListViewAdapter() {
@@ -104,15 +121,18 @@ class AddressListViewAdapter extends BaseAdapter {
 
         // 화면에 표시될 View(Layout이 inflate된)으로부터 위젯에 대한 참조 획득
         TextView tvAddressName = (TextView) convertView.findViewById(R.id.tv_address_name);
+        TextView tvZipcode = (TextView) convertView.findViewById(R.id.tv_zipcode);
         TextView tvFullAddress = (TextView) convertView.findViewById(R.id.tv_full_address);
-
+        TextView tvAddressExtra = (TextView) convertView.findViewById(R.id.tv_address_extra);
 
         // Data Set(listViewItemList)에서 position에 위치한 데이터 참조 획득
-        AddressListVO addressListVO = listViewItemList.get(position);
+        AddressVO addressVO = listViewItemList.get(position);
 
         // 아이템 내 각 위젯에 데이터 반영
-        tvAddressName.setText(addressListVO.getFullAddress());
-        tvFullAddress.setText(addressListVO.getFullAddress());
+        tvZipcode.setText(addressVO.getZipcode());
+        tvAddressName.setText(addressVO.getAddressName());
+        tvFullAddress.setText(addressVO.getAddress1() + " " + addressVO.getAddress2());
+        tvAddressExtra.setText(addressVO.getAddressExtra());
 
         return convertView;
     }
@@ -130,10 +150,8 @@ class AddressListViewAdapter extends BaseAdapter {
     }
 
     // 아이템 데이터 추가를 위한 함수. 개발자가 원하는대로 작성 가능.
-    public void addItem(String fullAddressList) {
-        AddressListVO item = new AddressListVO();
-
-        item.setFullAddress(fullAddressList);
+    public void addItem(int id, String addressName, String zipcode, String address1, String address2, String addressExtra) {
+        AddressVO item = new AddressVO(id, addressName, zipcode, address1, address2, addressExtra);
 
         listViewItemList.add(item);
     }

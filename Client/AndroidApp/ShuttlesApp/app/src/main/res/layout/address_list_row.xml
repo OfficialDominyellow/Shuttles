@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="horizontal"
     android:layout_width="match_parent"
-    android:layout_height="108dp"
+    android:layout_height="160dp"
     android:padding="8dp">
 
     <LinearLayout
@@ -34,10 +34,40 @@
             android:gravity="center_vertical"
             android:layout_weight="1">
             <TextView
+                android:id="@+id/tv_zipcode"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="0392376"
+                android:textSize="16dp"
+                android:textColor="@color/darkGray"
+                android:gravity="center_vertical" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_weight="1">
+            <TextView
                 android:id="@+id/tv_full_address"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="주소주ㅡ소조수소 서울시 주소지숮소ㅗ주소 "
+                android:text="주소주ㅡ소조수소 서울시 주 "
+                android:textSize="16dp"
+                android:textColor="@color/darkGray"
+                android:gravity="center_vertical" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_weight="1">
+            <TextView
+                android:id="@+id/tv_address_extra"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="2층 1호 "
                 android:textSize="16dp"
                 android:textColor="@color/darkGray"
                 android:gravity="center_vertical" />
