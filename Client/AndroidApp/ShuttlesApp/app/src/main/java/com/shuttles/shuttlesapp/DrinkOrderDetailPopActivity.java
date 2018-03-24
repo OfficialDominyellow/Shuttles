@@ -87,9 +87,11 @@ public class DrinkOrderDetailPopActivity extends AppCompatActivity implements Co
 
             @Override
             public void afterTextChanged(Editable s) {
-                Log.i(TAG, "Order count : " + s);
-                mOrderCount = Integer.parseInt(s+"");
-                renewTotalPrice();
+                if(s.length()>0) {
+                    Log.i(TAG, "Order count : " + s);
+                    mOrderCount = Integer.parseInt(s + "");
+                    renewTotalPrice();
+                }
             }
         });
 

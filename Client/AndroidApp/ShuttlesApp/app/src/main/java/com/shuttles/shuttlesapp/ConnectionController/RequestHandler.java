@@ -6,6 +6,9 @@ import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import com.shuttles.shuttlesapp.GlobalApplication;
 import com.shuttles.shuttlesapp.Utils.Constants;
 import com.shuttles.shuttlesapp.Utils.Utils;
@@ -26,7 +29,7 @@ public class RequestHandler extends AsyncTask<RequestData, Void, String> {
     private HttpURLConnection conn = null;
     private BufferedReader reader = null;
     private RequestData requestData = null;
-    private String result = null;
+    private String connectionResult = Constants.RESPONSE_SUCCESS;
     private boolean isNetworkConnected = true;
 
     public RequestHandler(ConnectionImpl delegate) {
@@ -44,7 +47,6 @@ public class RequestHandler extends AsyncTask<RequestData, Void, String> {
     @Override
     protected String doInBackground(RequestData... params) {
         requestData = params[0];
-        result = Constants.RESPONSE_SUCCESS;
 
         if (!isNetworkConnected)
             return Constants.RESPONSE_FAIL;
@@ -98,15 +100,15 @@ public class RequestHandler extends AsyncTask<RequestData, Void, String> {
             while ((line = reader.readLine()) != null) {
                 builder.append((line));
             }
-            result = builder.toString();
-            Log.i(Constants.LOG_TAG, "request result : " + result);
+            connectionResult = builder.toString();
+            Log.i(Constants.LOG_TAG, "request result : " + connectionResult);
 
         } catch (IOException e) {
             e.printStackTrace();
-            result = Constants.RESPONSE_FAIL;
+            connectionResult = Constants.RESPONSE_FAIL;
         } catch (Exception e) {
             e.printStackTrace();
-            result = Constants.RESPONSE_FAIL;
+            connectionResult = Constants.RESPONSE_FAIL;
         } finally {
             if (conn != null)
                 conn.disconnect();
@@ -117,8 +119,7 @@ public class RequestHandler extends AsyncTask<RequestData, Void, String> {
                 e.printStackTrace();
             }
         }
-
-        return result;
+        return connectionResult;
     }
 
     @Override
@@ -130,11 +131,22 @@ public class RequestHandler extends AsyncTask<RequestData, Void, String> {
     protected void onPostExecute(String result) {
         super.onPostExecute(result);
 
-        //TODO change response Logic
         if(result.equals(Constants.RESPONSE_FAIL) || result == null)
             requestData.setRequest_type(RestAPI.REQUEST_TYPE_FAILED);
-        else
+        else {
+            /*
+            JsonObject rootObject = new JsonParser().parse(result).getAsJsonObject();
+            JsonArray resultArray = rootObject.get("result").getAsJsonArray();
+
+            Log.i(Constants.LOG_TAG, resultArray.toString()+"  response : " + rootObject.get("response").toString());
+            String response = rootObject.get("response").toString();
+
+            //TODO if 조건 만족하면
+            requestData.setResult(resultArray.toString());
+            */
             requestData.setResult(result);
+        }
+
 
         delegate.requestCallback(requestData.getRequest_type());
     }
