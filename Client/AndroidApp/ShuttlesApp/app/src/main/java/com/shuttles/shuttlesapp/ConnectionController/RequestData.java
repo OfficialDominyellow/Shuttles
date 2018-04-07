@@ -10,7 +10,6 @@ import org.json.JSONObject;
 public class RequestData {
     private String method;
     private String restURL;
-    private String result; //result from server request
     private int request_type;
     private String postData;
     private JSONArray uploadJsonArray;
@@ -57,14 +56,6 @@ public class RequestData {
 
     public void setUploadJsonArray(JSONArray uploadJsonArray) {
         this.uploadJsonArray = uploadJsonArray;
-    }
-
-    public String getResult() {
-        return result;
-    }
-
-    public void setResult(String result) {
-        this.result = result;
     }
 
     public int getRequest_type() {

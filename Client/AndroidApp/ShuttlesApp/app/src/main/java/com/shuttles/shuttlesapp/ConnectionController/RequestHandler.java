@@ -1,14 +1,9 @@
 package com.shuttles.shuttlesapp.ConnectionController;
 
 import android.content.Context;
-import android.net.ConnectivityManager;
 import android.os.AsyncTask;
 import android.util.Log;
-import android.widget.Toast;
 
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
 import com.shuttles.shuttlesapp.GlobalApplication;
 import com.shuttles.shuttlesapp.Utils.Constants;
 import com.shuttles.shuttlesapp.Utils.Utils;
@@ -50,7 +45,6 @@ public class RequestHandler extends AsyncTask<RequestData, Void, String> {
 
         if (!isNetworkConnected)
             return Constants.RESPONSE_FAIL;
-
         try {
             URL requestURL = new URL(requestData.getRestURL());
             conn = (HttpURLConnection) requestURL.openConnection();
@@ -71,7 +65,7 @@ public class RequestHandler extends AsyncTask<RequestData, Void, String> {
                 os.flush();
                 os.close();
                 Log.i(Constants.LOG_TAG, "upload : " + requestData.getPostData());
-                Log.i(Constants.LOG_TAG, requestData.getMethod() + " RESTAPI:" + requestData.getRestURL());
+                Log.i(Constants.LOG_TAG, "Use RESTAPI:" + requestData.getRestURL());
             } else
                 conn.setDoOutput(false);
 
@@ -101,7 +95,6 @@ public class RequestHandler extends AsyncTask<RequestData, Void, String> {
                 builder.append((line));
             }
             connectionResult = builder.toString();
-            Log.i(Constants.LOG_TAG, "request result : " + connectionResult);
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -118,8 +111,8 @@ public class RequestHandler extends AsyncTask<RequestData, Void, String> {
             } catch (IOException e) {
                 e.printStackTrace();
             }
+            return connectionResult;
         }
-        return connectionResult;
     }
 
     @Override
@@ -130,10 +123,16 @@ public class RequestHandler extends AsyncTask<RequestData, Void, String> {
     @Override
     protected void onPostExecute(String result) {
         super.onPostExecute(result);
+        ConnectionResponse connectionResponse = new ConnectionResponse();
 
-        if(result.equals(Constants.RESPONSE_FAIL) || result == null)
-            requestData.setRequest_type(RestAPI.REQUEST_TYPE_FAILED);
+        Log.i(Constants.LOG_TAG, "onPostExecute result : " + result);
+
+        if(result.equals(Constants.RESPONSE_FAIL)) {
+            Log.e(Constants.LOG_TAG, "Reponse Failed!");
+            connectionResponse.setResponseType(RestAPI.REQUEST_TYPE_FAILED);
+        }
         else {
+            Log.i(Constants.LOG_TAG,"Reponse success!");
             /*
             JsonObject rootObject = new JsonParser().parse(result).getAsJsonObject();
             JsonArray resultArray = rootObject.get("result").getAsJsonArray();
@@ -144,11 +143,11 @@ public class RequestHandler extends AsyncTask<RequestData, Void, String> {
             //TODO if 조건 만족하면
             requestData.setResult(resultArray.toString());
             */
-            requestData.setResult(result);
+            connectionResponse.setResponseType(requestData.getRequest_type());
+            connectionResponse.setResult(result);
         }
 
-
-        delegate.requestCallback(requestData.getRequest_type());
+        delegate.requestCallback(connectionResponse);
     }
 }
 

@@ -9,6 +9,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import com.kakao.auth.ErrorCode;
 import com.kakao.network.ErrorResult;
 import com.kakao.usermgmt.UserManagement;
@@ -17,8 +19,10 @@ import com.kakao.usermgmt.response.model.UserProfile;
 
 import com.shuttles.shuttlesapp.ConnectionController.RequestData;
 import com.shuttles.shuttlesapp.ConnectionController.RequestHandler;
+import com.shuttles.shuttlesapp.ConnectionController.ConnectionResponse;
 import com.shuttles.shuttlesapp.ConnectionController.RestAPI;
 import com.shuttles.shuttlesapp.ConnectionController.ConnectionImpl;
+import com.shuttles.shuttlesapp.ConnectionController.UserInfo;
 import com.shuttles.shuttlesapp.Utils.Constants;
 
 import org.json.JSONArray;
@@ -28,7 +32,7 @@ import org.json.JSONObject;
 public class KakaoSignupActivity extends Activity implements ConnectionImpl {
     private GlobalApplication globalApplication;
     private ProgressDialog dialog;
-    private UserProfile profile;
+    private UserInfo userInfo;
 
     /**
      * Main으로 넘길지 가입 페이지를 그릴지 판단하기 위해 me를 호출한다.
@@ -39,6 +43,7 @@ public class KakaoSignupActivity extends Activity implements ConnectionImpl {
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        userInfo = UserInfo.getInstance();
         dialog = new ProgressDialog(KakaoSignupActivity.this);
         globalApplication = (GlobalApplication) getApplicationContext();
         requestMe();
@@ -79,10 +84,11 @@ public class KakaoSignupActivity extends Activity implements ConnectionImpl {
                 //user의 유니크한 정보를 여기서 추출
                 Log.i(Constants.LOG_TAG, "User ID:" + userProfile.getId() + " userNickname: " + userProfile.getNickname()
                         + " UUID:" + userProfile.getUUID() + " email : " + userProfile.getEmail());
-                profile = userProfile;
+                userInfo.setProfile(userProfile);
+
                 JSONObject jsonObject = new JSONObject();
                 try {
-                    jsonObject.put("user_id", profile.getEmail());
+                    jsonObject.put("user_id", userInfo.getProfile().getEmail());
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -98,7 +104,7 @@ public class KakaoSignupActivity extends Activity implements ConnectionImpl {
 
     private void redirectDashboardActivity() {
         Intent intent = new Intent(this, DashboardActivity.class);
-        intent.putExtra("userData : ", profile.getEmail());
+        intent.putExtra("userData : ", userInfo.getProfile().getEmail());
         startActivity(intent);
         finish();
 
@@ -112,33 +118,32 @@ public class KakaoSignupActivity extends Activity implements ConnectionImpl {
     }
 
     public void sendRequestData(RequestData requestData) {
-
+        dialog.show();
         new RequestHandler(this).execute(requestData);
     }
 
     @Override
-    public void requestCallback(int REQUEST_TYPE) {
+    public void requestCallback(ConnectionResponse connectionResponse) {
+        Log.i(Constants.LOG_TAG,"requstCallback");
+        dialog.dismiss();
 
-        switch (REQUEST_TYPE) {
+        switch (connectionResponse.getResponseType()) {
             case RestAPI.REQUEST_TYPE_FAILED:
                 Log.e(Constants.LOG_TAG, "request failed!");
                 redirectLoginActivity();
                 break;
 
             case RestAPI.REQUEST_TYPE_USER:
-                dialog.dismiss();
+                JsonObject rootObject = new JsonParser().parse(connectionResponse.getResult()).getAsJsonObject();
+                String userTypeResponse = rootObject.get("result").toString();
+                Log.i(Constants.LOG_TAG, "User Type : "+userTypeResponse);
+                userInfo.setUserType(userTypeResponse);
+
                 redirectDashboardActivity();
                 break;
-            /*
-            case Constants.TYPE_IMAGE_LOAD_HANDLER :
-                dialog.dismiss();
-                Gson gson = new Gson();
-                List<DrinkListVO> drinkList = gson.fromJson(resultJsonArray, new TypeToken<List<DrinkListVO>>() {}.getType());
-                globalApplication.setCoffeList(drinkList);
-                new ImageLoadHandler(this).execute(drinkList);
-                redirectDashboardActivity();
+            default:
+                Log.e(Constants.LOG_TAG,"Unknown Response");
                 break;
-                */
         }
 
     }

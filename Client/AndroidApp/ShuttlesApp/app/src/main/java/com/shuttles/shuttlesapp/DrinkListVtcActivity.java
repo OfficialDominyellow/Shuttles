@@ -23,6 +23,7 @@ import com.shuttles.shuttlesapp.ConnectionController.ConnectionImpl;
 import com.shuttles.shuttlesapp.ConnectionController.ImageLoadHandler;
 import com.shuttles.shuttlesapp.ConnectionController.RequestData;
 import com.shuttles.shuttlesapp.ConnectionController.RequestHandler;
+import com.shuttles.shuttlesapp.ConnectionController.ConnectionResponse;
 import com.shuttles.shuttlesapp.ConnectionController.RestAPI;
 import com.shuttles.shuttlesapp.Utils.Constants;
 import com.shuttles.shuttlesapp.vo.DrinkListVO;
@@ -81,8 +82,8 @@ public class DrinkListVtcActivity extends AppCompatActivity implements Connectio
     }
 
     @Override
-    public void requestCallback(int REQUEST_TYPE) {
-        switch (REQUEST_TYPE) {
+    public void requestCallback(ConnectionResponse connectionResponse) {
+        switch (connectionResponse.getResponseType()) {
             case RestAPI.REQUEST_TYPE_FAILED:
                 //failed
                 break;
@@ -90,7 +91,7 @@ public class DrinkListVtcActivity extends AppCompatActivity implements Connectio
                 //set VO class
                 Gson gson = new Gson();
 
-                drinkList = gson.fromJson(requestData.getResult(), new TypeToken<List<DrinkListVO>>() {
+                drinkList = gson.fromJson(connectionResponse.getResult(), new TypeToken<List<DrinkListVO>>() {
                 }.getType());
 
                 for (DrinkListVO element : drinkList) {

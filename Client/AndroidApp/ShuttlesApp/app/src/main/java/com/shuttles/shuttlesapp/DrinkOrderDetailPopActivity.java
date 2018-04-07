@@ -24,6 +24,7 @@ import com.google.gson.reflect.TypeToken;
 import com.shuttles.shuttlesapp.ConnectionController.ConnectionImpl;
 import com.shuttles.shuttlesapp.ConnectionController.RequestData;
 import com.shuttles.shuttlesapp.ConnectionController.RequestHandler;
+import com.shuttles.shuttlesapp.ConnectionController.ConnectionResponse;
 import com.shuttles.shuttlesapp.ConnectionController.RestAPI;
 import com.shuttles.shuttlesapp.vo.DrinkOptionVO;
 import com.shuttles.shuttlesapp.vo.OrderRequestVO;
@@ -138,13 +139,13 @@ public class DrinkOrderDetailPopActivity extends AppCompatActivity implements Co
     }
 
     @Override
-    public void requestCallback(int REQUEST_TYPE) {
-        switch(REQUEST_TYPE){
+    public void requestCallback(ConnectionResponse connectionResponse) {
+        switch(connectionResponse.getResponseType()){
             case RestAPI.REQUEST_TYPE_DRINK_OPTION_LIST:
-                Log.i(TAG, "data : " + requestData.getResult());
+                Log.i(TAG, "data : " + connectionResponse.getResult());
 
                 Gson gson = new Gson();
-                mDrinkOptionList = gson.fromJson(requestData.getResult(), new TypeToken< List<DrinkOptionVO> >(){}.getType());
+                mDrinkOptionList = gson.fromJson(connectionResponse.getResult(), new TypeToken< List<DrinkOptionVO> >(){}.getType());
                 mDrinkOptionList.sort(new Comparator<DrinkOptionVO>() {
                     @Override
                     public int compare(DrinkOptionVO o1, DrinkOptionVO o2) {

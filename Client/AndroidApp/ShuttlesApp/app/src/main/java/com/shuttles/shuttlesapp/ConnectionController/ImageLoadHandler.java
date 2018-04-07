@@ -6,11 +6,8 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.shuttles.shuttlesapp.GlobalApplication;
 import com.shuttles.shuttlesapp.Utils.Constants;
@@ -139,6 +136,7 @@ public class ImageLoadHandler extends AsyncTask<List<? extends Product>, Void, S
     @Override
     protected void onPostExecute(String result) {
         super.onPostExecute(result);
+        ConnectionResponse connectionResponse = new ConnectionResponse();
 
         if (result.equals(Constants.RESPONSE_SUCCESS)) {
             for (Product element : productList) {
@@ -165,10 +163,10 @@ public class ImageLoadHandler extends AsyncTask<List<? extends Product>, Void, S
                 }
             }
             Log.i(Constants.LOG_TAG, "End Load Picture");
-            delegate.requestCallback(RestAPI.REQUEST_TYPE_IMAGE_LOAD);
+            connectionResponse.setResponseType(RestAPI.REQUEST_TYPE_IMAGE_LOAD);
         } else {
             Log.e(Constants.LOG_TAG, "Image download fail!");
-            delegate.requestCallback(RestAPI.REQUEST_TYPE_FAILED);
+            connectionResponse.setResponseType(RestAPI.REQUEST_TYPE_FAILED);
         }
     }
 }

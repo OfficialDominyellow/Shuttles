@@ -29,10 +29,10 @@ import com.shuttles.shuttlesapp.ConnectionController.ConnectionImpl;
 import com.shuttles.shuttlesapp.ConnectionController.ImageLoadHandler;
 import com.shuttles.shuttlesapp.ConnectionController.RequestData;
 import com.shuttles.shuttlesapp.ConnectionController.RequestHandler;
+import com.shuttles.shuttlesapp.ConnectionController.ConnectionResponse;
 import com.shuttles.shuttlesapp.ConnectionController.RestAPI;
 import com.shuttles.shuttlesapp.Utils.Constants;
 import com.shuttles.shuttlesapp.vo.DrinkListVO;
-import com.shuttles.shuttlesapp.vo.OrderRequestVO;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -54,15 +54,15 @@ public class DrinkListActivity extends AppCompatActivity implements ConnectionIm
     }
 
     @Override
-    public void requestCallback(int REQUEST_TYPE) {
-        switch (REQUEST_TYPE) {
+    public void requestCallback(ConnectionResponse connectionResponse) {
+        switch (connectionResponse.getResponseType()) {
             case RestAPI.REQUEST_TYPE_FAILED:
                 //failed
                 break;
             case RestAPI.REQUEST_TYPE_DRINK_LIST:
                 //set VO class
                 Gson gson = new Gson();
-                List<DrinkListVO> drinkList = gson.fromJson(requestData.getResult(), new TypeToken<List<DrinkListVO>>() {
+                List<DrinkListVO> drinkList = gson.fromJson(connectionResponse.getResult(), new TypeToken<List<DrinkListVO>>() {
                 }.getType());
 
                 for (DrinkListVO element : drinkList) {
