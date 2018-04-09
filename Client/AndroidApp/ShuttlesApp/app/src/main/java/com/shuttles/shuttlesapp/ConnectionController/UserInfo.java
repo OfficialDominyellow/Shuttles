@@ -15,6 +15,8 @@ public class UserInfo {
         customer,owner;
     }
 
+    private UserInfo(){ }
+
     public static UserInfo getInstance() {
         return userInfoInstance;
     }
@@ -38,7 +40,7 @@ public class UserInfo {
     }
 
     public void setUserType(String responseUserType){
-
+        Log.i(Constants.LOG_TAG,"setUserType :" +responseUserType);
         switch (responseUserType) {
             case "customer":
                 setUserType(Type.customer);

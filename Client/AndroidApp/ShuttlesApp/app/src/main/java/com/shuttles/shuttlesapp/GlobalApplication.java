@@ -34,7 +34,7 @@ public class GlobalApplication extends Application {
 
     public static OrderRequestVO orderRequestVO = new OrderRequestVO();
 
-
+    //Todo: Delete drinkList and specialFoodList
     public static volatile List<DrinkListVO> drinkList = null;
     public static volatile List<FoodListVO> specialFoodList = null;
 

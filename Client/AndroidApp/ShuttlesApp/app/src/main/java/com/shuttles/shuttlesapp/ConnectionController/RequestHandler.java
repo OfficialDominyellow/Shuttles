@@ -3,6 +3,7 @@ package com.shuttles.shuttlesapp.ConnectionController;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.shuttles.shuttlesapp.GlobalApplication;
 import com.shuttles.shuttlesapp.Utils.Constants;
@@ -95,13 +96,10 @@ public class RequestHandler extends AsyncTask<RequestData, Void, String> {
                 builder.append((line));
             }
             connectionResult = builder.toString();
-
-        } catch (IOException e) {
-            e.printStackTrace();
-            connectionResult = Constants.RESPONSE_FAIL;
         } catch (Exception e) {
             e.printStackTrace();
             connectionResult = Constants.RESPONSE_FAIL;
+            Toast.makeText(context,"연결에 오류가 발생했습니다.",Toast.LENGTH_LONG).show();
         } finally {
             if (conn != null)
                 conn.disconnect();

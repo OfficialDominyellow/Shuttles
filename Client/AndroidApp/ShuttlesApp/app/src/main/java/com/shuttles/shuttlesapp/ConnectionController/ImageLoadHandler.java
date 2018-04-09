@@ -117,9 +117,6 @@ public class ImageLoadHandler extends AsyncTask<List<? extends Product>, Void, S
                 fos.close();
                 conn.disconnect();
             }
-            catch (IOException e) {
-                e.printStackTrace();
-            }
             catch (Exception e){
                 e.printStackTrace();
             }
