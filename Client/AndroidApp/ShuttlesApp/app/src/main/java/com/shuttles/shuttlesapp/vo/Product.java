@@ -23,7 +23,7 @@ public abstract  class Product {
     public void convertURLtoFileName(){
         if(picture_url!=null) {
             pictureFileName = picture_url.substring(picture_url.lastIndexOf('/') + 1, picture_url.length());
-            Log.i(Constants.LOG_TAG,"File Name : "+pictureFileName);
+            Log.i(Constants.LOG_TAG,"convertURLtoFileName : "+pictureFileName);
         }
     }
     public abstract String getID();

@@ -78,7 +78,7 @@ public class ImageLoadHandler extends AsyncTask<List<? extends Product>, Void, S
         String result = Constants.RESPONSE_SUCCESS;
         productList = (List<Product>) params[0];
 
-        Log.i(Constants.LOG_TAG, "start download" + productList.size());
+        Log.i(Constants.LOG_TAG, "start download file count : " + productList.size());
         //Download picture
         for(Product element : productList)
         {
@@ -165,5 +165,6 @@ public class ImageLoadHandler extends AsyncTask<List<? extends Product>, Void, S
             Log.e(Constants.LOG_TAG, "Image download fail!");
             connectionResponse.setResponseType(RestAPI.REQUEST_TYPE_FAILED);
         }
+        delegate.requestCallback(connectionResponse);
     }
 }

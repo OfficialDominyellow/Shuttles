@@ -66,13 +66,13 @@ public class DrinkListActivity extends AppCompatActivity implements ConnectionIm
                 }.getType());
 
                 for (DrinkListVO element : drinkList) {
-                    Log.i(Constants.LOG_TAG, element.getCoffee_id());
                     element.convertURLtoFileName();
                 }
 
                 new ImageLoadHandler(this).execute(drinkList);
                 break;
             case RestAPI.REQUEST_TYPE_IMAGE_LOAD:
+                Log.i(Constants.LOG_TAG,"Image Load callback");
                 setContentView(R.layout.drink_list_layout);
 
                 Toolbar toolbar = (Toolbar) findViewById(R.id.tb_drink_list);
