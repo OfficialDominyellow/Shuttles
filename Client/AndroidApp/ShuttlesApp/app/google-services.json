@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "177077957079",
+    "firebase_url": "https://coffe-shuttles.firebaseio.com",
+    "project_id": "coffe-shuttles",
+    "storage_bucket": "coffe-shuttles.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:177077957079:android:16f348e74442306a",
+        "android_client_info": {
+          "package_name": "com.shuttles.shuttlesapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "177077957079-orstuu1ihfpgb6v26e8vaic4j60qb0cn.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA0sCEvrShirlA0nm-RcAkeiCokZil-_xM"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

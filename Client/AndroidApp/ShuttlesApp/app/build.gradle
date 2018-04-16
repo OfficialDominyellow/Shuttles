@@ -33,4 +33,7 @@ dependencies {
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
     compile group: 'com.kakao.sdk', name: 'usermgmt', version: project.KAKAO_SDK_VERSION
     compile 'com.google.code.gson:gson:2.8.2'
+    compile 'com.google.firebase:firebase-messaging:11.8.0'
 }
+
+apply plugin: 'com.google.gms.google-services'

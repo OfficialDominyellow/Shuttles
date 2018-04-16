@@ -15,6 +15,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.google.firebase.iid.FirebaseInstanceId;
 import com.kakao.auth.ISessionCallback;
 import com.kakao.auth.Session;
 import com.kakao.util.exception.KakaoException;
@@ -37,6 +38,9 @@ public class LoginActivity extends Activity {
         if(!Utils.checkNetworkState()){
             finish();
         }
+
+        String token = FirebaseInstanceId.getInstance().getToken();
+        Log.i(Constants.LOG_TAG,"token : " +token);
 
         callback = new SessionCallback();
         Session.getCurrentSession().addCallback(callback);
