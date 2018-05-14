@@ -10,7 +10,6 @@ import com.shuttles.shuttlesapp.Utils.Constants;
 public class ShuttlesFirebaseMessagingService extends FirebaseMessagingService {
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
-
         //추가한것
         sendNotification(remoteMessage.getData().get("message"));
     }

@@ -8,8 +8,16 @@ import com.shuttles.shuttlesapp.Utils.Constants;
 public class UserInfo {
     private static UserInfo userInfoInstance = new UserInfo();
     private Type userType;
-
+    private String fcmToken;
     private UserProfile profile;
+
+    public String getFcmToken() {
+        return fcmToken;
+    }
+
+    public void setFcmToken(String fcmToken) {
+        this.fcmToken = fcmToken;
+    }
 
     public enum Type{
         customer,owner;
