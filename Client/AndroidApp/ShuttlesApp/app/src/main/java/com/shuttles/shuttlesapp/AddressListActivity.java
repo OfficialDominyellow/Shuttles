@@ -1,8 +1,10 @@
 package com.shuttles.shuttlesapp;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.ListViewCompat;
 import android.support.v7.widget.Toolbar;
@@ -71,24 +73,57 @@ public class AddressListActivity extends AppCompatActivity {
                 int id = addressVO.getId();
 
                 Toast.makeText(getApplicationContext(), "id : " + id + " pos : " + i, Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(getApplicationContext(), AddressViewActivity.class);
-                startActivity(intent);
             }
         });
 
+        lvAddressList.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                AddressVO addressVO = (AddressVO) parent.getItemAtPosition(position);
+
+                int addressVOId = addressVO.getId();
+
+                Toast.makeText(getApplicationContext(), "LONG id : " + position + " pos : " + addressVOId, Toast.LENGTH_SHORT).show();
+                showAlertDialog(addressVOId);
+
+                return false;
+            }
+        });
         Realm realm = Realm.getDefaultInstance();
         RealmResults<AddressVO> results = realm.where(AddressVO.class).findAll();
 
         for(AddressVO e : results){
             addressListViewAdapter.addItem(e.getId(), e.getAddressName(), e.getZipcode(), e.getAddress1(), e.getAddress2(), e.getAddressExtra()) ;
         }
-        //add dummy data
-        for(int i=0; i<15; i++){
-            addressListViewAdapter.addItem(9998, "주소명1", "12345", "ㅁㅇㅇ1", "ㅁㅇㅇ2", "ㅎㅎㅎ") ;
-            addressListViewAdapter.addItem(9999, "주소명22", "1455", "ㅁㅇㅇ22", "ㅁㅇㅇ33", "ㅁㄴㅇㄻㄴㅇㄹ") ;
-        }
 
         lvAddressList.setAdapter(addressListViewAdapter);
+    }
+
+    private void showAlertDialog(final int addressVOId){
+        AlertDialog alertDialog = new AlertDialog.Builder(this).create();
+        alertDialog.setTitle("주소 삭제");
+        alertDialog.setMessage("해당 주소를 주소록에서 삭제합니다.");
+        alertDialog.setButton(DialogInterface.BUTTON_NEUTRAL, "확인", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Realm.init(getApplicationContext());
+                Realm realm = Realm.getDefaultInstance();
+                realm.beginTransaction();
+                realm.executeTransactionAsync(new Realm.Transaction() {
+                    @Override
+                    public void execute(Realm realm) {
+                        RealmResults<AddressVO> result = realm.where(AddressVO.class).equalTo("id",addressVOId).findAll();
+                        result.deleteAllFromRealm();
+                    }
+                });
+                realm.commitTransaction();
+
+                //refresh activity
+                finish();
+                startActivity(getIntent());
+            }
+        });
+        alertDialog.show();
     }
 }
 

@@ -34,8 +34,8 @@ public class DashboardActivity extends AppCompatActivity {
         cvModifyPersonal.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getApplicationContext(), "개인정보수정", Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(getApplicationContext(), ModifyPersonalActivity.class);
+                Toast.makeText(getApplicationContext(), "주소록", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(getApplicationContext(), AddressListActivity.class);
                 startActivity(intent);
             }
         });
@@ -55,7 +55,7 @@ public class DashboardActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Toast.makeText(getApplicationContext(), "주문하기", Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(getApplicationContext(), DrinkListActivity.class);
+                Intent intent = new Intent(getApplicationContext(), DrinkListVtcActivity.class);
                 startActivity(intent);
             }
         });
@@ -88,8 +88,10 @@ public class DashboardActivity extends AppCompatActivity {
                         intent = new Intent(getApplicationContext(), AddressListActivity.class);
                         startActivity(intent);
                         break;
-                    case R.id.itm_event:
-                        Toast.makeText(getApplicationContext(),"이벤트",Toast.LENGTH_SHORT).show();
+                    case R.id.itm_notice:
+                        Toast.makeText(getApplicationContext(),"공지사항",Toast.LENGTH_SHORT).show();
+                        intent = new Intent(getApplicationContext(), NoticeActivity.class);
+                        startActivity(intent);
                         break;
                     case R.id.itm_introduce:
                         Toast.makeText(getApplicationContext(),"소개",Toast.LENGTH_SHORT).show();

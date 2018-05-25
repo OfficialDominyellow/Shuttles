@@ -14,8 +14,8 @@
             android:title="주소록"
             android:icon="@drawable/ic_lock_white_18dp"/>
         <item
-            android:id="@+id/itm_event"
-            android:title="이벤트"
+            android:id="@+id/itm_notice"
+            android:title="공지사항"
             android:icon="@drawable/ic_lock_white_18dp"/>
         <item
             android:id="@+id/itm_introduce"
