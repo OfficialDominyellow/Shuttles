@@ -5,20 +5,19 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
-import android.view.View;
-import android.widget.Button;
 import android.widget.Toast;
 
+import com.google.firebase.iid.FirebaseInstanceId;
 import com.kakao.auth.ISessionCallback;
 import com.kakao.auth.Session;
 import com.kakao.util.exception.KakaoException;
 import com.kakao.util.helper.log.Logger;
+import com.shuttles.shuttlesapp.ConnectionController.UserInfo;
 import com.shuttles.shuttlesapp.Utils.Constants;
 import com.shuttles.shuttlesapp.Utils.Utils;
 
@@ -37,6 +36,10 @@ public class LoginActivity extends Activity {
         if(!Utils.checkNetworkState()){
             finish();
         }
+        UserInfo userInfo = UserInfo.getInstance();
+        String fcmToken = FirebaseInstanceId.getInstance().getToken();
+        Log.i(Constants.LOG_TAG,"fcmToken : " + fcmToken);
+        userInfo.setFcmToken(fcmToken);
 
         callback = new SessionCallback();
         Session.getCurrentSession().addCallback(callback);

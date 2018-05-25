@@ -13,8 +13,25 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
+<<<<<<< HEAD
         android:theme="@style/AppTheme"
         android:largeHeap = "true">
+=======
+        android:theme="@style/AppTheme">
+        <service android:name=".FCM.ShuttlesFirebaseMessagingService">
+            <intent-filter>
+                <action android:name="com.google.firebase.INSTANCE_ID_EVENT"/>
+            </intent-filter>
+        </service>
+
+        <service android:name=".FCM.ShuttlesFirebaseInstanceIDService">
+            <intent-filter>
+                <action android:name="com.google.firebase.INSTANCE_ID_EVENT"/>
+            </intent-filter>
+        </service>
+
+
+>>>>>>> 7723b55c028c6157df7f9cf949504fa0aa23b295
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name"

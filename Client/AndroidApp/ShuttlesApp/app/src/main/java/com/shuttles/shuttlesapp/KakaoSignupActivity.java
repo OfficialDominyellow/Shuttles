@@ -89,6 +89,7 @@ public class KakaoSignupActivity extends Activity implements ConnectionImpl {
                 JSONObject jsonObject = new JSONObject();
                 try {
                     jsonObject.put("user_id", userInfo.getProfile().getEmail());
+                    jsonObject.put("pushId", userInfo.getFcmToken());
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
