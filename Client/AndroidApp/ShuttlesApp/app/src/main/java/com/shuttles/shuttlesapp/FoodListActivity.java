@@ -59,7 +59,7 @@ public class FoodListActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Toast.makeText(getApplicationContext(), "장바구니", Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(getApplicationContext(), CartActivity.class);
+                Intent intent = new Intent(getApplicationContext(), CartActivityV2.class);
                 startActivity(intent);
             }
         });

@@ -101,6 +101,7 @@ public class DashboardActivity extends AppCompatActivity {
                         drawerLayout.closeDrawers();
                         intent = new Intent(getApplicationContext(), OrderHistoryActivity.class);
                         startActivity(intent);
+                        break;
                     case R.id.itm_order_manage:
                         Toast.makeText(getApplicationContext(),"주문내역관리(사장님)",Toast.LENGTH_SHORT).show();
                         drawerLayout.closeDrawers();

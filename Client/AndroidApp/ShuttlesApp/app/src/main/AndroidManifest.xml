@@ -110,7 +110,7 @@
         </activity>
 
         <activity
-            android:name=".CartActivity"
+            android:name=".CartActivityV2"
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
 

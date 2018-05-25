@@ -22,14 +22,18 @@ import com.shuttles.shuttlesapp.vo.CartListVO;
 
 import java.util.ArrayList;
 
-public class CartActivity extends AppCompatActivity {
+/**
+ * Created by domin on 2018-05-26.
+ */
+
+public class CartActivityV2 extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.cart_layout);
+        setContentView(R.layout.cart_layout_v2);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.tb_cart);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.tb_cart_v2);
         toolbar.setNavigationIcon(R.drawable.ic_chevron_left_white_12dp); // your drawable
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
@@ -38,8 +42,8 @@ public class CartActivity extends AppCompatActivity {
             }
         });
 
-        ListViewCompat lvCart = (ListViewCompat) findViewById(R.id.lv_cart);
-        final CartListViewAdapter cartListViewAdapter = new CartListViewAdapter();
+        ListViewCompat lvCart = (ListViewCompat) findViewById(R.id.lv_cart_v2);
+        final CartListViewAdapterV2 cartListViewAdapter = new CartListViewAdapterV2();
 
         lvCart.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -51,19 +55,6 @@ public class CartActivity extends AppCompatActivity {
                 int type = cartListVO.getType();
 
                 Toast.makeText(getApplicationContext(), "name : " + name + ", price : " + price + ", pos : " + i + "type : " + type, Toast.LENGTH_SHORT).show();
-
-                Intent intent;
-                if(type == CartListVO.COFFEE){
-                    intent = new Intent(getApplicationContext(), DrinkDetailActivity.class);
-                    startActivity(intent);
-                }
-                else if(type == CartListVO.SPECIAL_FOOD){
-                    intent = new Intent(getApplicationContext(), FoodDetailActivity.class);
-                    startActivity(intent);
-                }
-                else{
-
-                }
             }
         });
 
@@ -95,12 +86,12 @@ public class CartActivity extends AppCompatActivity {
     }
 }
 
-class CartListViewAdapter extends BaseAdapter {
+class CartListViewAdapterV2 extends BaseAdapter {
     // Adapter에 추가된 데이터를 저장하기 위한 ArrayList
     private ArrayList<CartListVO> listViewItemList = new ArrayList<CartListVO>() ;
 
     // CartListViewAdapter 생성자
-    public CartListViewAdapter() {
+    public CartListViewAdapterV2() {
 
     }
 
@@ -119,21 +110,21 @@ class CartListViewAdapter extends BaseAdapter {
         // "listview_item" Layout을 inflate하여 convertView 참조 획득.
         if (convertView == null) {
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            convertView = inflater.inflate(R.layout.cart_list_row, parent, false);
+            convertView = inflater.inflate(R.layout.cart_list_row_v2, parent, false);
         }
 
         // 화면에 표시될 View(Layout이 inflate된)으로부터 위젯에 대한 참조 획득
-        ImageView ivCartList = (ImageView) convertView.findViewById(R.id.iv_cart_list) ;
-        TextView tvCartName = (TextView) convertView.findViewById(R.id.tv_cart_name) ;
-        TextView tvCartPrice = (TextView) convertView.findViewById(R.id.tv_cart_price) ;
+//        ImageView ivCartList = (ImageView) convertView.findViewById(R.id.iv_cart_list) ;
+//        TextView tvCartName = (TextView) convertView.findViewById(R.id.tv_cart_name) ;
+//        TextView tvCartPrice = (TextView) convertView.findViewById(R.id.tv_cart_price) ;
 
         // Data Set(listViewItemList)에서 position에 위치한 데이터 참조 획득
         CartListVO cartListVO = listViewItemList.get(position);
 
         // 아이템 내 각 위젯에 데이터 반영
-        ivCartList.setImageDrawable(cartListVO.getImg());
-        tvCartName.setText(cartListVO.getName());
-        tvCartPrice.setText(cartListVO.getPrice() + "원");
+//        ivCartList.setImageDrawable(cartListVO.getImg());
+//        tvCartName.setText(cartListVO.getName());
+//        tvCartPrice.setText(cartListVO.getPrice() + "원");
 
         return convertView;
     }
