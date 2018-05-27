@@ -13,6 +13,8 @@ import android.view.MenuItem;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.shuttles.shuttlesapp.ConnectionController.UserInfo;
+
 public class DashboardActivity extends AppCompatActivity {
     private DrawerLayout drawerLayout;
     private Toolbar toolbar;
@@ -25,6 +27,10 @@ public class DashboardActivity extends AppCompatActivity {
         toolbar = (Toolbar) findViewById(R.id.dashboard_toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
+        TextView tvDashboardName = (TextView)findViewById(R.id.tv_dashboard_name);
+        TextView tvDashBoardEmail = (TextView)findViewById(R.id.tv_dashboard_email);
+        tvDashboardName.setText(UserInfo.getInstance().getProfile().getNickname());
+        tvDashBoardEmail.setText(UserInfo.getInstance().getProfile().getEmail());
         initNavigationDrawer();
         setCardView();
     }
@@ -65,6 +71,7 @@ public class DashboardActivity extends AppCompatActivity {
     public void initNavigationDrawer() {
 
         NavigationView navigationView = (NavigationView)findViewById(R.id.navigation_view);
+
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(MenuItem menuItem) {
@@ -114,8 +121,9 @@ public class DashboardActivity extends AppCompatActivity {
             }
         });
         View header = navigationView.getHeaderView(0);
-        TextView tvUserName = (TextView)header.findViewById(R.id.tv_user_name);
-        tvUserName.setText("러블리즈 미주");
+        TextView tvNavUserName = (TextView)header.findViewById(R.id.tv_nav_user_name);
+        tvNavUserName.setText(UserInfo.getInstance().getProfile().getNickname() + "");
+
         drawerLayout = (DrawerLayout)findViewById(R.id.drawer_dashboard);
 
         ActionBarDrawerToggle actionBarDrawerToggle = new ActionBarDrawerToggle(this,drawerLayout,toolbar,R.string.drawer_open,R.string.drawer_close){

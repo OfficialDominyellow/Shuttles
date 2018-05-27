@@ -11,18 +11,42 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
+import android.widget.Switch;
+import android.widget.TableLayout;
+import android.widget.TableRow;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+import com.shuttles.shuttlesapp.ConnectionController.ConnectionImpl;
+import com.shuttles.shuttlesapp.ConnectionController.ConnectionResponse;
+import com.shuttles.shuttlesapp.ConnectionController.RequestData;
+import com.shuttles.shuttlesapp.ConnectionController.RequestHandler;
+import com.shuttles.shuttlesapp.ConnectionController.RestAPI;
+import com.shuttles.shuttlesapp.ConnectionController.UserInfo;
 import com.shuttles.shuttlesapp.vo.AddressVO;
+import com.shuttles.shuttlesapp.vo.OptionElementVO;
 import com.shuttles.shuttlesapp.vo.OrderRequestVO;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.Comparator;
+import java.util.List;
 
 import io.realm.Realm;
 import io.realm.RealmResults;
 
-public class DeliveryInfoActivity extends AppCompatActivity {
+public class DeliveryInfoActivity extends AppCompatActivity implements ConnectionImpl {
 
     private static String TAG = "DeliveryInfoActivity";
+
+    private RequestData requestData = null;
+    private RequestData orderRequestData = null;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -90,13 +114,49 @@ public class DeliveryInfoActivity extends AppCompatActivity {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 OrderRequestVO.getInstance().setOrder_address(fullAddress);
+                OrderRequestVO.getInstance().setUser_id(UserInfo.getInstance().getProfile().getEmail());
                 Log.i(TAG, OrderRequestVO.getInstance().toString());
+                orderRequest(OrderRequestVO.getInstance());
                 //refresh activity
                 //finish();
                 //startActivity(getIntent());
             }
         });
         alertDialog.show();
+    }
+
+    private void orderRequest(OrderRequestVO e){
+        Gson gson = new Gson();
+        String jsonStr = e.toString();
+        JSONObject jsonObject= null;
+        try {
+            jsonObject = new JSONObject(jsonStr);
+        } catch (JSONException e1) {
+            e1.printStackTrace();
+        }
+        Log.i(TAG, jsonStr);
+        orderRequestData = new RequestData("POST", RestAPI.ORDER, RestAPI.REQUEST_TYPE_ORDER, jsonObject);
+        sendRequestData(orderRequestData);
+    }
+
+    @Override
+    public void sendRequestData(RequestData requestData) {
+        new RequestHandler(this).execute(requestData);
+    }
+
+    @Override
+    public void requestCallback(ConnectionResponse connectionResponse) {
+        switch(connectionResponse.getResponseType()){
+            case RestAPI.REQUEST_TYPE_ORDER:
+                Log.e(TAG, "Order Request.");
+                break;
+            case RestAPI.REQUEST_TYPE_FAILED:
+                Log.e(TAG, "Request Fail.");
+                break;
+            default:
+                Log.e(TAG, "There is no matched request type.");
+                break;
+        }
     }
 }
 

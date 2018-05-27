@@ -19,16 +19,18 @@
         android:layout_height="0dp">
 
         <TextView
+            android:id="@+id/tv_dashboard_name"
             android:textColor="@color/white"
             android:textSize="40dp"
-            android:text="이대용 물소님"
+            android:text="닉네임"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
         <TextView
+            android:id="@+id/tv_dashboard_email"
             android:textColor="@color/white"
             android:textSize="20dp"
-            android:text="한정우 이름 바꿔라"
+            android:text="메일주소"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
     </LinearLayout>
