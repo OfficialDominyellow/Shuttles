@@ -1,18 +1,18 @@
 package com.shuttles.shuttlesapp.vo;
 
 /**
- * Created by domin on 2018-01-28.
+ * Created by domin on 2018-05-27.
  */
 
-public class DrinkOptionVO {
+public class OptionElementVO {
     //gson variables
     private int option_id;
     private String option_name;
     private int option_price;
 
     //Not gson variables
-    private boolean addition;
-    private int resId;
+    private transient boolean addition;
+    private transient int resId;
 
     public int getOption_id() {
         return option_id;

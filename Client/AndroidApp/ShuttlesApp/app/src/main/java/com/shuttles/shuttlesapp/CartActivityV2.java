@@ -18,7 +18,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.shuttles.shuttlesapp.vo.CartListVO;
+import com.shuttles.shuttlesapp.vo.DrinkElementVO;
+import com.shuttles.shuttlesapp.vo.FoodElementVO;
+import com.shuttles.shuttlesapp.vo.OptionElementVO;
+import com.shuttles.shuttlesapp.vo.OrderProductListVO;
+import com.shuttles.shuttlesapp.vo.OrderRequestVO;
 
 import java.util.ArrayList;
 
@@ -48,13 +52,14 @@ public class CartActivityV2 extends AppCompatActivity {
         lvCart.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                CartListVO cartListVO = (CartListVO) adapterView.getItemAtPosition(i);
+                OrderProductListVO orderProductListVO = (OrderProductListVO) adapterView.getItemAtPosition(i);
 
-                String name = cartListVO.getName();
-                int price = cartListVO.getPrice();
-                int type = cartListVO.getType();
+                String name = orderProductListVO.getProductName();
+                int price = orderProductListVO.getPrice();
+                int type = orderProductListVO.getType();
+                int oid = orderProductListVO.getOid();
 
-                Toast.makeText(getApplicationContext(), "name : " + name + ", price : " + price + ", pos : " + i + "type : " + type, Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "name : " + name + ", price : " + price + ", pos : " + i + ", type : " + type + ", oid : " + oid, Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -62,16 +67,24 @@ public class CartActivityV2 extends AppCompatActivity {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
                 Toast.makeText(getApplicationContext(), "Long click. 삭제 pos : " + position, Toast.LENGTH_SHORT).show();
-                cartListViewAdapter.removeItemByPos(position);
+                OrderProductListVO orderProductListVO = (OrderProductListVO) cartListViewAdapter.getItem(position);
+                int type = orderProductListVO.getType();
+                int oid = orderProductListVO.getOid();
+                cartListViewAdapter.removeItemByPos(position, type, oid);
                 return false;
             }
         });
 
-        //add dummy data
-        for(int i=0; i<15; i++){
-            cartListViewAdapter.addItem(ContextCompat.getDrawable(getApplicationContext(), R.drawable.img_coffee_example), "장바구니음료", 1234, CartListVO.COFFEE);
-            cartListViewAdapter.addItem(ContextCompat.getDrawable(getApplicationContext(), R.drawable.img_jeyuk), "장바구니음식", 4321, CartListVO.SPECIAL_FOOD);
+        //add coffee
+        for(DrinkElementVO e : OrderRequestVO.getInstance().getCoffee()){
+            cartListViewAdapter.addItem(e.getName(), e.getPrice() * e.getCount(), e.getPrice(), e.getCount(), (ArrayList<OptionElementVO>) e.getOption(), e.getOid());
         }
+
+        //add drink
+        for(FoodElementVO e : OrderRequestVO.getInstance().getFood()){
+            cartListViewAdapter.addItem(e.getName(), e.getPrice() * e.getCount(), e.getPrice(), e.getCount(), (ArrayList<OptionElementVO>) e.getOption(), e.getOid());
+        }
+
         lvCart.setAdapter(cartListViewAdapter);
 
         Button btnOrderAll = (Button)findViewById(R.id.btn_order_all);
@@ -83,12 +96,15 @@ public class CartActivityV2 extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        TextView tvProductTotalPrice = (TextView) findViewById(R.id.tv_product_total_price);
+        tvProductTotalPrice.setText(OrderRequestVO.getInstance().getOrder_totalPrice() + "");
     }
 }
 
 class CartListViewAdapterV2 extends BaseAdapter {
     // Adapter에 추가된 데이터를 저장하기 위한 ArrayList
-    private ArrayList<CartListVO> listViewItemList = new ArrayList<CartListVO>() ;
+    private ArrayList<OrderProductListVO> listViewItemList = new ArrayList<OrderProductListVO>() ;
 
     // CartListViewAdapter 생성자
     public CartListViewAdapterV2() {
@@ -114,17 +130,22 @@ class CartListViewAdapterV2 extends BaseAdapter {
         }
 
         // 화면에 표시될 View(Layout이 inflate된)으로부터 위젯에 대한 참조 획득
-//        ImageView ivCartList = (ImageView) convertView.findViewById(R.id.iv_cart_list) ;
-//        TextView tvCartName = (TextView) convertView.findViewById(R.id.tv_cart_name) ;
-//        TextView tvCartPrice = (TextView) convertView.findViewById(R.id.tv_cart_price) ;
+        TextView tvProductName = (TextView)convertView.findViewById(R.id.tv_product_name);
+        TextView tvProductPrice = (TextView)convertView.findViewById(R.id.tv_product_price);
+        TextView tvProductUnitPrice = (TextView)convertView.findViewById(R.id.tv_product_unit_price);
+        TextView tvProductCnt = (TextView)convertView.findViewById(R.id.tv_product_cnt);
+        TextView tvOptions = (TextView)convertView.findViewById(R.id.tv_options);
 
         // Data Set(listViewItemList)에서 position에 위치한 데이터 참조 획득
-        CartListVO cartListVO = listViewItemList.get(position);
+        OrderProductListVO orderProductListVO = listViewItemList.get(position);
 
         // 아이템 내 각 위젯에 데이터 반영
-//        ivCartList.setImageDrawable(cartListVO.getImg());
-//        tvCartName.setText(cartListVO.getName());
-//        tvCartPrice.setText(cartListVO.getPrice() + "원");
+        tvProductName.setText(orderProductListVO.getProductName());
+        tvProductPrice.setText(orderProductListVO.getPrice()+"");
+        tvProductUnitPrice.setText(orderProductListVO.getUnitPrice()+"");
+        tvProductCnt.setText(orderProductListVO.getCount()+"");
+        tvOptions.setText(orderProductListVO.getOptionString());
+
 
         return convertView;
     }
@@ -142,20 +163,24 @@ class CartListViewAdapterV2 extends BaseAdapter {
     }
 
     // 아이템 데이터 추가를 위한 함수. 개발자가 원하는대로 작성 가능.
-    public void addItem(Drawable img, String name, int price, int type) {
-        CartListVO item = new CartListVO();
-
-        item.setImg(img);
-        item.setName(name);
-        item.setPrice(price);
-        item.setType(type);
+    public void addItem(String productName, int price, int unitPrice, int count, ArrayList<OptionElementVO> optionList, int oid) {
+        OrderProductListVO item = new OrderProductListVO(productName, price, unitPrice, count, optionList, oid);
 
         listViewItemList.add(item);
     }
 
     //아이템 삭제 해야하는 일이 있다.
-    public void removeItemByPos(int pos){
+    public void removeItemByPos(int pos, int type, int oid){
         listViewItemList.remove(pos);
+
+        //그 pos의 oid를 찾아서 OrderRequestVO에서도 삭제
+        if(type == OrderProductListVO.COFFEE){
+
+        }
+        else if(type == OrderProductListVO.SPECIAL_FOOD){
+
+        }
+
         notifyDataSetChanged();
     }
 }

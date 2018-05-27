@@ -1,5 +1,9 @@
 package com.shuttles.shuttlesapp.vo;
 
+import com.google.gson.Gson;
+import com.google.gson.annotations.Expose;
+
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -8,24 +12,82 @@ import java.util.List;
  */
 
 public class OrderRequestVO {
-    private String user_id;
-    private String order_address;
-    private String order_totalPrice;
+    private static OrderRequestVO instance = null;
 
-    private List<CoffeeElement> coffee = new ArrayList<>();
-    private List<FoodElement> food = new ArrayList<>();
+    private OrderRequestVO(){}
 
-    public void addCoffee(String coffeeName, int coffeeCount, int coffeeUnitPrice, List<String> optionNameList){
-        getCoffee().add(new CoffeeElement(coffeeName, coffeeCount, coffeeUnitPrice, optionNameList));
+    public static OrderRequestVO getInstance(){
+        if(instance == null){
+            instance = new OrderRequestVO();
+        }
+        return instance;
     }
 
-    public void addFood(String foodName, int foodCount, int foodUnitPrice, List<String> optionNameList){
-        getFood().add(new FoodElement(foodName, foodCount, foodUnitPrice, optionNameList));
+    private String user_id;
+    private String order_address;
+    private int order_totalPrice;
+
+    private List<DrinkElementVO> coffee = new ArrayList<>();
+    private transient int drinkObjectId = 0;
+    private List<FoodElementVO> food = new ArrayList<>();
+    private transient int foodObjectId = 0;
+
+    public boolean isValid(){
+        return user_id != null && order_address != null && order_totalPrice != 0 && (coffee.size() != 0 || food.size() != 0);
+    }
+
+    @Override
+    public String toString() {
+        Gson gson = new Gson();
+        return gson.toJson(this);
+    }
+
+    public void addCoffee(String coffeeName, int coffeeId, int coffeeCount, int coffeeOrgPrice, int coffeeUnitPrice, List<OptionElementVO> optionList){
+        int price = coffeeUnitPrice;
+        price *= coffeeCount;
+        this.order_totalPrice += price;
+        getCoffee().add(new DrinkElementVO(coffeeName, coffeeId, coffeeCount, coffeeOrgPrice, coffeeUnitPrice, drinkObjectId++, optionList));
+    }
+
+    public void addFood(String foodName, int foodId, int foodCount, int foodOrgPrice, int foodUnitPrice, List<OptionElementVO> optionList){
+        int price = foodUnitPrice;
+        price *= foodUnitPrice;
+        this.order_totalPrice += price;
+        getFood().add(new FoodElementVO(foodName, foodId, foodCount, foodOrgPrice, foodUnitPrice, foodObjectId++, optionList));
+    }
+
+    public void removeDrinkByOid(int oid){
+        int idx = -1;
+        for(int i=0; i<coffee.size(); i++){
+            if(coffee.get(i).getOid() == oid){
+                idx = i;
+                break;
+            }
+        }
+        if(idx != -1) {
+            coffee.remove(idx);
+        }
+    }
+
+    public void removeFoodByOid(int oid){
+        int idx = -1;
+        for(int i=0; i<food.size(); i++){
+            if(food.get(i).getOid() == oid){
+                idx = i;
+                break;
+            }
+        }
+        if(idx != -1) {
+            food.remove(idx);
+        }
     }
 
     public void clearOrderRequestVO(){
         coffee.clear();
         food.clear();
+        order_totalPrice = 0;
+        drinkObjectId = 0;
+        foodObjectId = 0;
     }
 
     public String getUser_id() {
@@ -44,167 +106,29 @@ public class OrderRequestVO {
         this.order_address = order_address;
     }
 
-    public String getOrder_totalPrice() {
+    public int getOrder_totalPrice() {
         return order_totalPrice;
     }
 
-    public void setOrder_totalPrice(String order_totalPrice) {
+    @Deprecated
+    public void setOrder_totalPrice(int order_totalPrice) {
         this.order_totalPrice = order_totalPrice;
     }
 
-    public List<CoffeeElement> getCoffee() {
+    public List<DrinkElementVO> getCoffee() {
         return coffee;
     }
 
-    public void setCoffee(List<CoffeeElement> coffee) {
+    public void setCoffee(List<DrinkElementVO> coffee) {
         this.coffee = coffee;
     }
 
-    public List<FoodElement> getFood() {
+    public List<FoodElementVO> getFood() {
         return food;
     }
 
-    public void setFood(List<FoodElement> food) {
+    public void setFood(List<FoodElementVO> food) {
         this.food = food;
     }
 
-    private class CoffeeElement{
-        private String name;
-        private int count;
-        private int price;
-
-        private List<OptionElement> option = new ArrayList<>();
-
-        CoffeeElement(String coffeeName, int coffeeCount, int coffeeUnitPrice, List<String> optionNameList){
-            name = coffeeName;
-            count = coffeeCount;
-            price = coffeeUnitPrice;
-
-            for(String s : optionNameList){
-                addDrinkOption(s);
-            }
-        }
-
-        private void addDrinkOption(String drinkOptionName){
-            getOption().add(new OptionElement(drinkOptionName));
-        }
-
-        public String getName() {
-            return name;
-        }
-
-        public void setName(String name) {
-            this.name = name;
-        }
-
-        public int getCount() {
-            return count;
-        }
-
-        public void setCount(int count) {
-            this.count = count;
-        }
-
-        public int getPrice() {
-            return price;
-        }
-
-        public void setPrice(int price) {
-            this.price = price;
-        }
-
-        public List<OptionElement> getOption() {
-            return option;
-        }
-
-        public void setOption(List<OptionElement> option) {
-            this.option = option;
-        }
-
-        private class OptionElement{
-            private String name;
-
-            OptionElement(String drinkOptionName){
-                name = drinkOptionName;
-            }
-
-            public String getName() {
-                return name;
-            }
-
-            public void setName(String name) {
-                this.name = name;
-            }
-        }
-    }
-
-    private class FoodElement{
-        private String name;
-        private int count;
-        private int price;
-
-        private List<OptionElement> option = new ArrayList<>();
-
-        FoodElement(String foodName, int foodCount, int foodUnitPrice, List<String> optionNameList){
-            name = foodName;
-            count = foodCount;
-            price = foodUnitPrice;
-
-            for(String s : optionNameList){
-                addFoodOption(s);
-            }
-        }
-
-        private void addFoodOption(String foodOptionName){
-            getOption().add(new OptionElement(foodOptionName));
-        }
-
-        public String getName() {
-            return name;
-        }
-
-        public void setName(String name) {
-            this.name = name;
-        }
-
-        public int getCount() {
-            return count;
-        }
-
-        public void setCount(int count) {
-            this.count = count;
-        }
-
-        public int getPrice() {
-            return price;
-        }
-
-        public void setPrice(int price) {
-            this.price = price;
-        }
-
-        public List<OptionElement> getOption() {
-            return option;
-        }
-
-        public void setOption(List<OptionElement> option) {
-            this.option = option;
-        }
-
-        private class OptionElement{
-            private String name;
-
-            OptionElement(String foodOptionName){
-                name = foodOptionName;
-            }
-
-            public String getName() {
-                return name;
-            }
-
-            public void setName(String name) {
-                this.name = name;
-            }
-        }
-    }
 }

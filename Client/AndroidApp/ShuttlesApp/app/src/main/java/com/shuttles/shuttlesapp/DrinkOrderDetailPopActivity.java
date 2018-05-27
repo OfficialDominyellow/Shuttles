@@ -1,6 +1,7 @@
 package com.shuttles.shuttlesapp;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -26,10 +27,12 @@ import com.shuttles.shuttlesapp.ConnectionController.RequestData;
 import com.shuttles.shuttlesapp.ConnectionController.RequestHandler;
 import com.shuttles.shuttlesapp.ConnectionController.ConnectionResponse;
 import com.shuttles.shuttlesapp.ConnectionController.RestAPI;
-import com.shuttles.shuttlesapp.vo.DrinkOptionVO;
+import com.shuttles.shuttlesapp.vo.OptionElementVO;
 import com.shuttles.shuttlesapp.vo.OrderRequestVO;
 
 import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -49,7 +52,7 @@ public class DrinkOrderDetailPopActivity extends AppCompatActivity implements Co
 
     private int mOrderCount = 1;
     private int mTotalPrice;
-    private List<DrinkOptionVO> mDrinkOptionList;
+    private List<OptionElementVO> mDrinkOptionList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -96,40 +99,64 @@ public class DrinkOrderDetailPopActivity extends AppCompatActivity implements Co
             }
         });
 
+        Button btnAddToCart = (Button)findViewById(R.id.btn_add_to_cart);
+        btnAddToCart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getApplicationContext(), "Click Add to cart", Toast.LENGTH_SHORT).show();
+                Log.i(TAG, "Click Add to cart");
+                addToCart();
+            }
+        });
         Button btnOrderNow = (Button)findViewById(R.id.btn_order_now);
         btnOrderNow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(isValidForm()){
-                    Toast.makeText(getApplicationContext(), "hoho", Toast.LENGTH_SHORT).show();
-                    OrderRequestVO orderRequestVO = new OrderRequestVO();
-                    orderRequestVO.setUser_id("rhxorhkd@naver.com");
-                    orderRequestVO.setOrder_address("너네집");
-                    orderRequestVO.setOrder_totalPrice(mTotalPrice+"");
-
-                    ArrayList<String> optionNameList = new ArrayList<>();
-                    for(DrinkOptionVO e : mDrinkOptionList){
-                        if(e.isAddition()) {
-                            optionNameList.add(e.getOption_name());
-                        }
-                    }
-                    orderRequestVO.addCoffee(mCoffeeName, mOrderCount, mUnitPrice, optionNameList);
-
-                    orderRequest(orderRequestVO);
+                Toast.makeText(getApplicationContext(), "Click Order Now", Toast.LENGTH_SHORT).show();
+                Log.i(TAG, "Click Order Now");
+                if(addToCart()){
+                    //orderRequest(OrderRequestVO.getInstance());
+                    Intent intent = new Intent(getApplicationContext(), CartActivityV2.class);
+                    startActivity(intent);
                 }
             }
         });
+        Log.i(TAG, "get coffee option URL : " + RestAPI.DRINK_OPTION + "/" + mCoffeeID);
         requestData = new RequestData("GET", RestAPI.DRINK_OPTION + "/" + mCoffeeID, RestAPI.REQUEST_TYPE_DRINK_OPTION_LIST);
         sendRequestData(requestData);
     }
 
+    private boolean addToCart(){
+        if(isValidForm()){
+            Log.i(TAG, "Valid Form");
+            Toast.makeText(getApplicationContext(), "hoho", Toast.LENGTH_SHORT).show();
+            OrderRequestVO.getInstance().setUser_id("dominyellow@gmail.com");
+            OrderRequestVO.getInstance().setOrder_address("너네집");
+
+            ArrayList<OptionElementVO> selectedOptionList = new ArrayList<>();
+            for(OptionElementVO e : mDrinkOptionList){
+                if(e.isAddition()){
+                    selectedOptionList.add(e);
+                }
+            }
+            OrderRequestVO.getInstance().addCoffee(mCoffeeName, Integer.parseInt(mCoffeeID), mOrderCount, mCoffeePrice, mUnitPrice, selectedOptionList);
+
+            Log.i(TAG, OrderRequestVO.getInstance()+"");
+        }
+        return isValidForm();
+    }
+
     private void orderRequest(OrderRequestVO e){
         Gson gson = new Gson();
-        JSONArray jsonArray = new JSONArray();
-        String jsonStr = gson.toJson(e);
-        jsonArray.put(jsonStr);
+        String jsonStr = e.toString();
+        JSONObject jsonObject= null;
+        try {
+            jsonObject = new JSONObject(jsonStr);
+        } catch (JSONException e1) {
+            e1.printStackTrace();
+        }
         Log.i(TAG, jsonStr);
-        orderRequestData = new RequestData("POST", RestAPI.ORDER, RestAPI.REQUEST_TYPE_ORDER, jsonArray);
+        orderRequestData = new RequestData("POST", RestAPI.ORDER, RestAPI.REQUEST_TYPE_ORDER, jsonObject);
         sendRequestData(orderRequestData);
     }
 
@@ -145,10 +172,10 @@ public class DrinkOrderDetailPopActivity extends AppCompatActivity implements Co
                 Log.i(TAG, "data : " + connectionResponse.getResult());
 
                 Gson gson = new Gson();
-                mDrinkOptionList = gson.fromJson(connectionResponse.getResult(), new TypeToken< List<DrinkOptionVO> >(){}.getType());
-                mDrinkOptionList.sort(new Comparator<DrinkOptionVO>() {
+                mDrinkOptionList = gson.fromJson(connectionResponse.getResult(), new TypeToken< List<OptionElementVO> >(){}.getType());
+                mDrinkOptionList.sort(new Comparator<OptionElementVO>() {
                     @Override
-                    public int compare(DrinkOptionVO o1, DrinkOptionVO o2) {
+                    public int compare(OptionElementVO o1, OptionElementVO o2) {
                         return o1.getOption_name().compareTo(o2.getOption_name());
                     }
                 });
@@ -159,7 +186,7 @@ public class DrinkOrderDetailPopActivity extends AppCompatActivity implements Co
                 Switch templateSw = (Switch)findViewById(R.id.sw_drink_option_addition);
                 TableRow tr;
                 for(int i=0; i<mDrinkOptionList.size(); i++){
-                    DrinkOptionVO e = mDrinkOptionList.get(i);
+                    OptionElementVO e = mDrinkOptionList.get(i);
                     Log.i(TAG, e.getOption_name() + " " + e.getOption_id() + " " + e.getOption_price());
                     tr = new TableRow(this);
                     TextView tv1 = new TextView(this);
@@ -190,7 +217,7 @@ public class DrinkOrderDetailPopActivity extends AppCompatActivity implements Co
                         @Override
                         public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                             for(int i=0; i<mDrinkOptionList.size(); i++){
-                                DrinkOptionVO e = mDrinkOptionList.get(i);
+                                OptionElementVO e = mDrinkOptionList.get(i);
                                 if(buttonView.getId() == e.getResId()){
                                     Log.i(TAG, e.toString());
 
@@ -228,7 +255,7 @@ public class DrinkOrderDetailPopActivity extends AppCompatActivity implements Co
 
     private void renewTotalPrice(){
         mUnitPrice = mCoffeePrice;
-        for(DrinkOptionVO e : mDrinkOptionList){
+        for(OptionElementVO e : mDrinkOptionList){
             if(e.isAddition()){
                 mUnitPrice += e.getOption_price();
             }
@@ -246,15 +273,22 @@ public class DrinkOrderDetailPopActivity extends AppCompatActivity implements Co
         }
         boolean hotCheck = false;
         boolean iceCheck = false;
-        for(DrinkOptionVO e : mDrinkOptionList){
-            if(e.getOption_name().toLowerCase().equals("hot") && e.isAddition()){
-                hotCheck = true;
+        boolean selectalbeHotIce = false; //차고 뜨거운 음료 구분 없으면 false
+        for(OptionElementVO e : mDrinkOptionList){
+            if(e.getOption_name().toLowerCase().equals("hot")){
+                selectalbeHotIce = true;
+                if(e.isAddition()) {
+                    hotCheck = true;
+                }
             }
-            if(e.getOption_name().toLowerCase().equals("ice") && e.isAddition()){
-                iceCheck = true;
+            if(e.getOption_name().toLowerCase().equals("ice")){
+                selectalbeHotIce = true;
+                if(e.isAddition()) {
+                    iceCheck = true;
+                }
             }
         }
-        if(!(hotCheck ^ iceCheck)){
+        if(selectalbeHotIce && !(hotCheck ^ iceCheck)){
             showAlertDialog("hot, ice 중 한가지를 선택해주세요.");
             return false;
         }

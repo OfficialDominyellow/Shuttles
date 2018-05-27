@@ -132,7 +132,7 @@
                             android:layout_height="wrap_content"
                             android:textColor="@color/black"
                             android:layout_weight="3"
-                            android:text="존나과라나"/>
+                            android:text="Error.."/>
                         <TextView
                             android:id="@+id/tv_drink_option_price"
                             android:layout_width="0dp"
@@ -187,6 +187,7 @@
                 android:layout_height="wrap_content"
                 android:padding="16dp">
                 <Button
+                    android:id="@+id/btn_add_to_cart"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@drawable/bg_login_selector"
