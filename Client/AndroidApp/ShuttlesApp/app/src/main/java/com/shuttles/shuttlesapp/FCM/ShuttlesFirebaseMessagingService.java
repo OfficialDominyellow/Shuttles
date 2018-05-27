@@ -11,11 +11,12 @@ public class ShuttlesFirebaseMessagingService extends FirebaseMessagingService {
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
         //추가한것
+        Log.i(Constants.LOG_TAG,"noti message : "+remoteMessage.getFrom());
         sendNotification(remoteMessage.getData().get("message"));
     }
 
     private void sendNotification(String messageBody) {
-        Log.i(Constants.LOG_TAG,"noti message : "+messageBody);
+        Log.i(Constants.LOG_TAG,"sendNotification");
        /* Intent intent = new Intent(this, MainActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0 , intent,

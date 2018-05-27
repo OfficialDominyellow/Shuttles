@@ -36,10 +36,6 @@ public class LoginActivity extends Activity {
         if(!Utils.checkNetworkState()){
             finish();
         }
-        UserInfo userInfo = UserInfo.getInstance();
-        String fcmToken = FirebaseInstanceId.getInstance().getToken();
-        Log.i(Constants.LOG_TAG,"fcmToken : " + fcmToken);
-        userInfo.setFcmToken(fcmToken);
 
         callback = new SessionCallback();
         Session.getCurrentSession().addCallback(callback);
@@ -107,6 +103,12 @@ public class LoginActivity extends Activity {
 
     protected void redirectSignupActivity() {       //세션 연결 성공 시 SignupActivity로 넘김
         final Intent intent = new Intent(this, KakaoSignupActivity.class);
+
+        UserInfo userInfo = UserInfo.getInstance();
+        String fcmToken = FirebaseInstanceId.getInstance().getToken();
+        Log.i(Constants.LOG_TAG,"fcmToken : " + fcmToken);
+        userInfo.setFcmToken(fcmToken);
+
         Log.i(Constants.LOG_TAG,"session success");
         intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
         startActivity(intent);

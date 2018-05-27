@@ -4,9 +4,19 @@ import android.util.Log;
 
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.FirebaseInstanceIdService;
+import com.shuttles.shuttlesapp.ConnectionController.ConnectionImpl;
+import com.shuttles.shuttlesapp.ConnectionController.ConnectionResponse;
+import com.shuttles.shuttlesapp.ConnectionController.RequestData;
+import com.shuttles.shuttlesapp.ConnectionController.RequestHandler;
+import com.shuttles.shuttlesapp.ConnectionController.RestAPI;
+import com.shuttles.shuttlesapp.ConnectionController.UserInfo;
 import com.shuttles.shuttlesapp.Utils.Constants;
 
-public class ShuttlesFirebaseInstanceIDService extends FirebaseInstanceIdService {
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+public class ShuttlesFirebaseInstanceIDService extends FirebaseInstanceIdService implements ConnectionImpl {
 
     /**
      * Called if InstanceID token is updated. This may occur if the security of
@@ -30,6 +40,41 @@ public class ShuttlesFirebaseInstanceIDService extends FirebaseInstanceIdService
      * @param token The new token.
      */
     private void sendRegistrationToServer(String token) {
-        //FCM 토큰 갱신
+        //TODO:FCM 토큰 갱신 아마존 서버한테 새로 보내야함
+        UserInfo userInfo = UserInfo.getInstance();
+        Log.i(Constants.LOG_TAG,"refresh token " + token);
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("user_id", userInfo.getProfile().getEmail());
+            jsonObject.put("pushId", userInfo.getFcmToken());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        JSONArray jsonArray = new JSONArray();
+        jsonArray.put(jsonObject);
+
+        RequestData postRefreshToken = new RequestData("POST", RestAPI.USER, RestAPI.REQUEST_TYPE_USER ,jsonObject);
+        sendRequestData(postRefreshToken);
+    }
+
+    @Override
+    public void sendRequestData(RequestData requestData) {
+        new RequestHandler(this).execute(requestData);
+    }
+
+    @Override
+    public void requestCallback(ConnectionResponse connectionResponse) {
+        switch (connectionResponse.getResponseType()){
+            case RestAPI.REQUEST_TYPE_FAILED:
+                Log.e(Constants.LOG_TAG, "request failed!");
+                break;
+            case RestAPI.REQUEST_TYPE_USER:
+                Log.e(Constants.LOG_TAG, "request success!");
+                break;
+
+            default:
+                break;
+        }
     }
 }

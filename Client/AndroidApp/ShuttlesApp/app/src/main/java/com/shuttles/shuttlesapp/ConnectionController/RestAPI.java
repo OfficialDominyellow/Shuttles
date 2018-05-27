@@ -17,6 +17,10 @@ public class RestAPI {
     public static final int REQUEST_TYPE_DRINK_LIST = 1;
     public static final int REQUEST_TYPE_ORDER = 2;
     public static final int REQUEST_TYPE_IMAGE_LOAD = 3;
-
     public static final int REQUEST_TYPE_DRINK_OPTION_LIST = 4;
+
+    public enum REQUEST{
+        REQUEST_TYPE_FAILED,
+        REQUEST_TYPE_USER,
+    }
 }
