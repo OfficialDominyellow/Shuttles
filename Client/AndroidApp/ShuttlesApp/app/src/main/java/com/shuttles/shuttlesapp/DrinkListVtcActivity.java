@@ -26,7 +26,6 @@ import com.shuttles.shuttlesapp.ConnectionController.RequestHandler;
 import com.shuttles.shuttlesapp.ConnectionController.ConnectionResponse;
 import com.shuttles.shuttlesapp.ConnectionController.RestAPI;
 import com.shuttles.shuttlesapp.Utils.Constants;
-import com.shuttles.shuttlesapp.vo.CartListVO;
 import com.shuttles.shuttlesapp.vo.DrinkListVO;
 
 import java.util.ArrayList;

@@ -8,7 +8,7 @@ public class DrinkDetailVO {
     private String name;
     private int price;
     private int size; //regular, large?
-    private DrinkOptionVO option;
+    private OptionElementVO option;
 
     public String getName() {
         return name;
@@ -34,11 +34,11 @@ public class DrinkDetailVO {
         this.size = size;
     }
 
-    public DrinkOptionVO getOption() {
+    public OptionElementVO getOption() {
         return option;
     }
 
-    public void setOption(DrinkOptionVO option) {
+    public void setOption(OptionElementVO option) {
         this.option = option;
     }
 }

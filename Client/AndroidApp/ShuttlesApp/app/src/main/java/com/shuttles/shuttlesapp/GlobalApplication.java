@@ -32,7 +32,7 @@ public class GlobalApplication extends Application {
     private static volatile GlobalApplication instance = null;
     private static volatile Activity currentActivity = null;
 
-    public static OrderRequestVO orderRequestVO = new OrderRequestVO();
+    //public static OrderRequestVO orderRequestVO = new OrderRequestVO();
 
     //Todo: Delete drinkList and specialFoodList
     public static volatile List<DrinkListVO> drinkList = null;
