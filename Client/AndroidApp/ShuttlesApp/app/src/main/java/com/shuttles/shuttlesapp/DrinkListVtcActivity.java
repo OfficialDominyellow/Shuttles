@@ -26,6 +26,7 @@ import com.shuttles.shuttlesapp.ConnectionController.RequestHandler;
 import com.shuttles.shuttlesapp.ConnectionController.ConnectionResponse;
 import com.shuttles.shuttlesapp.ConnectionController.RestAPI;
 import com.shuttles.shuttlesapp.Utils.Constants;
+import com.shuttles.shuttlesapp.vo.CartListVO;
 import com.shuttles.shuttlesapp.vo.DrinkListVO;
 
 import java.util.ArrayList;
@@ -112,7 +113,16 @@ public class DrinkListVtcActivity extends AppCompatActivity implements Connectio
                         onBackPressed(); // Implemented by activity
                     }
                 });
+
                 setCardView();
+                ImageView ivCart = (ImageView)findViewById(R.id.iv_cart_in_drink_list_vtc);
+                ivCart.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(getApplicationContext(), CartActivityV2.class);
+                        startActivity(intent);
+                    }
+                });
 
                 elvDrinkList = (ExpandableListView)findViewById(R.id.elv_drink_list_vtc);
 

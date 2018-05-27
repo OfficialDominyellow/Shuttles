@@ -13,7 +13,8 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme"
+        android:largeHeap = "true">
         <service android:name=".FCM.ShuttlesFirebaseMessagingService">
             <intent-filter>
                 <action android:name="com.google.firebase.INSTANCE_ID_EVENT"/>
@@ -25,7 +26,6 @@
                 <action android:name="com.google.firebase.INSTANCE_ID_EVENT"/>
             </intent-filter>
         </service>
-
 
         <activity
             android:name=".MainActivity"
@@ -110,7 +110,7 @@
         </activity>
 
         <activity
-            android:name=".CartActivity"
+            android:name=".CartActivityV2"
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
 

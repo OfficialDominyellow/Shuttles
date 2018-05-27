@@ -3,32 +3,25 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/itm_home"
-            android:title="홈"
-            android:icon="@drawable/ic_lock_white_18dp"/>
+            android:title="홈"/>
         <item
             android:id="@+id/itm_order"
-            android:title="주문하기"
-            android:icon="@drawable/ic_lock_white_18dp"/>
+            android:title="주문하기"/>
         <item
             android:id="@+id/itm_address"
-            android:title="주소록"
-            android:icon="@drawable/ic_lock_white_18dp"/>
+            android:title="주소록"/>
         <item
-            android:id="@+id/itm_event"
-            android:title="이벤트"
-            android:icon="@drawable/ic_lock_white_18dp"/>
+            android:id="@+id/itm_notice"
+            android:title="공지사항"/>
         <item
             android:id="@+id/itm_introduce"
-            android:title="제품소개"
-            android:icon="@drawable/ic_lock_white_18dp"/>
+            android:title="제품소개"/>
         <item
             android:id="@+id/itm_order_history"
-            android:title="주문내역조회"
-            android:icon="@drawable/ic_lock_white_18dp"/>
+            android:title="주문내역조회"/>
         <!--admin menu item -->
         <item
             android:id="@+id/itm_order_manage"
-            android:title="주문내역관리"
-            android:icon="@drawable/ic_lock_white_18dp"/>
+            android:title="주문내역관리"/>
     </group>
 </menu>
