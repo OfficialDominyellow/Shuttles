@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.shuttles.shuttlesapp.AddressActivity">
+    tools:context="com.shuttles.shuttlesapp.AddressListActivity">
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
@@ -37,7 +37,7 @@
                 android:layout_marginRight="10dp"
                 android:layout_centerHorizontal="true"
                 android:layout_centerVertical="true"
-                android:src="@drawable/ic_shopping_cart_white_12dp" />
+                android:src="@drawable/ic_add_location_white_48dp" />
 
         </android.support.v7.widget.Toolbar>
 

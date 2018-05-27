@@ -28,54 +28,48 @@
                 android:layout_gravity="center"
                 android:id="@+id/tv_toolbar_title" />
 
+            <ImageView
+                android:id="@+id/iv_add_address_in_delivery"
+                android:foreground="?android:attr/selectableItemBackground"
+                android:layout_gravity="end"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_marginRight="10dp"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:src="@drawable/ic_add_location_white_48dp" />
+
         </android.support.v7.widget.Toolbar>
 
     </android.support.design.widget.AppBarLayout>
 
-    <RelativeLayout
+
+    <LinearLayout
+        android:layout_above="@id/footer"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <LinearLayout
-            android:layout_above="@id/footer"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="배달 장소 마지막 수정 및 조회"/>
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/footer"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="16dp"
-            android:layout_alignParentBottom="true">
+            android:textAlignment="center"
+            android:text="등록된 주소가 없다면 추가해주세요."/>
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/lightGray" />
+    </LinearLayout>
 
-            <Button
-                android:id="@+id/btn_final_submit"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"
-                android:layout_marginTop="8dp"
-                android:background="@drawable/bg_login_selector"
-                android:clickable="true"
-                android:padding="10dp"
-                android:text="확인"
-                android:textAllCaps="false"
-                android:textColor="@color/colorAccent" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-        </LinearLayout>
-
-    </RelativeLayout>
+        <android.support.v7.widget.ListViewCompat
+            android:id="@+id/lv_address_list_in_delivery"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:dividerHeight="1dp"
+            android:divider="@color/lightGray"
+            android:scrollbars="vertical">
+        </android.support.v7.widget.ListViewCompat>
+    </LinearLayout>
 
 </LinearLayout>

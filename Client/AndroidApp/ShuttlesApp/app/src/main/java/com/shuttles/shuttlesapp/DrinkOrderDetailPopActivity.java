@@ -1,6 +1,7 @@
 package com.shuttles.shuttlesapp;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -114,7 +115,9 @@ public class DrinkOrderDetailPopActivity extends AppCompatActivity implements Co
                 Toast.makeText(getApplicationContext(), "Click Order Now", Toast.LENGTH_SHORT).show();
                 Log.i(TAG, "Click Order Now");
                 if(addToCart()){
-                    orderRequest(OrderRequestVO.getInstance());
+                    //orderRequest(OrderRequestVO.getInstance());
+                    Intent intent = new Intent(getApplicationContext(), CartActivityV2.class);
+                    startActivity(intent);
                 }
             }
         });
