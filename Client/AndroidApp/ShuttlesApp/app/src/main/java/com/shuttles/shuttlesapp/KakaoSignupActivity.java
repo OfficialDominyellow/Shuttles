@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 
+import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.kakao.auth.ErrorCode;
@@ -84,6 +85,11 @@ public class KakaoSignupActivity extends Activity implements ConnectionImpl {
                 //user의 유니크한 정보를 여기서 추출
                 Log.i(Constants.LOG_TAG, "User ID:" + userProfile.getId() + " userNickname: " + userProfile.getNickname()
                         + " UUID:" + userProfile.getUUID() + " email : " + userProfile.getEmail());
+
+                String fcmToken = FirebaseInstanceId.getInstance().getToken();
+                Log.i(Constants.LOG_TAG,"fcmToken : " + fcmToken);
+
+                userInfo.setFcmToken(fcmToken);
                 userInfo.setProfile(userProfile);
 
                 JSONObject jsonObject = new JSONObject();

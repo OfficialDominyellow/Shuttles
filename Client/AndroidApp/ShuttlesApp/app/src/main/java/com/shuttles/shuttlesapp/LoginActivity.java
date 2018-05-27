@@ -36,10 +36,6 @@ public class LoginActivity extends Activity {
         if(!Utils.checkNetworkState()){
             finish();
         }
-        UserInfo userInfo = UserInfo.getInstance();
-        String fcmToken = FirebaseInstanceId.getInstance().getToken();
-        Log.i(Constants.LOG_TAG,"fcmToken : " + fcmToken);
-        userInfo.setFcmToken(fcmToken);
 
         callback = new SessionCallback();
         Session.getCurrentSession().addCallback(callback);
