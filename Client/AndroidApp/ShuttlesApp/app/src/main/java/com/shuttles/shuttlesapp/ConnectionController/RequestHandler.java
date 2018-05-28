@@ -66,10 +66,9 @@ public class RequestHandler extends AsyncTask<RequestData, Void, String> {
                 os.flush();
                 os.close();
                 Log.i(Constants.LOG_TAG, "upload : " + requestData.getPostData());
-                Log.i(Constants.LOG_TAG, "Use RESTAPI:" + requestData.getRestURL());
             } else
                 conn.setDoOutput(false);
-
+            Log.i(Constants.LOG_TAG, "Method "+ requestData.getMethod() + " Use RESTAPI:" + requestData.getRestURL());
             /*
            if (conn.getResponseCode() != HttpURLConnection.HTTP_OK) {//check server connection state
                 Log.e(Constants.LOG_TAG, "HTTP Connection Error");
@@ -127,7 +126,7 @@ public class RequestHandler extends AsyncTask<RequestData, Void, String> {
 
         if(result.equals(Constants.RESPONSE_FAIL)) {
             Log.e(Constants.LOG_TAG, "Reponse Failed!");
-            connectionResponse.setResponseType(RestAPI.REQUEST_TYPE_FAILED);
+            connectionResponse.setRequestType(RestAPI.REQUEST_TYPE.FAILED);
         }
         else {
             Log.i(Constants.LOG_TAG,"Reponse success!");
@@ -141,7 +140,7 @@ public class RequestHandler extends AsyncTask<RequestData, Void, String> {
             //TODO if 조건 만족하면
             requestData.setResult(resultArray.toString());
             */
-            connectionResponse.setResponseType(requestData.getRequest_type());
+            connectionResponse.setRequestType(requestData.getRequestType());
             connectionResponse.setResult(result);
         }
 

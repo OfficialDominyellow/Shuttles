@@ -54,7 +54,7 @@ public class ShuttlesFirebaseInstanceIDService extends FirebaseInstanceIdService
         JSONArray jsonArray = new JSONArray();
         jsonArray.put(jsonObject);
 
-        RequestData postRefreshToken = new RequestData("POST", RestAPI.USER, RestAPI.REQUEST_TYPE_USER ,jsonObject);
+        RequestData postRefreshToken = new RequestData("POST", RestAPI.USER, RestAPI.REQUEST_TYPE.USER ,jsonObject);
         sendRequestData(postRefreshToken);
     }
 
@@ -65,11 +65,11 @@ public class ShuttlesFirebaseInstanceIDService extends FirebaseInstanceIdService
 
     @Override
     public void requestCallback(ConnectionResponse connectionResponse) {
-        switch (connectionResponse.getResponseType()){
-            case RestAPI.REQUEST_TYPE_FAILED:
+        switch (connectionResponse.getRequestType()){
+            case FAILED:
                 Log.e(Constants.LOG_TAG, "request failed!");
                 break;
-            case RestAPI.REQUEST_TYPE_USER:
+            case USER:
                 Log.e(Constants.LOG_TAG, "request success!");
                 break;
 

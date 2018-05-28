@@ -160,10 +160,10 @@ public class ImageLoadHandler extends AsyncTask<List<? extends Product>, Void, S
                 }
             }
             Log.i(Constants.LOG_TAG, "End Load Picture");
-            connectionResponse.setResponseType(RestAPI.REQUEST_TYPE_IMAGE_LOAD);
+            connectionResponse.setRequestType(RestAPI.REQUEST_TYPE.IMAGE_LOAD);
         } else {
             Log.e(Constants.LOG_TAG, "Image download fail!");
-            connectionResponse.setResponseType(RestAPI.REQUEST_TYPE_FAILED);
+            connectionResponse.setRequestType(RestAPI.REQUEST_TYPE.FAILED);
         }
         delegate.requestCallback(connectionResponse);
     }

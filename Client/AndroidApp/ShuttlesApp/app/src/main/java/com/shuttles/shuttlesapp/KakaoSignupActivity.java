@@ -103,7 +103,7 @@ public class KakaoSignupActivity extends Activity implements ConnectionImpl {
                 JSONArray jsonArray = new JSONArray();
                 jsonArray.put(jsonObject);
 
-                RequestData postUserData = new RequestData("POST", RestAPI.USER, RestAPI.REQUEST_TYPE_USER ,jsonObject);
+                RequestData postUserData = new RequestData("POST", RestAPI.USER, RestAPI.REQUEST_TYPE.USER ,jsonObject);
                 sendRequestData(postUserData);
             }
         });
@@ -134,13 +134,13 @@ public class KakaoSignupActivity extends Activity implements ConnectionImpl {
         Log.i(Constants.LOG_TAG,"requstCallback");
         dialog.dismiss();
 
-        switch (connectionResponse.getResponseType()) {
-            case RestAPI.REQUEST_TYPE_FAILED:
+        switch (connectionResponse.getRequestType()) {
+            case FAILED:
                 Log.e(Constants.LOG_TAG, "request failed!");
                 redirectLoginActivity();
                 break;
 
-            case RestAPI.REQUEST_TYPE_USER:
+            case USER:
                 JsonObject rootObject = new JsonParser().parse(connectionResponse.getResult()).getAsJsonObject();
                 String userTypeResponse = rootObject.get("result").toString();
                 Log.i(Constants.LOG_TAG, "User Type : "+userTypeResponse);

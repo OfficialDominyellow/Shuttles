@@ -44,7 +44,7 @@ public class DrinkListActivity extends AppCompatActivity implements ConnectionIm
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        requestData = new RequestData("GET", RestAPI.DRINK_LIST, RestAPI.REQUEST_TYPE_DRINK_LIST);
+        requestData = new RequestData("GET", RestAPI.DRINK_LIST, RestAPI.REQUEST_TYPE.DRINK_LIST);
         sendRequestData(requestData);
     }
 
@@ -55,11 +55,11 @@ public class DrinkListActivity extends AppCompatActivity implements ConnectionIm
 
     @Override
     public void requestCallback(ConnectionResponse connectionResponse) {
-        switch (connectionResponse.getResponseType()) {
-            case RestAPI.REQUEST_TYPE_FAILED:
+        switch (connectionResponse.getRequestType()) {
+            case FAILED:
                 //failed
                 break;
-            case RestAPI.REQUEST_TYPE_DRINK_LIST:
+            case DRINK_LIST:
                 //set VO class
                 Gson gson = new Gson();
                 List<DrinkListVO> drinkList = gson.fromJson(connectionResponse.getResult(), new TypeToken<List<DrinkListVO>>() {
@@ -71,7 +71,7 @@ public class DrinkListActivity extends AppCompatActivity implements ConnectionIm
 
                 new ImageLoadHandler(this).execute(drinkList);
                 break;
-            case RestAPI.REQUEST_TYPE_IMAGE_LOAD:
+            case IMAGE_LOAD:
                 Log.i(Constants.LOG_TAG,"Image Load callback");
                 setContentView(R.layout.drink_list_layout);
 

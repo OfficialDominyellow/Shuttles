@@ -8,6 +8,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.ListViewCompat;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,11 +18,18 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.shuttles.shuttlesapp.ConnectionController.ConnectionImpl;
+import com.shuttles.shuttlesapp.ConnectionController.ConnectionResponse;
+import com.shuttles.shuttlesapp.ConnectionController.RequestData;
+import com.shuttles.shuttlesapp.ConnectionController.RequestHandler;
+import com.shuttles.shuttlesapp.ConnectionController.RestAPI;
+import com.shuttles.shuttlesapp.ConnectionController.UserInfo;
+import com.shuttles.shuttlesapp.Utils.Constants;
 import com.shuttles.shuttlesapp.vo.OrderHistoryListVO;
 
 import java.util.ArrayList;
 
-public class OrderHistoryActivity extends AppCompatActivity {
+public class OrderHistoryActivity extends AppCompatActivity implements ConnectionImpl{
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,6 +64,8 @@ public class OrderHistoryActivity extends AppCompatActivity {
             }
         });
 
+        loadOrderHistory();
+
         //add dummy data
         for(int i=0; i<15; i++){
             orderHistoryListViewAdapter.addItem("제육 외 " + i + "건", "AA"+i+"A"+i+"BB", i%4) ;
@@ -63,6 +73,23 @@ public class OrderHistoryActivity extends AppCompatActivity {
         }
 
         lvOrderHistory.setAdapter(orderHistoryListViewAdapter);
+    }
+
+    private void loadOrderHistory() {
+        Log.i(Constants.LOG_TAG, "loadOrderHistory");
+        String userEmail = UserInfo.getInstance().getProfile().getEmail();
+        RequestData requestOrderHistory = new RequestData("GET", RestAPI.ORDER+"/"+userEmail, RestAPI.REQUEST_TYPE.ORDER_DETAIL);
+        sendRequestData(requestOrderHistory);
+    }
+
+    @Override
+    public void sendRequestData(RequestData requestData) {
+        new RequestHandler(this).execute(requestData);
+    }
+
+    @Override
+    public void requestCallback(ConnectionResponse connectionResponse) {
+        Log.i(Constants.LOG_TAG, "response :"+connectionResponse.getResult());
     }
 }
 

@@ -45,7 +45,7 @@ public class DrinkListVtcActivity extends AppCompatActivity implements Connectio
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        requestData = new RequestData("GET", RestAPI.DRINK_LIST, RestAPI.REQUEST_TYPE_DRINK_LIST);
+        requestData = new RequestData("GET", RestAPI.DRINK_LIST, RestAPI.REQUEST_TYPE.DRINK_LIST);
         sendRequestData(requestData);
     }
 
@@ -83,11 +83,11 @@ public class DrinkListVtcActivity extends AppCompatActivity implements Connectio
 
     @Override
     public void requestCallback(ConnectionResponse connectionResponse) {
-        switch (connectionResponse.getResponseType()) {
-            case RestAPI.REQUEST_TYPE_FAILED:
+        switch (connectionResponse.getRequestType()) {
+            case FAILED:
                 //failed
                 break;
-            case RestAPI.REQUEST_TYPE_DRINK_LIST:
+            case DRINK_LIST:
                 //set VO class
                 Gson gson = new Gson();
 
@@ -101,7 +101,7 @@ public class DrinkListVtcActivity extends AppCompatActivity implements Connectio
 
                 new ImageLoadHandler(this).execute(drinkList);
                 break;
-            case RestAPI.REQUEST_TYPE_IMAGE_LOAD:
+            case IMAGE_LOAD:
                 setContentView(R.layout.drink_list_vtc_layout);
 
                 Toolbar toolbar = (Toolbar) findViewById(R.id.tb_drink_list_vtc);

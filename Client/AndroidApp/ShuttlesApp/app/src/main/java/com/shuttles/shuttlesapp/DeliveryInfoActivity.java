@@ -135,7 +135,7 @@ public class DeliveryInfoActivity extends AppCompatActivity implements Connectio
             e1.printStackTrace();
         }
         Log.i(TAG, jsonStr);
-        orderRequestData = new RequestData("POST", RestAPI.ORDER, RestAPI.REQUEST_TYPE_ORDER, jsonObject);
+        orderRequestData = new RequestData("POST", RestAPI.ORDER, RestAPI.REQUEST_TYPE.ORDER, jsonObject);
         sendRequestData(orderRequestData);
     }
 
@@ -146,11 +146,11 @@ public class DeliveryInfoActivity extends AppCompatActivity implements Connectio
 
     @Override
     public void requestCallback(ConnectionResponse connectionResponse) {
-        switch(connectionResponse.getResponseType()){
-            case RestAPI.REQUEST_TYPE_ORDER:
+        switch(connectionResponse.getRequestType()){
+            case ORDER:
                 Log.e(TAG, "Order Request.");
                 break;
-            case RestAPI.REQUEST_TYPE_FAILED:
+            case FAILED:
                 Log.e(TAG, "Request Fail.");
                 break;
             default:

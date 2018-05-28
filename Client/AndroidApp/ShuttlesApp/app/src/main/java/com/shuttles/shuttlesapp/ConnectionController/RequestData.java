@@ -10,27 +10,27 @@ import org.json.JSONObject;
 public class RequestData {
     private String method;
     private String restURL;
-    private int request_type;
+    RestAPI.REQUEST_TYPE requestType;
     private String postData;
     private JSONArray uploadJsonArray;
 
-    public RequestData(String method, String restURL, int request_type){
+    public RequestData(String method, String restURL, RestAPI.REQUEST_TYPE requestType){
         this.method = method;
         this.restURL = restURL;
-        this.request_type = request_type;
+        this.requestType = requestType;
     }
 
-    public RequestData(String method, String restURL, int request_type, JSONObject uploadJsonObject){
+    public RequestData(String method, String restURL, RestAPI.REQUEST_TYPE requestType, JSONObject uploadJsonObject){
         this.method = method;
         this.restURL = restURL;
-        this.request_type = request_type;
+        this.requestType = requestType;
         this.postData = uploadJsonObject.toString();
     }
 
-    public RequestData(String method, String restURL, int request_type, JSONArray uploadJsonArray){
+    public RequestData(String method, String restURL, RestAPI.REQUEST_TYPE requestType, JSONArray uploadJsonArray){
         this.method = method;
         this.restURL = restURL;
-        this.request_type = request_type;
+        this.requestType = requestType;
         this.postData = uploadJsonArray.toString();
     }
 
@@ -58,12 +58,12 @@ public class RequestData {
         this.uploadJsonArray = uploadJsonArray;
     }
 
-    public int getRequest_type() {
-        return request_type;
+    public RestAPI.REQUEST_TYPE getRequestType() {
+        return requestType;
     }
 
-    public void setRequest_type(int request_type) {
-        this.request_type = request_type;
+    public void setRequestType(RestAPI.REQUEST_TYPE request_type) {
+        this.requestType = request_type;
     }
 
     public String getPostData() {
