@@ -51,9 +51,9 @@ public class OrderHistoryActivity extends AppCompatActivity implements Connectio
     }
 
     private void loadOrderHistory() {
-        Log.i(Constants.LOG_TAG, "loadOrderHistory");
+        Log.i(TAG, "loadOrderHistory");
         String userEmail = UserInfo.getInstance().getProfile().getEmail();
-        RequestData requestData = new RequestData("GET", RestAPI.ORDER+"/"+userEmail, RestAPI.REQUEST_TYPE.ORDER_DETAIL);
+        RequestData requestData = new RequestData("GET", RestAPI.ORDER+"/"+userEmail, RestAPI.REQUEST_TYPE.ORDER);
         sendRequestData(requestData);
     }
 
@@ -70,7 +70,7 @@ public class OrderHistoryActivity extends AppCompatActivity implements Connectio
                 //failed
                 Log.i(TAG, "callback FAILED");
                 break;
-            case ORDER_DETAIL:
+            case ORDER:
                 Log.i(TAG, "callback ORDER");
                 ListViewCompat lvOrderHistory = (ListViewCompat) findViewById(R.id.lv_order_history);
                 lvOrderHistory.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -85,6 +85,7 @@ public class OrderHistoryActivity extends AppCompatActivity implements Connectio
 
                         Toast.makeText(getApplicationContext(), "order id : " + orderId + ", orderPrice : " + orderPrice + ", status : " + orderState + ", statusStatement : " + orderStateString +", pos : " + i, Toast.LENGTH_SHORT).show();
                         Intent intent = new Intent(getApplicationContext(), OrderReceiptActivity.class);
+                        intent.putExtra("orderId", orderId);
                         startActivity(intent);
                     }
                 });

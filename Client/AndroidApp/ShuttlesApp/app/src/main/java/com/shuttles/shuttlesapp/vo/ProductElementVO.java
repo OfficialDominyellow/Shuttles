@@ -8,7 +8,7 @@ import java.util.List;
  */
 
 abstract public class ProductElementVO {
-    private transient String name;
+    private String name;
     private int id;
     private int count;
     private transient int originalPrice; //option 제외 가격
