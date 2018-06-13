@@ -1,10 +1,9 @@
 package com.shuttles.shuttlesapp;
 
+import android.app.DownloadManager;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.ListViewCompat;
 import android.support.v7.widget.Toolbar;
@@ -14,10 +13,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.shuttles.shuttlesapp.ConnectionController.ConnectionImpl;
 import com.shuttles.shuttlesapp.ConnectionController.ConnectionResponse;
 import com.shuttles.shuttlesapp.ConnectionController.RequestData;
@@ -28,9 +28,11 @@ import com.shuttles.shuttlesapp.Utils.Constants;
 import com.shuttles.shuttlesapp.vo.OrderHistoryListVO;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class OrderHistoryActivity extends AppCompatActivity implements ConnectionImpl{
-
+    private String TAG = "OrderHistoryActivity";
+    private String mOrderHistoryData;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,41 +47,14 @@ public class OrderHistoryActivity extends AppCompatActivity implements Connectio
             }
         });
 
-        ListViewCompat lvOrderHistory = (ListViewCompat) findViewById(R.id.lv_order_history);
-        final OrderHistoryListViewAdapter orderHistoryListViewAdapter = new OrderHistoryListViewAdapter();
-
-        lvOrderHistory.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                OrderHistoryListVO orderHistoryListVO = (OrderHistoryListVO) adapterView.getItemAtPosition(i);
-
-                String title = orderHistoryListVO.getTitle();
-                String orderSerial = orderHistoryListVO.getOrderSerial();
-                int status = orderHistoryListVO.getStatus();
-                String statusStatement = orderHistoryListVO.getStatusStatement();
-
-                Toast.makeText(getApplicationContext(), "titlie : " + title + ", serial : " + orderSerial + ", status : " + status + ", statusStatement : " + statusStatement +", pos : " + i, Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(getApplicationContext(), OrderReceiptActivity.class);
-                startActivity(intent);
-            }
-        });
-
         loadOrderHistory();
-
-        //add dummy data
-        for(int i=0; i<15; i++){
-            orderHistoryListViewAdapter.addItem("제육 외 " + i + "건", "AA"+i+"A"+i+"BB", i%4) ;
-            orderHistoryListViewAdapter.addItem("커피 외 " + i + "건", "AA"+i+"A"+i+"BB", i%4) ;
-        }
-
-        lvOrderHistory.setAdapter(orderHistoryListViewAdapter);
     }
 
     private void loadOrderHistory() {
         Log.i(Constants.LOG_TAG, "loadOrderHistory");
         String userEmail = UserInfo.getInstance().getProfile().getEmail();
-        RequestData requestOrderHistory = new RequestData("GET", RestAPI.ORDER+"/"+userEmail, RestAPI.REQUEST_TYPE.ORDER_DETAIL);
-        sendRequestData(requestOrderHistory);
+        RequestData requestData = new RequestData("GET", RestAPI.ORDER+"/"+userEmail, RestAPI.REQUEST_TYPE.ORDER_DETAIL);
+        sendRequestData(requestData);
     }
 
     @Override
@@ -89,7 +64,42 @@ public class OrderHistoryActivity extends AppCompatActivity implements Connectio
 
     @Override
     public void requestCallback(ConnectionResponse connectionResponse) {
-        Log.i(Constants.LOG_TAG, "response :"+connectionResponse.getResult());
+        Log.i(TAG, "response : " + connectionResponse.getResult());
+        switch (connectionResponse.getRequestType()) {
+            case FAILED:
+                //failed
+                Log.i(TAG, "callback FAILED");
+                break;
+            case ORDER_DETAIL:
+                Log.i(TAG, "callback ORDER");
+                ListViewCompat lvOrderHistory = (ListViewCompat) findViewById(R.id.lv_order_history);
+                lvOrderHistory.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                        OrderHistoryListVO orderHistoryListVO = (OrderHistoryListVO) adapterView.getItemAtPosition(i);
+
+                        int orderId = orderHistoryListVO.getOrderId();
+                        int orderPrice = orderHistoryListVO.getOrderPrice();
+                        int orderState = orderHistoryListVO.getOrderState();
+                        String orderStateString = orderHistoryListVO.getStatusStatement();
+
+                        Toast.makeText(getApplicationContext(), "order id : " + orderId + ", orderPrice : " + orderPrice + ", status : " + orderState + ", statusStatement : " + orderStateString +", pos : " + i, Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(getApplicationContext(), OrderReceiptActivity.class);
+                        startActivity(intent);
+                    }
+                });
+                final OrderHistoryListViewAdapter orderHistoryListViewAdapter = new OrderHistoryListViewAdapter();
+                Gson gson = new Gson();
+                mOrderHistoryData = connectionResponse.getResult();
+                List<OrderHistoryListVO> orderHistoryList =  gson.fromJson(mOrderHistoryData, new TypeToken<List<OrderHistoryListVO>>(){}.getType());
+
+                for(OrderHistoryListVO e : orderHistoryList) {
+                    orderHistoryListViewAdapter.addItem(e.getOrderId(), e.getOrderPrice(), e.getOrderState());
+                }
+
+                lvOrderHistory.setAdapter(orderHistoryListViewAdapter);
+                break;
+        }
     }
 }
 
@@ -121,8 +131,7 @@ class OrderHistoryListViewAdapter extends BaseAdapter {
         }
 
         // 화면에 표시될 View(Layout이 inflate된)으로부터 위젯에 대한 참조 획득
-        TextView tvOrderHistoryTitle = (TextView) convertView.findViewById(R.id.tv_order_history_title);
-        TextView tvOrderHistorySerial = (TextView) convertView.findViewById(R.id.tv_order_history_serial);
+        TextView tvOrderHistoryPrice = (TextView) convertView.findViewById(R.id.tv_order_price);
         TextView tvOrderHistoryStatus = (TextView) convertView.findViewById(R.id.tv_order_history_status);
 
 
@@ -130,10 +139,8 @@ class OrderHistoryListViewAdapter extends BaseAdapter {
         OrderHistoryListVO orderHistoryListVO = listViewItemList.get(position);
 
         // 아이템 내 각 위젯에 데이터 반영
-        tvOrderHistoryTitle.setText(orderHistoryListVO.getTitle());
-        tvOrderHistorySerial.setText(orderHistoryListVO.getOrderSerial());
+        tvOrderHistoryPrice.setText(orderHistoryListVO.getOrderPrice() + "");
         tvOrderHistoryStatus.setText(orderHistoryListVO.getStatusStatement());
-
 
         return convertView;
     }
@@ -151,12 +158,12 @@ class OrderHistoryListViewAdapter extends BaseAdapter {
     }
 
     // 아이템 데이터 추가를 위한 함수. 개발자가 원하는대로 작성 가능.
-    public void addItem(String title, String orderSerial, int status) {
+    public void addItem(int orderId, int orderPrice, int orderState) {
         OrderHistoryListVO item = new OrderHistoryListVO();
 
-        item.setTitle(title);
-        item.setOrderSerial(orderSerial);
-        item.setStatus(status);
+        item.setOrderId(orderId);
+        item.setOrderPrice(orderPrice);
+        item.setOrderState(orderState);
 
         listViewItemList.add(item);
     }

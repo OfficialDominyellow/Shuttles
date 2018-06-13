@@ -36,15 +36,15 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="주문번호 : "
+                android:text="주문 총액 : "
                 android:textSize="16dp"
                 android:textColor="@color/darkGray"
                 android:gravity="center_vertical" />
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="주문번호"
-                android:id="@+id/tv_order_history_serial"
+                android:text="0원"
+                android:id="@+id/tv_order_price"
                 android:textSize="16dp"
                 android:textColor="@color/darkGray"
                 android:gravity="center_vertical" />
