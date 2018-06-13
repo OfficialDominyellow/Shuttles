@@ -28,6 +28,7 @@ import com.shuttles.shuttlesapp.Utils.Constants;
 import com.shuttles.shuttlesapp.vo.OrderHistoryListVO;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 public class OrderHistoryActivity extends AppCompatActivity implements ConnectionImpl{
@@ -94,6 +95,13 @@ public class OrderHistoryActivity extends AppCompatActivity implements Connectio
                 mOrderHistoryData = connectionResponse.getResult();
                 List<OrderHistoryListVO> orderHistoryList =  gson.fromJson(mOrderHistoryData, new TypeToken<List<OrderHistoryListVO>>(){}.getType());
 
+                orderHistoryList.sort(new Comparator<OrderHistoryListVO>() {
+                    @Override
+                    public int compare(OrderHistoryListVO o1, OrderHistoryListVO o2) {
+                        return o2.getOrderId() - o1.getOrderId();
+                    }
+                });
+
                 for(OrderHistoryListVO e : orderHistoryList) {
                     orderHistoryListViewAdapter.addItem(e.getOrderId(), e.getOrderPrice(), e.getOrderState());
                 }
@@ -132,6 +140,7 @@ class OrderHistoryListViewAdapter extends BaseAdapter {
         }
 
         // 화면에 표시될 View(Layout이 inflate된)으로부터 위젯에 대한 참조 획득
+        TextView tvOrderAddress = (TextView) convertView.findViewById(R.id.tv_order_address);
         TextView tvOrderHistoryPrice = (TextView) convertView.findViewById(R.id.tv_order_price);
         TextView tvOrderHistoryStatus = (TextView) convertView.findViewById(R.id.tv_order_history_status);
 
@@ -140,7 +149,8 @@ class OrderHistoryListViewAdapter extends BaseAdapter {
         OrderHistoryListVO orderHistoryListVO = listViewItemList.get(position);
 
         // 아이템 내 각 위젯에 데이터 반영
-        tvOrderHistoryPrice.setText(orderHistoryListVO.getOrderPrice() + "");
+        tvOrderAddress.setText(orderHistoryListVO.getOrderId() + "");
+        tvOrderHistoryPrice.setText(orderHistoryListVO.getOrderPrice() + "원");
         tvOrderHistoryStatus.setText(orderHistoryListVO.getStatusStatement());
 
         return convertView;
