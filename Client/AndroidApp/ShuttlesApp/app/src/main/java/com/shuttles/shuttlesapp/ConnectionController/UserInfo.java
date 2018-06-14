@@ -7,9 +7,10 @@ import com.shuttles.shuttlesapp.Utils.Constants;
 
 public class UserInfo {
     private static UserInfo userInfoInstance = new UserInfo();
-    private Type userType;
-    private String fcmToken;
-    private UserProfile profile;
+
+    private Type userType = null;
+    private String fcmToken = null;
+    private UserProfile profile = null;
 
     public String getFcmToken() {
         return fcmToken;
@@ -23,7 +24,10 @@ public class UserInfo {
         customer,owner;
     }
 
-    private UserInfo(){ }
+    private UserInfo()
+    {
+
+    }
 
     public static UserInfo getInstance() {
         return userInfoInstance;

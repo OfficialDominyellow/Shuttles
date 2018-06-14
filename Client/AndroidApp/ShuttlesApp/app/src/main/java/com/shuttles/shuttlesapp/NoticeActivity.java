@@ -8,6 +8,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.ListViewCompat;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,11 +18,21 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+import com.shuttles.shuttlesapp.ConnectionController.ConnectionImpl;
+import com.shuttles.shuttlesapp.ConnectionController.ConnectionResponse;
+import com.shuttles.shuttlesapp.ConnectionController.RequestData;
+import com.shuttles.shuttlesapp.ConnectionController.RequestHandler;
+import com.shuttles.shuttlesapp.ConnectionController.RestAPI;
 import com.shuttles.shuttlesapp.vo.NoticeListVO;
 
 import java.util.ArrayList;
+import java.util.List;
 
-public class NoticeActivity extends AppCompatActivity {
+public class NoticeActivity extends AppCompatActivity implements ConnectionImpl{
+    private String TAG = "NoticeActivity";
+    private String mNoticeData;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,12 +65,65 @@ public class NoticeActivity extends AppCompatActivity {
             }
         });
 
+
+        loadAllNotice();
+        /*
         //add dummy data
         for(int i=0; i<15; i++){
             noticeListViewAdapter.addItem("제목제목제목" + i, "내용냉녀욘애뇨내뇽........" + i);
         }
+        */
+    }
 
-        lvNotice.setAdapter(noticeListViewAdapter);
+    private void loadAllNotice() {
+        RequestData requestData = new RequestData("GET", RestAPI.NOTICE, RestAPI.REQUEST_TYPE.NOTICE);
+        sendRequestData(requestData);
+    }
+
+    @Override
+    public void sendRequestData(RequestData requestData) {
+        new RequestHandler(this).execute(requestData);
+    }
+
+    @Override
+    public void requestCallback(ConnectionResponse connectionResponse) {
+        switch (connectionResponse.getRequestType()){
+            case FAILED:
+                Log.i(TAG,"callback failed");
+                break;
+
+            case NOTICE:
+                Log.i(TAG,"Notice response success");
+
+                ListViewCompat lvNotice = (ListViewCompat) findViewById(R.id.lv_notice);
+
+                lvNotice.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                        NoticeListVO noticeListVO = (NoticeListVO) adapterView.getItemAtPosition(i);
+
+                        String title = noticeListVO.getTitle();
+                        String content = noticeListVO.getContent();
+
+                        Toast.makeText(getApplicationContext(), "titlie : " + title + ", content : " + content + ", pos : " + i, Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(getApplicationContext(), NoticeDetailActivity.class);
+                        startActivity(intent);
+                    }
+                });
+
+                final NoticeListViewAdapter noticeListViewAdapter = new NoticeListViewAdapter();
+                Gson gson = new Gson();
+                mNoticeData = connectionResponse.getResult();
+                List<NoticeListVO> noticeList = gson.fromJson(mNoticeData, new TypeToken<List<NoticeListVO>>(){}.getType());
+
+                for(NoticeListVO e : noticeList) {
+                    noticeListViewAdapter.addItem(e.getTitle(), e.getContent());
+                }
+
+                lvNotice.setAdapter(noticeListViewAdapter);
+
+                break;
+        }
     }
 }
 

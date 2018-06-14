@@ -22,20 +22,19 @@ import com.shuttles.shuttlesapp.Utils.Constants;
 public class ShuttlesFirebaseMessagingService extends FirebaseMessagingService {
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
-
         if(remoteMessage.getNotification() != null)
             sendNotification(remoteMessage.getNotification().getBody());
     }
 
     private void sendNotification(String messageBody) {
         //TODO:모든 메세지는 수신된지 10초 이내에 처리되어야 함
-
         Log.i(Constants.LOG_TAG,"noti messagebody : "+messageBody);
+/*
         Intent intent = new Intent(this, LoginActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0 , intent,
                 PendingIntent.FLAG_ONE_SHOT);
-
+*/
         Uri defaultSoundUri= RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
 
         NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this,"notify_001")
@@ -44,8 +43,8 @@ public class ShuttlesFirebaseMessagingService extends FirebaseMessagingService {
                 .setTicker("Notify")
                 .setContentText(messageBody)
                 .setAutoCancel(true)
-                .setSound(defaultSoundUri)
-                .setContentIntent(pendingIntent);
+                .setSound(defaultSoundUri);
+                //.setContentIntent(pendingIntent);
 
         NotificationManager notificationManager =
                 (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);

@@ -12,6 +12,7 @@ public class RestAPI {
     public static final String ORDER = SERVER_IP +"/order";
     public static final String ORDER_DETAIL = ORDER+"/detail";
     public static final String DRINK_OPTION = SERVER_IP +"/drink/detail"; //show coffee option detail
+    public static final String NOTICE = SERVER_IP + "/notice";
 
     public enum REQUEST_TYPE {
         FAILED,
@@ -21,7 +22,8 @@ public class RestAPI {
         DRINK_LIST_OPTION,
         ORDER,
         ORDER_DETAIL,
-        IMAGE_LOAD
+        IMAGE_LOAD,
+        NOTICE
     }
 
 }

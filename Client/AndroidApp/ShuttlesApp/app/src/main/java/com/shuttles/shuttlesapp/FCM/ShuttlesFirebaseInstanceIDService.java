@@ -43,6 +43,10 @@ public class ShuttlesFirebaseInstanceIDService extends FirebaseInstanceIdService
         //TODO:FCM 토큰 갱신 아마존 서버한테 새로 보내야함
         UserInfo userInfo = UserInfo.getInstance();
         Log.i(Constants.LOG_TAG,"refresh token " + token);
+
+        if(userInfo.getProfile() == null)
+            return;
+
         JSONObject jsonObject = new JSONObject();
         try {
             jsonObject.put("user_id", userInfo.getProfile().getEmail());
