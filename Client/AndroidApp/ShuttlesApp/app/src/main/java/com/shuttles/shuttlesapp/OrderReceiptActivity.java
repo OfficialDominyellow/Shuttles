@@ -47,7 +47,7 @@ public class OrderReceiptActivity extends AppCompatActivity implements Connectio
         Log.i(TAG, "loadOrderReceipt");
         int orderId = getIntent().getExtras().getInt("orderId");
         Log.i(TAG, "order ID : " + orderId);
-        RequestData requestData = new RequestData("GET", RestAPI.ORDER_DETAIL+"/"+orderId, RestAPI.REQUEST_TYPE.ORDER_DETAIL);
+        RequestData requestData = new RequestData(RestAPI.Method.GET, RestAPI.ORDER_DETAIL+"/"+orderId, RestAPI.REQUEST_TYPE.ORDER_DETAIL);
         sendRequestData(requestData);
     }
 

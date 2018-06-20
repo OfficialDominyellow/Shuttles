@@ -103,7 +103,7 @@ public class KakaoSignupActivity extends Activity implements ConnectionImpl {
                 JSONArray jsonArray = new JSONArray();
                 jsonArray.put(jsonObject);
 
-                RequestData postUserData = new RequestData("POST", RestAPI.USER, RestAPI.REQUEST_TYPE.USER ,jsonObject);
+                RequestData postUserData = new RequestData(RestAPI.Method.POST, RestAPI.USER, RestAPI.REQUEST_TYPE.USER ,jsonObject);
                 sendRequestData(postUserData);
             }
         });

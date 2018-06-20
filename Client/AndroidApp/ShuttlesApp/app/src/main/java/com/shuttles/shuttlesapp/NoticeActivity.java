@@ -76,7 +76,7 @@ public class NoticeActivity extends AppCompatActivity implements ConnectionImpl{
     }
 
     private void loadAllNotice() {
-        RequestData requestData = new RequestData("GET", RestAPI.NOTICE, RestAPI.REQUEST_TYPE.NOTICE);
+        RequestData requestData = new RequestData(RestAPI.Method.GET, RestAPI.NOTICE, RestAPI.REQUEST_TYPE.NOTICE);
         sendRequestData(requestData);
     }
 

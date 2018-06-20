@@ -14,24 +14,42 @@ public class RequestData {
     private String postData;
     private JSONArray uploadJsonArray;
 
-    public RequestData(String method, String restURL, RestAPI.REQUEST_TYPE requestType){
-        this.method = method;
+    public RequestData(RestAPI.Method restMethod, String restURL, RestAPI.REQUEST_TYPE requestType){
+        convertMethodToString(restMethod);
         this.restURL = restURL;
         this.requestType = requestType;
     }
 
-    public RequestData(String method, String restURL, RestAPI.REQUEST_TYPE requestType, JSONObject uploadJsonObject){
-        this.method = method;
+    public RequestData(RestAPI.Method restMethod, String restURL, RestAPI.REQUEST_TYPE requestType, JSONObject uploadJsonObject){
+        convertMethodToString(restMethod);
         this.restURL = restURL;
         this.requestType = requestType;
         this.postData = uploadJsonObject.toString();
     }
 
-    public RequestData(String method, String restURL, RestAPI.REQUEST_TYPE requestType, JSONArray uploadJsonArray){
-        this.method = method;
+    public RequestData(RestAPI.Method  restMethod, String restURL, RestAPI.REQUEST_TYPE requestType, JSONArray uploadJsonArray){
+        convertMethodToString(restMethod);
         this.restURL = restURL;
         this.requestType = requestType;
         this.postData = uploadJsonArray.toString();
+    }
+
+    private void convertMethodToString(RestAPI.Method eMethod){
+        switch (eMethod){
+            case GET:
+                method = "GET";
+                break;
+            case POST:
+                method = "POST";
+                break;
+            case UPDATE:
+                method = "UPDATE";
+                break;
+            case DELETE:
+                method = "DELETE";
+                break;
+        }
+
     }
 
     public String getMethod() {

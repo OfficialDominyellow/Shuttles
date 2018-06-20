@@ -20,8 +20,8 @@ import java.net.URL;
  * Created by daeyonglee on 2018. 1. 22..
  */
 public class RequestHandler extends AsyncTask<RequestData, Void, String> {
-    private ConnectionImpl delegate = null;
-    private Context context = null;
+    private ConnectionImpl delegate;
+    private Context context;
     private HttpURLConnection conn = null;
     private BufferedReader reader = null;
     private RequestData requestData = null;

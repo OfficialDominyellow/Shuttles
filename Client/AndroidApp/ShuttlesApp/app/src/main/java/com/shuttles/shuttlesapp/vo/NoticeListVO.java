@@ -4,7 +4,9 @@ package com.shuttles.shuttlesapp.vo;
  */
 
 public class NoticeListVO {
-
+    private String notice_id;
+    private String notice_subject;
+    private String notice_date;
     private String title;
     private String content;
 

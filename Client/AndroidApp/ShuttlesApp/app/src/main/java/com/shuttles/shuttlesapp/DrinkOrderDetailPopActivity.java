@@ -122,7 +122,7 @@ public class DrinkOrderDetailPopActivity extends AppCompatActivity implements Co
             }
         });
         Log.i(TAG, "get coffee option URL : " + RestAPI.DRINK_OPTION + "/" + mCoffeeID);
-        requestData = new RequestData("GET", RestAPI.DRINK_OPTION + "/" + mCoffeeID, RestAPI.REQUEST_TYPE.DRINK_LIST_OPTION);
+        requestData = new RequestData(RestAPI.Method.GET, RestAPI.DRINK_OPTION + "/" + mCoffeeID, RestAPI.REQUEST_TYPE.DRINK_LIST_OPTION);
         sendRequestData(requestData);
     }
 
@@ -156,7 +156,7 @@ public class DrinkOrderDetailPopActivity extends AppCompatActivity implements Co
             e1.printStackTrace();
         }
         Log.i(TAG, jsonStr);
-        orderRequestData = new RequestData("POST", RestAPI.ORDER, RestAPI.REQUEST_TYPE.ORDER, jsonObject);
+        orderRequestData = new RequestData(RestAPI.Method.POST, RestAPI.ORDER, RestAPI.REQUEST_TYPE.ORDER, jsonObject);
         sendRequestData(orderRequestData);
     }
 

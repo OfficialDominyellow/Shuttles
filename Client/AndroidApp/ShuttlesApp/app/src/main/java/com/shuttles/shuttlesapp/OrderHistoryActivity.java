@@ -54,7 +54,7 @@ public class OrderHistoryActivity extends AppCompatActivity implements Connectio
     private void loadOrderHistory() {
         Log.i(TAG, "loadOrderHistory");
         String userEmail = UserInfo.getInstance().getProfile().getEmail();
-        RequestData requestData = new RequestData("GET", RestAPI.ORDER+"/"+userEmail, RestAPI.REQUEST_TYPE.ORDER);
+        RequestData requestData = new RequestData(RestAPI.Method.GET, RestAPI.ORDER+"/"+userEmail, RestAPI.REQUEST_TYPE.ORDER);
         sendRequestData(requestData);
     }
 

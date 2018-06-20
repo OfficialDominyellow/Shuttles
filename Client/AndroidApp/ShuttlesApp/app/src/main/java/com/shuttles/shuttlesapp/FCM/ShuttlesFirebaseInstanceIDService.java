@@ -58,7 +58,7 @@ public class ShuttlesFirebaseInstanceIDService extends FirebaseInstanceIdService
         JSONArray jsonArray = new JSONArray();
         jsonArray.put(jsonObject);
 
-        RequestData postRefreshToken = new RequestData("POST", RestAPI.USER, RestAPI.REQUEST_TYPE.USER ,jsonObject);
+        RequestData postRefreshToken = new RequestData(RestAPI.Method.POST, RestAPI.USER, RestAPI.REQUEST_TYPE.USER ,jsonObject);
         sendRequestData(postRefreshToken);
     }
 

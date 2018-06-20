@@ -26,4 +26,12 @@ public class RestAPI {
         NOTICE
     }
 
+    public enum Method {
+        GET,
+        POST,
+        UPDATE,
+        DELETE,
+    }
+
+
 }

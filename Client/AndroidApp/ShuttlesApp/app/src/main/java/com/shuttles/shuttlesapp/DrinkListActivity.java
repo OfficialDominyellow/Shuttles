@@ -44,7 +44,7 @@ public class DrinkListActivity extends AppCompatActivity implements ConnectionIm
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        requestData = new RequestData("GET", RestAPI.DRINK_LIST, RestAPI.REQUEST_TYPE.DRINK_LIST);
+        requestData = new RequestData(RestAPI.Method.GET, RestAPI.DRINK_LIST, RestAPI.REQUEST_TYPE.DRINK_LIST);
         sendRequestData(requestData);
     }
 

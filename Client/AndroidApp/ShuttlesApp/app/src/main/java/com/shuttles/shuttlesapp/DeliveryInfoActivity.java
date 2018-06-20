@@ -135,7 +135,7 @@ public class DeliveryInfoActivity extends AppCompatActivity implements Connectio
             e1.printStackTrace();
         }
         Log.i(TAG, jsonStr);
-        orderRequestData = new RequestData("POST", RestAPI.ORDER, RestAPI.REQUEST_TYPE.ORDER, jsonObject);
+        orderRequestData = new RequestData(RestAPI.Method.POST, RestAPI.ORDER, RestAPI.REQUEST_TYPE.ORDER, jsonObject);
         sendRequestData(orderRequestData);
     }
 
