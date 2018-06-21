@@ -49,30 +49,22 @@ public class NoticeActivity extends AppCompatActivity implements ConnectionImpl{
         });
 
         ListViewCompat lvNotice = (ListViewCompat) findViewById(R.id.lv_notice);
-        final NoticeListViewAdapter noticeListViewAdapter = new NoticeListViewAdapter();
 
         lvNotice.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 NoticeListVO noticeListVO = (NoticeListVO) adapterView.getItemAtPosition(i);
 
-                String title = noticeListVO.getTitle();
-                String content = noticeListVO.getContent();
+                String subject = noticeListVO.getNotice_subject();
+                String date = noticeListVO.getNotice_date();
 
-                Toast.makeText(getApplicationContext(), "titlie : " + title + ", content : " + content + ", pos : " + i, Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "subject : " + subject + ", date : " + date + ", pos : " + i, Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(getApplicationContext(), NoticeDetailActivity.class);
                 startActivity(intent);
             }
         });
 
-
         loadAllNotice();
-        /*
-        //add dummy data
-        for(int i=0; i<15; i++){
-            noticeListViewAdapter.addItem("제목제목제목" + i, "내용냉녀욘애뇨내뇽........" + i);
-        }
-        */
     }
 
     private void loadAllNotice() {
@@ -102,10 +94,10 @@ public class NoticeActivity extends AppCompatActivity implements ConnectionImpl{
                     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                         NoticeListVO noticeListVO = (NoticeListVO) adapterView.getItemAtPosition(i);
 
-                        String title = noticeListVO.getTitle();
-                        String content = noticeListVO.getContent();
+                        String subject = noticeListVO.getNotice_subject();
+                        String date = noticeListVO.getNotice_date();
 
-                        Toast.makeText(getApplicationContext(), "titlie : " + title + ", content : " + content + ", pos : " + i, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(), "titlie : " + subject + ", content : " + date + ", pos : " + i, Toast.LENGTH_SHORT).show();
                         Intent intent = new Intent(getApplicationContext(), NoticeDetailActivity.class);
                         startActivity(intent);
                     }
@@ -117,7 +109,7 @@ public class NoticeActivity extends AppCompatActivity implements ConnectionImpl{
                 List<NoticeListVO> noticeList = gson.fromJson(mNoticeData, new TypeToken<List<NoticeListVO>>(){}.getType());
 
                 for(NoticeListVO e : noticeList) {
-                    noticeListViewAdapter.addItem(e.getTitle(), e.getContent());
+                    noticeListViewAdapter.addItem(e);
                 }
 
                 lvNotice.setAdapter(noticeListViewAdapter);
@@ -129,7 +121,7 @@ public class NoticeActivity extends AppCompatActivity implements ConnectionImpl{
 
 class NoticeListViewAdapter extends BaseAdapter {
     // Adapter에 추가된 데이터를 저장하기 위한 ArrayList
-    private ArrayList<NoticeListVO> listViewItemList = new ArrayList<NoticeListVO>() ;
+    private ArrayList<NoticeListVO> listViewItemList = new ArrayList<>() ;
 
     // NoticeListViewAdapter 생성자
     public NoticeListViewAdapter() {
@@ -162,8 +154,8 @@ class NoticeListViewAdapter extends BaseAdapter {
         NoticeListVO noticeListVO = listViewItemList.get(position);
 
         // 아이템 내 각 위젯에 데이터 반영
-        tvNoticeTitle.setText(noticeListVO.getTitle());
-        tvNoticeContent.setText(noticeListVO.getContent());
+        tvNoticeTitle.setText(noticeListVO.getNotice_subject());
+        tvNoticeContent.setText(noticeListVO.getNotice_date());
 
         return convertView;
     }
@@ -181,12 +173,7 @@ class NoticeListViewAdapter extends BaseAdapter {
     }
 
     // 아이템 데이터 추가를 위한 함수. 개발자가 원하는대로 작성 가능.
-    public void addItem(String title, String content) {
-        NoticeListVO item = new NoticeListVO();
-
-        item.setTitle(title);
-        item.setContent(content);
-
-        listViewItemList.add(item);
+    public void addItem(NoticeListVO noticeElement) {
+        listViewItemList.add(noticeElement);
     }
 }

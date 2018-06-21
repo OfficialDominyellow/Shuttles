@@ -7,22 +7,28 @@ public class NoticeListVO {
     private String notice_id;
     private String notice_subject;
     private String notice_date;
-    private String title;
-    private String content;
 
-    public String getTitle() {
-        return title;
+    public String getNotice_id() {
+        return notice_id;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
+    public void setNotice_id(String notice_id) {
+        this.notice_id = notice_id;
     }
 
-    public String getContent() {
-        return content;
+    public String getNotice_subject() {
+        return notice_subject;
     }
 
-    public void setContent(String content) {
-        this.content = content;
+    public void setNotice_subject(String notice_subject) {
+        this.notice_subject = notice_subject;
+    }
+
+    public String getNotice_date() {
+        return notice_date;
+    }
+
+    public void setNotice_date(String notice_date) {
+        this.notice_date = notice_date;
     }
 }
