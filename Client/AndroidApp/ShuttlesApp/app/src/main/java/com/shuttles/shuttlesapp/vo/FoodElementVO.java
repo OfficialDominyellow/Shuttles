@@ -8,7 +8,17 @@ import java.util.List;
  */
 
 public class FoodElementVO extends ProductElementVO {
+    private int food_id;
     FoodElementVO(String name, int id, int cnt, int orgPrice, int unitPrice, int oid, List<OptionElementVO> optionList) {
-        super(name, id, cnt, orgPrice, unitPrice, oid, optionList);
+        super(name, cnt, orgPrice, unitPrice, oid, optionList);
+        food_id = id;
+    }
+
+    public int getFood_id() {
+        return food_id;
+    }
+
+    public void setFood_id(int food_id) {
+        this.food_id = food_id;
     }
 }

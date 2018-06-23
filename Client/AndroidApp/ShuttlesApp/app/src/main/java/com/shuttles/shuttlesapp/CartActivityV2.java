@@ -2,9 +2,7 @@ package com.shuttles.shuttlesapp;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.ListViewCompat;
 import android.support.v7.widget.Toolbar;
@@ -14,7 +12,6 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -98,7 +95,7 @@ public class CartActivityV2 extends AppCompatActivity {
         });
 
         TextView tvProductTotalPrice = (TextView) findViewById(R.id.tv_product_total_price);
-        tvProductTotalPrice.setText(OrderRequestVO.getInstance().getOrder_totalPrice() + "");
+        tvProductTotalPrice.setText(OrderRequestVO.getInstance().getOrder_price() + "");
     }
 }
 
