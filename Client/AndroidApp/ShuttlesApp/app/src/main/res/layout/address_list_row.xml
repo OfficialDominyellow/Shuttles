@@ -16,20 +16,6 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="2"
-            android:gravity="center_vertical">
-            <TextView
-                android:id="@+id/tv_address_name"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="주소1"
-                android:textSize="20dp"
-                android:textColor="@color/shuttlesGray"
-                android:textStyle="bold"/>
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:gravity="center_vertical"
             android:layout_weight="1">
@@ -39,7 +25,7 @@
                 android:layout_height="wrap_content"
                 android:text="0392376"
                 android:textSize="16dp"
-                android:textColor="@color/darkGray"
+                android:textColor="@color/shuttlesGray"
                 android:gravity="center_vertical" />
         </LinearLayout>
         <LinearLayout
@@ -54,7 +40,7 @@
                 android:layout_height="wrap_content"
                 android:text="주소주ㅡ소조수소 서울시 주 "
                 android:textSize="16dp"
-                android:textColor="@color/darkGray"
+                android:textColor="@color/shuttlesGray"
                 android:gravity="center_vertical" />
         </LinearLayout>
         <LinearLayout
@@ -68,6 +54,21 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="2층 1호 "
+                android:textSize="16dp"
+                android:textColor="@color/darkGray"
+                android:gravity="center_vertical" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_weight="1">
+            <TextView
+                android:id="@+id/tv_order_comment"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="단무지 조금요"
                 android:textSize="16dp"
                 android:textColor="@color/darkGray"
                 android:gravity="center_vertical" />

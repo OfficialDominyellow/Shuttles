@@ -26,13 +26,13 @@ public class AddressNewActivity extends AppCompatActivity {
     private EditText etZipcode;
     private EditText etFullAddress;
     private EditText etAddressExtra;
-    private EditText etAddressName;
+    private EditText etOrderComment;
 
     private String mZipcode;
     private String mAddress1;
     private String mAddress2;
     private String mAddressExtra;
-    private String mAddressName;
+    private String mOrderComment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,7 +51,7 @@ public class AddressNewActivity extends AppCompatActivity {
         etZipcode = (EditText)findViewById(R.id.et_zipcode);
         etFullAddress = (EditText)findViewById(R.id.et_full_address);
         etAddressExtra = (EditText)findViewById(R.id.et_address_extra);
-        etAddressName = (EditText)findViewById(R.id.et_address_name);
+        etOrderComment = (EditText)findViewById(R.id.et_order_comment);
 
         Button btnSearchAddress = (Button)findViewById(R.id.btn_search_address);
         btnSearchAddress.setOnClickListener(new View.OnClickListener() {
@@ -68,9 +68,9 @@ public class AddressNewActivity extends AppCompatActivity {
             public void onClick(View v) {
                 //Add address
                 mAddressExtra = etAddressExtra.getText() + "";
-                mAddressName = etAddressName.getText() + "";
+                mOrderComment = etOrderComment.getText() + "";
 
-                if(mZipcode.equals("") || mAddress1.equals("") || mAddress2.equals("") || mAddressExtra.equals("") || mAddressName.equals("")){
+                if(mZipcode.equals("") || mAddress1.equals("") || mAddress2.equals("") || mAddressExtra.equals("") || mOrderComment.equals("")){
                     Toast.makeText(getApplicationContext(), "주소 입력이 부족합니다.", Toast.LENGTH_SHORT).show();
                     return;
                 }
@@ -87,13 +87,13 @@ public class AddressNewActivity extends AppCompatActivity {
                         } else {
                             nextId = currentIdNum.intValue() + 1;
                         }
-                        AddressVO addressVO = new AddressVO(nextId, mAddressName, mZipcode, mAddress1, mAddress2, mAddressExtra);
+                        AddressVO addressVO = new AddressVO(nextId, mZipcode, mAddress1, mAddress2, mAddressExtra, mOrderComment);
                         realm.insert(addressVO);
                     }
                 });
                 realm.commitTransaction();
 
-                Toast.makeText(getApplicationContext(), "zipcode : " + mZipcode + ", add1 : " + mAddress1 + ", add2 : " + mAddress2 + ", addressExtra : " + mAddressExtra + ", addressName : " + mAddressName, Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "zipcode : " + mZipcode + ", add1 : " + mAddress1 + ", add2 : " + mAddress2 + ", addressExtra : " + mAddressExtra + ", orderComment : " + mOrderComment, Toast.LENGTH_SHORT).show();
                 finish();
             }
         });

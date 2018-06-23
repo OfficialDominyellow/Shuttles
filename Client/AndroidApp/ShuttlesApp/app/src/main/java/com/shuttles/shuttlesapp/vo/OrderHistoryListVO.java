@@ -21,6 +21,8 @@ public class OrderHistoryListVO {
     private int orderPrice;
     @SerializedName("order_state")
     private int orderState;
+    @SerializedName("order_date")
+    private String orderDate;
 
     public int getOrderId() {
         return orderId;
@@ -44,6 +46,14 @@ public class OrderHistoryListVO {
 
     public void setOrderState(int orderState) {
         this.orderState = orderState;
+    }
+
+    public String getOrderDate() {
+        return orderDate;
+    }
+
+    public void setOrderDate(String orderDate) {
+        this.orderDate = orderDate;
     }
 
     public String getStatusStatement(){

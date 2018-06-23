@@ -10,17 +10,10 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.Button;
-import android.widget.CompoundButton;
 import android.widget.ImageView;
-import android.widget.Switch;
-import android.widget.TableLayout;
-import android.widget.TableRow;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import com.shuttles.shuttlesapp.ConnectionController.ConnectionImpl;
 import com.shuttles.shuttlesapp.ConnectionController.ConnectionResponse;
 import com.shuttles.shuttlesapp.ConnectionController.RequestData;
@@ -28,14 +21,10 @@ import com.shuttles.shuttlesapp.ConnectionController.RequestHandler;
 import com.shuttles.shuttlesapp.ConnectionController.RestAPI;
 import com.shuttles.shuttlesapp.ConnectionController.UserInfo;
 import com.shuttles.shuttlesapp.vo.AddressVO;
-import com.shuttles.shuttlesapp.vo.OptionElementVO;
 import com.shuttles.shuttlesapp.vo.OrderRequestVO;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.util.Comparator;
-import java.util.List;
 
 import io.realm.Realm;
 import io.realm.RealmResults;
@@ -100,7 +89,7 @@ public class DeliveryInfoActivity extends AppCompatActivity implements Connectio
         RealmResults<AddressVO> results = realm.where(AddressVO.class).findAll();
 
         for(AddressVO e : results){
-            addressListViewAdapter.addItem(e.getId(), e.getAddressName(), e.getZipcode(), e.getAddress1(), e.getAddress2(), e.getAddressExtra()) ;
+            addressListViewAdapter.addItem(e.getId(), e.getZipcode(), e.getAddress1(), e.getAddress2(), e.getAddressExtra(), e.getOrderComment()) ;
         }
 
         lvAddressList.setAdapter(addressListViewAdapter);
@@ -110,6 +99,7 @@ public class DeliveryInfoActivity extends AppCompatActivity implements Connectio
         AlertDialog alertDialog = new AlertDialog.Builder(this).create();
         alertDialog.setTitle("주소 선택");
         alertDialog.setMessage("해당 주소로 배달하시겠습니까?\n\n" + fullAddress);
+        //배송메세지 쓰는 곳이 추가되어야할 듯 하다.
         alertDialog.setButton(DialogInterface.BUTTON_NEUTRAL, "확인", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {

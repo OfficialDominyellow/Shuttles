@@ -142,15 +142,18 @@
                     android:layout_height="wrap_content"
                     android:textColor="@color/black"
                     android:paddingVertical="8dp"
-                    android:text="장소명"/>
+                    android:text="배송 메세지"/>
 
                 <EditText
-                    android:id="@+id/et_address_name"
+                    android:id="@+id/et_order_comment"
+                    android:background="@drawable/bg_edittext_border"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="56dp"
                     android:inputType="text"
-                    android:maxLength="30"
-                    android:hint="해당 주소를 대표하는 이름을 정하세요."
+                    android:maxLength="60"
+                    android:lines="3"
+                    android:maxLines="3"
+                    android:hint="배송메세지를 미리 작성해주세요."
                     />
             </LinearLayout>
 
