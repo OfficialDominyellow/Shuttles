@@ -1,9 +1,7 @@
 package com.shuttles.shuttlesapp.vo;
 
 import com.google.gson.Gson;
-import com.google.gson.annotations.Expose;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,7 +23,7 @@ public class OrderRequestVO {
 
     private String user_id;
     private String order_address;
-    private int order_totalPrice;
+    private int order_price;
 
     private List<DrinkElementVO> coffee = new ArrayList<>();
     private transient int drinkObjectId = 0;
@@ -33,7 +31,7 @@ public class OrderRequestVO {
     private transient int foodObjectId = 0;
 
     public boolean isValid(){
-        return user_id != null && order_address != null && order_totalPrice != 0 && (coffee.size() != 0 || food.size() != 0);
+        return user_id != null && order_address != null && order_price != 0 && (coffee.size() != 0 || food.size() != 0);
     }
 
     @Override
@@ -45,14 +43,14 @@ public class OrderRequestVO {
     public void addCoffee(String coffeeName, int coffeeId, int coffeeCount, int coffeeOrgPrice, int coffeeUnitPrice, List<OptionElementVO> optionList){
         int price = coffeeUnitPrice;
         price *= coffeeCount;
-        this.order_totalPrice += price;
+        this.order_price += price;
         getCoffee().add(new DrinkElementVO(coffeeName, coffeeId, coffeeCount, coffeeOrgPrice, coffeeUnitPrice, drinkObjectId++, optionList));
     }
 
     public void addFood(String foodName, int foodId, int foodCount, int foodOrgPrice, int foodUnitPrice, List<OptionElementVO> optionList){
         int price = foodUnitPrice;
         price *= foodUnitPrice;
-        this.order_totalPrice += price;
+        this.order_price += price;
         getFood().add(new FoodElementVO(foodName, foodId, foodCount, foodOrgPrice, foodUnitPrice, foodObjectId++, optionList));
     }
 
@@ -85,7 +83,7 @@ public class OrderRequestVO {
     public void clearOrderRequestVO(){
         coffee.clear();
         food.clear();
-        order_totalPrice = 0;
+        order_price = 0;
         drinkObjectId = 0;
         foodObjectId = 0;
     }
@@ -106,15 +104,6 @@ public class OrderRequestVO {
         this.order_address = order_address;
     }
 
-    public int getOrder_totalPrice() {
-        return order_totalPrice;
-    }
-
-    @Deprecated
-    public void setOrder_totalPrice(int order_totalPrice) {
-        this.order_totalPrice = order_totalPrice;
-    }
-
     public List<DrinkElementVO> getCoffee() {
         return coffee;
     }
@@ -129,6 +118,14 @@ public class OrderRequestVO {
 
     public void setFood(List<FoodElementVO> food) {
         this.food = food;
+    }
+
+    public void setOrderPrice(int orderPrice){
+        this.order_price = orderPrice;
+    }
+
+    public int getOrderPrice(){
+        return order_price;
     }
 
 }

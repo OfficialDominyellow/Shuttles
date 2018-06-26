@@ -4,7 +4,6 @@ public class ConnectionResponse {
     private RestAPI.REQUEST_TYPE requestType;
     private String result; //result from server request
 
-
     public String getResult() {
         return result;
     }

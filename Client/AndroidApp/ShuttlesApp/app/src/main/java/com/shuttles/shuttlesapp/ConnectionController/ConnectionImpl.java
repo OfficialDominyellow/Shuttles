@@ -5,6 +5,6 @@ package com.shuttles.shuttlesapp.ConnectionController;
  */
 
 public interface ConnectionImpl {
-    public void sendRequestData(RequestData requestData);
-    public void requestCallback(ConnectionResponse connectionResponse);
+    void sendRequestData(RequestData requestData);
+    void requestCallback(ConnectionResponse connectionResponse);
 }

@@ -7,7 +7,6 @@ import android.widget.Toast;
 
 import com.shuttles.shuttlesapp.GlobalApplication;
 import com.shuttles.shuttlesapp.Utils.Constants;
-import com.shuttles.shuttlesapp.Utils.Utils;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -19,14 +18,13 @@ import java.net.URL;
 /**
  * Created by daeyonglee on 2018. 1. 22..
  */
-public class RequestHandler extends AsyncTask<RequestData, Void, String> {
+public class RequestHandler extends AsyncTask<RequestData, Void, ConnectionResponse> {
     private ConnectionImpl delegate;
     private Context context;
     private HttpURLConnection conn = null;
     private BufferedReader reader = null;
     private RequestData requestData = null;
-    private String connectionResult = Constants.RESPONSE_SUCCESS;
-    private boolean isNetworkConnected = true;
+    private String connectionResult = null;
 
     public RequestHandler(ConnectionImpl delegate) {
         this.context = GlobalApplication.getGlobalApplicationContext();
@@ -36,16 +34,14 @@ public class RequestHandler extends AsyncTask<RequestData, Void, String> {
     @Override
     protected void onPreExecute() {
         super.onPreExecute();
-        if (!Utils.checkNetworkState())
-            isNetworkConnected = false;
     }
 
     @Override
-    protected String doInBackground(RequestData... params) {
+    protected ConnectionResponse doInBackground(RequestData... params) {
         requestData = params[0];
+        ConnectionResponse connectionResponse = new ConnectionResponse();
+        connectionResponse.setRequestType(requestData.getRequestType());
 
-        if (!isNetworkConnected)
-            return Constants.RESPONSE_FAIL;
         try {
             URL requestURL = new URL(requestData.getRestURL());
             conn = (HttpURLConnection) requestURL.openConnection();
@@ -57,8 +53,8 @@ public class RequestHandler extends AsyncTask<RequestData, Void, String> {
             conn.setConnectTimeout(Constants.READ_TIME_OUT);
             conn.setUseCaches(false);
             conn.setDefaultUseCaches(false);
-
             conn.setDoInput(true);
+
             if (requestData.getMethod().equals("POST") || requestData.getMethod().equals("PUT")) {
                 conn.setDoOutput(true); //only use post or put
                 OutputStream os = conn.getOutputStream();
@@ -69,21 +65,6 @@ public class RequestHandler extends AsyncTask<RequestData, Void, String> {
             } else
                 conn.setDoOutput(false);
             Log.i(Constants.LOG_TAG, "Method "+ requestData.getMethod() + " Use RESTAPI:" + requestData.getRestURL());
-            /*
-           if (conn.getResponseCode() != HttpURLConnection.HTTP_OK) {//check server connection state
-                Log.e(Constants.LOG_TAG, "HTTP Connection Error");
-                conn.disconnect();
-                return null;
-            }
-
-            if (requestData.getMethod().equals("POST") || requestData.getMethod().equals("PUT")) {
-                //conn.setDoOutput(true); //only use post or put
-                OutputStream os = conn.getOutputStream();
-                os.write(requestData.getUploadJsonArray().toString().getBytes("UTF-8"));
-                os.flush();
-                Log.i(Constants.LOG_TAG, "upload : " + requestData.getUploadJsonArray().toString());
-                os.close();
-            }*/
 
             StringBuilder builder = new StringBuilder();
             String line;
@@ -97,9 +78,11 @@ public class RequestHandler extends AsyncTask<RequestData, Void, String> {
             connectionResult = builder.toString();
         } catch (Exception e) {
             e.printStackTrace();
-            connectionResult = Constants.RESPONSE_FAIL;
+            connectionResponse.setRequestType(RestAPI.REQUEST_TYPE.FAILED);
             Toast.makeText(context,"연결에 오류가 발생했습니다.",Toast.LENGTH_LONG).show();
         } finally {
+            connectionResponse.setResult(connectionResult);
+
             if (conn != null)
                 conn.disconnect();
             try {
@@ -108,7 +91,7 @@ public class RequestHandler extends AsyncTask<RequestData, Void, String> {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            return connectionResult;
+            return connectionResponse;
         }
     }
 
@@ -118,30 +101,14 @@ public class RequestHandler extends AsyncTask<RequestData, Void, String> {
     }
 
     @Override
-    protected void onPostExecute(String result) {
-        super.onPostExecute(result);
-        ConnectionResponse connectionResponse = new ConnectionResponse();
+    protected void onPostExecute(ConnectionResponse connectionResponse) {
+        super.onPostExecute(connectionResponse);
 
-        Log.i(Constants.LOG_TAG, "onPostExecute result : " + result);
+        Log.i(Constants.LOG_TAG, "onPostExecute result : " + connectionResponse.getResult());
 
-        if(result.equals(Constants.RESPONSE_FAIL)) {
-            Log.e(Constants.LOG_TAG, "Reponse Failed!");
-            connectionResponse.setRequestType(RestAPI.REQUEST_TYPE.FAILED);
-        }
-        else {
+        if(connectionResponse.getRequestType() != RestAPI.REQUEST_TYPE.FAILED) {
             Log.i(Constants.LOG_TAG,"Reponse success!");
-            /*
-            JsonObject rootObject = new JsonParser().parse(result).getAsJsonObject();
-            JsonArray resultArray = rootObject.get("result").getAsJsonArray();
-
-            Log.i(Constants.LOG_TAG, resultArray.toString()+"  response : " + rootObject.get("response").toString());
-            String response = rootObject.get("response").toString();
-
-            //TODO if 조건 만족하면
-            requestData.setResult(resultArray.toString());
-            */
             connectionResponse.setRequestType(requestData.getRequestType());
-            connectionResponse.setResult(result);
         }
 
         delegate.requestCallback(connectionResponse);

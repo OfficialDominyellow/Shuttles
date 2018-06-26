@@ -11,12 +11,10 @@ import android.util.Log;
 
 import com.shuttles.shuttlesapp.GlobalApplication;
 import com.shuttles.shuttlesapp.Utils.Constants;
-import com.shuttles.shuttlesapp.Utils.Utils;
 import com.shuttles.shuttlesapp.vo.Product;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -28,11 +26,10 @@ import java.util.List;
  * Created by daeyonglee on 2018. 2. 11..
  */
 
-public class ImageLoadHandler extends AsyncTask<List<? extends Product>, Void, String> {
-    private ConnectionImpl delegate = null;
-    private Context context = null;
+public class ImageLoadHandler extends AsyncTask<List<? extends Product>, Void, ConnectionResponse> {
+    private ConnectionImpl delegate ;
+    private Context context;
     private List<Product> productList = null;
-    private boolean isNetworkConnected = true;
 
     private static SharedPreferences preferences = GlobalApplication.getGlobalApplicationContext().getSharedPreferences("image_cache", GlobalApplication.getGlobalApplicationContext().MODE_PRIVATE);
     private static SharedPreferences.Editor editor = preferences.edit();
@@ -66,18 +63,13 @@ public class ImageLoadHandler extends AsyncTask<List<? extends Product>, Void, S
     @Override
     protected void onPreExecute() {
         super.onPreExecute();
-        if(!Utils.checkNetworkState())
-            isNetworkConnected = false;
     }
 
     @Override
-    protected String doInBackground(List<? extends Product>... params) {
-        if(!isNetworkConnected)
-            return "fail";
-
-        String result = Constants.RESPONSE_SUCCESS;
+    protected ConnectionResponse doInBackground(List<? extends Product>... params) {
         productList = (List<Product>) params[0];
-
+        ConnectionResponse connectionResponse = new ConnectionResponse();
+        connectionResponse.setRequestType(RestAPI.REQUEST_TYPE.IMAGE_LOAD);
         Log.i(Constants.LOG_TAG, "start download file count : " + productList.size());
         //Download picture
         for(Product element : productList)
@@ -86,18 +78,10 @@ public class ImageLoadHandler extends AsyncTask<List<? extends Product>, Void, S
                 if (isCached(element))
                     continue;
 
-                Log.i(Constants.LOG_TAG, "not cachend");
+                Log.i(Constants.LOG_TAG, "not cached");
 
                 URL imgURL = new URL(element.getPicture_url());
                 HttpURLConnection conn = (HttpURLConnection) imgURL.openConnection();
-
-                /*
-                if(conn.getResponseCode() != HttpURLConnection.HTTP_OK){
-                    Log.e(Constants.LOG_TAG, "HTTP Connection Error");
-                    conn.disconnect();
-                    throw new IOException();
-                }
-                */
 
                 //Download Product's picture from server
                 byte[] buf = new byte[1024];
@@ -118,11 +102,13 @@ public class ImageLoadHandler extends AsyncTask<List<? extends Product>, Void, S
                 conn.disconnect();
             }
             catch (Exception e){
+                //connectionResponse.setRequestType(RestAPI.REQUEST_TYPE.FAILED);
                 e.printStackTrace();
+                Log.i(Constants.LOG_TAG, "exception " + e.getMessage());
             }
         }
 
-        return result;
+        return connectionResponse;
     }
 
     @Override
@@ -131,40 +117,37 @@ public class ImageLoadHandler extends AsyncTask<List<? extends Product>, Void, S
     }
 
     @Override
-    protected void onPostExecute(String result) {
-        super.onPostExecute(result);
-        ConnectionResponse connectionResponse = new ConnectionResponse();
+    protected void onPostExecute(ConnectionResponse connectionResponse) {
+        super.onPostExecute(connectionResponse);
+        Log.i(Constants.LOG_TAG, "Load image result " + connectionResponse.getRequestType());
 
-        if (result.equals(Constants.RESPONSE_SUCCESS)) {
-            for (Product element : productList) {
-                //Load image to VO class
-                try {
-                    FileInputStream fis = context.openFileInput(element.getPictureFileName());
-                    int len;
-                    byte buf[] = new byte[fis.available()];
-                    while ((len = fis.read(buf)) != -1) {
-                        Log.i(Constants.LOG_TAG, "Load image from storage " + len);
-                    }
-                    fis.close();
-                    Bitmap bitmap = BitmapFactory.decodeByteArray(buf, 0, buf.length);
-                    //convert bitmap to drwable
-                    Drawable drawble = new BitmapDrawable(context.getResources(), bitmap);
-                    element.setImg(drawble);
-
-                } catch (FileNotFoundException e) {
-                    e.printStackTrace();
-                    element.setImg(null);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                    element.setImg(null);
-                }
-            }
-            Log.i(Constants.LOG_TAG, "End Load Picture");
-            connectionResponse.setRequestType(RestAPI.REQUEST_TYPE.IMAGE_LOAD);
-        } else {
-            Log.e(Constants.LOG_TAG, "Image download fail!");
-            connectionResponse.setRequestType(RestAPI.REQUEST_TYPE.FAILED);
+        if (connectionResponse.getRequestType() == RestAPI.REQUEST_TYPE.IMAGE_LOAD) {
+            loadImageToProductList();
         }
         delegate.requestCallback(connectionResponse);
+    }
+
+    private void loadImageToProductList(){
+        for (Product element : productList) {
+            //Load image to VO class
+            try {
+                FileInputStream fis = context.openFileInput(element.getPictureFileName());
+                int len;
+                byte buf[] = new byte[fis.available()];
+                while ((len = fis.read(buf)) != -1) {
+                    Log.i(Constants.LOG_TAG, "Load image from storage " + len);
+                }
+                fis.close();
+                Bitmap bitmap = BitmapFactory.decodeByteArray(buf, 0, buf.length);
+                //convert bitmap to drwable
+                Drawable drawble = new BitmapDrawable(context.getResources(), bitmap);
+                element.setImg(drawble);
+
+            } catch (IOException e) {
+                e.printStackTrace();
+                element.setImg(null);
+            }
+        }
+        Log.i(Constants.LOG_TAG, "End Load Picture");
     }
 }

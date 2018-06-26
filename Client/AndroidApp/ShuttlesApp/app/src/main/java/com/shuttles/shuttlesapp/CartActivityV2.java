@@ -98,7 +98,7 @@ public class CartActivityV2 extends AppCompatActivity {
         });
 
         TextView tvProductTotalPrice = (TextView) findViewById(R.id.tv_product_total_price);
-        tvProductTotalPrice.setText(OrderRequestVO.getInstance().getOrder_totalPrice() + "");
+        tvProductTotalPrice.setText(OrderRequestVO.getInstance().getOrderPrice() + "");
     }
 }
 
