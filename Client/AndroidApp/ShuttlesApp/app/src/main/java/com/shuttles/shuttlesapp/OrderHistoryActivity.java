@@ -103,7 +103,7 @@ public class OrderHistoryActivity extends AppCompatActivity implements Connectio
                 });
 
                 for(OrderHistoryListVO e : orderHistoryList) {
-                    orderHistoryListViewAdapter.addItem(e.getOrderId(), e.getOrderPrice(), e.getOrderState());
+                    orderHistoryListViewAdapter.addItem(e.getOrderId(), e.getOrderPrice(), e.getOrderState(), e.getOrderDate());
                 }
 
                 lvOrderHistory.setAdapter(orderHistoryListViewAdapter);
@@ -140,18 +140,20 @@ class OrderHistoryListViewAdapter extends BaseAdapter {
         }
 
         // 화면에 표시될 View(Layout이 inflate된)으로부터 위젯에 대한 참조 획득
-        TextView tvOrderAddress = (TextView) convertView.findViewById(R.id.tv_order_address);
+        TextView tvOrderTitle = (TextView) convertView.findViewById(R.id.tv_order_title);
         TextView tvOrderHistoryPrice = (TextView) convertView.findViewById(R.id.tv_order_price);
         TextView tvOrderHistoryStatus = (TextView) convertView.findViewById(R.id.tv_order_history_status);
+        TextView tvOrderDate = (TextView) convertView.findViewById(R.id.tv_order_date);
 
 
         // Data Set(listViewItemList)에서 position에 위치한 데이터 참조 획득
         OrderHistoryListVO orderHistoryListVO = listViewItemList.get(position);
 
         // 아이템 내 각 위젯에 데이터 반영
-        tvOrderAddress.setText(orderHistoryListVO.getOrderId() + "");
+        tvOrderTitle.setText(orderHistoryListVO.getOrderPrice() + "원");
         tvOrderHistoryPrice.setText(orderHistoryListVO.getOrderPrice() + "원");
         tvOrderHistoryStatus.setText(orderHistoryListVO.getStatusStatement());
+        tvOrderDate.setText(orderHistoryListVO.getOrderDate());
 
         return convertView;
     }
@@ -169,12 +171,13 @@ class OrderHistoryListViewAdapter extends BaseAdapter {
     }
 
     // 아이템 데이터 추가를 위한 함수. 개발자가 원하는대로 작성 가능.
-    public void addItem(int orderId, int orderPrice, int orderState) {
+    public void addItem(int orderId, int orderPrice, int orderState, String orderDate) {
         OrderHistoryListVO item = new OrderHistoryListVO();
 
         item.setOrderId(orderId);
         item.setOrderPrice(orderPrice);
         item.setOrderState(orderState);
+        item.setOrderDate(orderDate);
 
         listViewItemList.add(item);
     }

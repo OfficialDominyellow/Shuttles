@@ -6,6 +6,7 @@ import android.support.v7.widget.ListViewCompat;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
+import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -82,6 +83,9 @@ public class OrderReceiptActivity extends AppCompatActivity implements Connectio
                 }
 
                 lvOrderReceipt.setAdapter(cartListViewAdapter);
+
+                ((TextView)findViewById(R.id.tv_product_total_price_receipt)).setText(orderRequestVO.getOrderPrice() + "원");
+
 
                 break;
         }

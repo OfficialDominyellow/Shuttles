@@ -13,8 +13,6 @@ public class AddressVO  extends RealmObject{
     @PrimaryKey
     private int id;
     @Required
-    private String addressName;
-    @Required
     private String zipcode;
     @Required
     private String address1;
@@ -22,17 +20,19 @@ public class AddressVO  extends RealmObject{
     private String address2;
     @Required
     private String addressExtra;
+    @Required
+    private String orderComment;
 
     public AddressVO(){
 
     }
-    public AddressVO(int id, String addressName, String zipcode, String address1, String address2, String addressExtra){
+    public AddressVO(int id, String zipcode, String address1, String address2, String addressExtra,  String orderComment){
         this.id = id;
-        this.addressName = addressName;
         this.zipcode = zipcode;
         this.address1 = address1;
         this.address2 = address2;
         this.addressExtra = addressExtra;
+        this.orderComment = orderComment;
     }
 
     public int getId() {
@@ -43,12 +43,12 @@ public class AddressVO  extends RealmObject{
         this.id = id;
     }
 
-    public String getAddressName() {
-        return addressName;
+    public String getOrderComment() {
+        return orderComment;
     }
 
-    public void setAddressName(String addressName) {
-        this.addressName = addressName;
+    public void setOrderComment(String orderComment) {
+        this.orderComment = orderComment;
     }
 
     public String getZipcode() {

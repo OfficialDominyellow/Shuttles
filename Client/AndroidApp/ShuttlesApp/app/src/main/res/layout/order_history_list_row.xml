@@ -22,7 +22,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="주문주소"
-                android:id="@+id/tv_order_address"
+                android:id="@+id/tv_order_title"
                 android:textSize="20dp"
                 android:textColor="@color/shuttlesGray"
                 android:textStyle="bold"/>

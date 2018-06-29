@@ -9,7 +9,6 @@ import java.util.List;
 
 abstract public class ProductElementVO {
     private String name;
-    private int id;
     private int count;
     private transient int originalPrice; //option 제외 가격
     private int price; //option 포함 가격
@@ -18,9 +17,8 @@ abstract public class ProductElementVO {
 
     private List<OptionElementVO> option = new ArrayList<>();
 
-    ProductElementVO(String name, int id, int cnt, int orgPrice, int unitPrice, int oid, List<OptionElementVO> optionList){
+    ProductElementVO(String name, int cnt, int orgPrice, int unitPrice, int oid, List<OptionElementVO> optionList){
         this.name = name;
-        this.id = id;
         this.count = cnt;
         this.price = unitPrice;
 
@@ -35,14 +33,6 @@ abstract public class ProductElementVO {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     public int getCount() {

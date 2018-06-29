@@ -93,7 +93,7 @@ public class AddressListActivity extends AppCompatActivity {
         RealmResults<AddressVO> results = realm.where(AddressVO.class).findAll();
 
         for(AddressVO e : results){
-            addressListViewAdapter.addItem(e.getId(), e.getAddressName(), e.getZipcode(), e.getAddress1(), e.getAddress2(), e.getAddressExtra()) ;
+            addressListViewAdapter.addItem(e.getId(), e.getZipcode(), e.getAddress1(), e.getAddress2(), e.getAddressExtra(), e.getOrderComment()) ;
         }
 
         lvAddressList.setAdapter(addressListViewAdapter);
@@ -155,19 +155,19 @@ class AddressListViewAdapter extends BaseAdapter {
         }
 
         // 화면에 표시될 View(Layout이 inflate된)으로부터 위젯에 대한 참조 획득
-        TextView tvAddressName = (TextView) convertView.findViewById(R.id.tv_address_name);
         TextView tvZipcode = (TextView) convertView.findViewById(R.id.tv_zipcode);
         TextView tvFullAddress = (TextView) convertView.findViewById(R.id.tv_full_address);
         TextView tvAddressExtra = (TextView) convertView.findViewById(R.id.tv_address_extra);
+        TextView tvOrderComment = (TextView) convertView.findViewById(R.id.tv_order_comment);
 
         // Data Set(listViewItemList)에서 position에 위치한 데이터 참조 획득
         AddressVO addressVO = listViewItemList.get(position);
 
         // 아이템 내 각 위젯에 데이터 반영
         tvZipcode.setText(addressVO.getZipcode());
-        tvAddressName.setText(addressVO.getAddressName());
         tvFullAddress.setText(addressVO.getAddress1() + " " + addressVO.getAddress2());
         tvAddressExtra.setText(addressVO.getAddressExtra());
+        tvOrderComment.setText(addressVO.getOrderComment());
 
         return convertView;
     }
@@ -185,8 +185,8 @@ class AddressListViewAdapter extends BaseAdapter {
     }
 
     // 아이템 데이터 추가를 위한 함수. 개발자가 원하는대로 작성 가능.
-    public void addItem(int id, String addressName, String zipcode, String address1, String address2, String addressExtra) {
-        AddressVO item = new AddressVO(id, addressName, zipcode, address1, address2, addressExtra);
+    public void addItem(int id, String zipcode, String address1, String address2, String addressExtra, String orderComment) {
+        AddressVO item = new AddressVO(id, zipcode, address1, address2, addressExtra, orderComment);
 
         listViewItemList.add(item);
     }
