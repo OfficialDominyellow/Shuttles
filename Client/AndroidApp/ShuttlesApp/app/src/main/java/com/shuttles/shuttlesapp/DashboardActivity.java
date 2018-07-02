@@ -8,6 +8,7 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
 import android.view.View;
 import android.view.MenuItem;
 import android.widget.TextView;
@@ -67,10 +68,23 @@ public class DashboardActivity extends AppCompatActivity {
         });
 
     }
-
+    private boolean isOwner(){
+        if(UserInfo.getInstance().getUserType() == UserInfo.Type.owner)
+            return true;
+        else
+            return false;
+    }
     public void initNavigationDrawer() {
 
         NavigationView navigationView = (NavigationView)findViewById(R.id.navigation_view);
+
+        /*Owner 권한이 있는 경우만 활성화*/
+        if(!isOwner()) {
+            Menu ownerPage = navigationView.getMenu();
+            MenuItem menuItem = ownerPage.findItem(R.id.itm_order_manage);
+            menuItem.setEnabled(false);
+            menuItem.setVisible(false);
+        }
 
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -109,13 +123,6 @@ public class DashboardActivity extends AppCompatActivity {
                         intent = new Intent(getApplicationContext(), OrderHistoryActivity.class);
                         startActivity(intent);
                         break;
-                    case R.id.itm_order_manage:
-                        Toast.makeText(getApplicationContext(),"주문내역관리(사장님)",Toast.LENGTH_SHORT).show();
-                        drawerLayout.closeDrawers();
-                        intent = new Intent(getApplicationContext(), OrderManageActivity.class);
-                        startActivity(intent);
-                        break;
-
                 }
                 return true;
             }
