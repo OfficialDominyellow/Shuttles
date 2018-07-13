@@ -46,20 +46,16 @@ public class UserInfo {
         return userType;
     }
 
-    public void setUserType(Type userType) {
+    private void convertUserType(Type userType) {
         this.userType = userType;
-        Log.i(Constants.LOG_TAG,"set usertype "+userType);
+        Log.i(Constants.LOG_TAG,"convertUserType usertype "+userType);
     }
 
     public void setUserType(String responseUserType){
-        Log.i(Constants.LOG_TAG,"setUserType :" +responseUserType);
-        switch (responseUserType) {
-            case "customer":
-                setUserType(Type.customer);
-                break;
-            case "owner":
-                setUserType(Type.owner);
-                break;
+        if(responseUserType.equals("owner")){
+            convertUserType(Type.owner);
+        } else {
+            convertUserType(Type.owner);
         }
     }
 }

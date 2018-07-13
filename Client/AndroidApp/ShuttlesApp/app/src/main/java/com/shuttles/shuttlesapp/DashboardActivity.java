@@ -8,6 +8,7 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.view.MenuItem;
@@ -15,6 +16,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.shuttles.shuttlesapp.ConnectionController.UserInfo;
+import com.shuttles.shuttlesapp.Utils.Constants;
 
 public class DashboardActivity extends AppCompatActivity {
     private DrawerLayout drawerLayout;
@@ -80,6 +82,7 @@ public class DashboardActivity extends AppCompatActivity {
 
         /*Owner 권한이 있는 경우만 활성화*/
         if(!isOwner()) {
+            Log.i(Constants.LOG_TAG,"customer Type");
             Menu ownerPage = navigationView.getMenu();
             MenuItem menuItem = ownerPage.findItem(R.id.itm_order_manage);
             menuItem.setEnabled(false);
@@ -121,6 +124,12 @@ public class DashboardActivity extends AppCompatActivity {
                         Toast.makeText(getApplicationContext(),"주문내역조회",Toast.LENGTH_SHORT).show();
                         drawerLayout.closeDrawers();
                         intent = new Intent(getApplicationContext(), OrderHistoryActivity.class);
+                        startActivity(intent);
+                        break;
+                    case R.id.itm_order_manage:
+                        Toast.makeText(getApplicationContext(),"주문내역관리(사장님)",Toast.LENGTH_SHORT).show();
+                        drawerLayout.closeDrawers();
+                        intent = new Intent(getApplicationContext(), OrderManageActivity.class);
                         startActivity(intent);
                         break;
                 }
