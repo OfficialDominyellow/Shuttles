@@ -147,7 +147,6 @@ public class DrinkOrderDetailPopActivity extends AppCompatActivity implements Co
     }
 
     private void orderRequest(OrderRequestVO e){
-        Gson gson = new Gson();
         String jsonStr = e.toString();
         JSONObject jsonObject= null;
         try {

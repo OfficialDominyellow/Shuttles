@@ -123,7 +123,6 @@ public class DeliveryInfoActivity extends AppCompatActivity implements Connectio
     }
 
     private void orderRequest(OrderRequestVO e){
-        Gson gson = new Gson();
         String jsonStr = e.toString();
         JSONObject jsonObject= null;
         try {

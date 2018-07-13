@@ -20,6 +20,10 @@ import com.shuttles.shuttlesapp.vo.DrinkElementVO;
 import com.shuttles.shuttlesapp.vo.FoodElementVO;
 import com.shuttles.shuttlesapp.vo.OptionElementVO;
 import com.shuttles.shuttlesapp.vo.OrderRequestVO;
+import com.shuttles.shuttlesapp.vo.OrderVerifyVO;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 
@@ -28,7 +32,7 @@ public class OrderManageDetailActivity extends AppCompatActivity implements Conn
     private String mOrderManageDetailData;
     private Button orderAcceptButton;
     private RequestData requestData = null;
-
+    private int orderId;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,7 +43,18 @@ public class OrderManageDetailActivity extends AppCompatActivity implements Conn
         orderAcceptButton.setOnClickListener(new Button.OnClickListener() {
             @Override
             public void onClick(View v) {
-                requestData = new RequestData(RestAPI.Method.POST, RestAPI.DRINK_LIST, RestAPI.REQUEST_TYPE.DRINK_LIST);
+                Log.i(TAG, "onClick");
+                OrderVerifyVO orderVerifyVO = new OrderVerifyVO("receive",orderId);
+                String jsonStr = orderVerifyVO.toString();
+                JSONObject jsonObject= null;
+                try {
+                    jsonObject = new JSONObject(jsonStr);
+                } catch (JSONException e1) {
+                    e1.printStackTrace();
+                }
+                Log.i(TAG, jsonStr);
+
+                requestData = new RequestData(RestAPI.Method.POST, RestAPI.ADMIN_ORDERS_VERIFY, RestAPI.REQUEST_TYPE.ADMIN_ORDERS_VERIFY, jsonObject);
                 sendRequestData(requestData);
             }
         });
@@ -58,7 +73,7 @@ public class OrderManageDetailActivity extends AppCompatActivity implements Conn
 
     private void loadOrderManageDetail(){
         Log.i(TAG, "loadOrderManageDetail");
-        int orderId = getIntent().getExtras().getInt("orderId");
+        orderId = getIntent().getExtras().getInt("orderId");
         Log.i(TAG, "order ID : " + orderId);
         RequestData requestData = new RequestData(RestAPI.Method.GET, RestAPI.ADMIN_ORDERS_DETAIL+"/"+orderId, RestAPI.REQUEST_TYPE.ADMIN_ORDERS_DETAIL);
         sendRequestData(requestData);
@@ -97,6 +112,10 @@ public class OrderManageDetailActivity extends AppCompatActivity implements Conn
                 lvOrderReceipt.setAdapter(cartListViewAdapter);
 
                 ((TextView)findViewById(R.id.tv_product_total_price_manage_detail)).setText(orderRequestVO.getOrderPrice() + "원");
+                break;
+            case ADMIN_ORDERS_VERIFY:
+                Log.i(TAG, "callback ORDER_DETAIL" );
+
                 break;
         }
     }

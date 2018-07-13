@@ -50,7 +50,6 @@ public class OrderManageActivity extends AppCompatActivity implements Connection
     }
 
     private void loadAdminOrderList(){
-        Log.i(TAG, "loadAdminOrderList");
         RequestData requestData = new RequestData(RestAPI.Method.GET, RestAPI.ADMIN_ORDERS, RestAPI.REQUEST_TYPE.ADMIN_ORDERS);
         sendRequestData(requestData);
     }
