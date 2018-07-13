@@ -2,16 +2,30 @@ package com.shuttles.shuttlesapp;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.ListViewCompat;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.shuttles.shuttlesapp.ConnectionController.ConnectionImpl;
 import com.shuttles.shuttlesapp.ConnectionController.ConnectionResponse;
 import com.shuttles.shuttlesapp.ConnectionController.RequestData;
+import com.shuttles.shuttlesapp.ConnectionController.RequestHandler;
 import com.shuttles.shuttlesapp.ConnectionController.RestAPI;
+import com.shuttles.shuttlesapp.vo.DrinkElementVO;
+import com.shuttles.shuttlesapp.vo.FoodElementVO;
+import com.shuttles.shuttlesapp.vo.OptionElementVO;
+import com.shuttles.shuttlesapp.vo.OrderRequestVO;
+
+import java.util.ArrayList;
 
 public class OrderManageDetailActivity extends AppCompatActivity implements ConnectionImpl{
+    private String TAG = "OrderReceiptActivity";
+    private String mOrderManageDetailData;
     private Button orderAcceptButton;
     private RequestData requestData = null;
 
@@ -39,16 +53,52 @@ public class OrderManageDetailActivity extends AppCompatActivity implements Conn
             }
         });
 
+        loadOrderManageDetail();
+    }
+
+    private void loadOrderManageDetail(){
+        Log.i(TAG, "loadOrderManageDetail");
+        int orderId = getIntent().getExtras().getInt("orderId");
+        Log.i(TAG, "order ID : " + orderId);
+        RequestData requestData = new RequestData(RestAPI.Method.GET, RestAPI.ADMIN_ORDERS_DETAIL+"/"+orderId, RestAPI.REQUEST_TYPE.ADMIN_ORDERS_DETAIL);
+        sendRequestData(requestData);
     }
 
     @Override
     public void sendRequestData(RequestData requestData) {
-
+        new RequestHandler(this).execute(requestData);
     }
 
     @Override
     public void requestCallback(ConnectionResponse connectionResponse) {
+        Log.i(TAG, "response : " + connectionResponse.getResult());
+        switch (connectionResponse.getRequestType()) {
+            case FAILED:
+                Log.i(TAG, "callback FAILED");
+                break;
+            case ADMIN_ORDERS_DETAIL:
+                Log.i(TAG, "callback ORDER_DETAIL" );
+                Gson gson = new Gson();
+                mOrderManageDetailData = connectionResponse.getResult();
+                OrderRequestVO orderRequestVO = gson.fromJson(mOrderManageDetailData, new TypeToken<OrderRequestVO>(){}.getType());
 
+                ListViewCompat lvOrderReceipt = (ListViewCompat) findViewById(R.id.lv_order_receipt_manage_detail);
+                final CartListViewAdapterV2 cartListViewAdapter = new CartListViewAdapterV2();
+                //add coffee
+                for(DrinkElementVO e : orderRequestVO.getCoffee()){
+                    cartListViewAdapter.addItem(e.getName(), e.getPrice() * e.getCount(), e.getPrice(), e.getCount(), (ArrayList<OptionElementVO>) e.getOption(), e.getOid());
+                }
+
+                //add drink
+                for(FoodElementVO e : orderRequestVO.getFood()){
+                    cartListViewAdapter.addItem(e.getName(), e.getPrice() * e.getCount(), e.getPrice(), e.getCount(), (ArrayList<OptionElementVO>) e.getOption(), e.getOid());
+                }
+
+                lvOrderReceipt.setAdapter(cartListViewAdapter);
+
+                ((TextView)findViewById(R.id.tv_product_total_price_manage_detail)).setText(orderRequestVO.getOrderPrice() + "원");
+                break;
+        }
     }
 }
 

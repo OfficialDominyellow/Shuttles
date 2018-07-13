@@ -14,6 +14,7 @@ public class RestAPI {
     public static final String DRINK_OPTION = SERVER_IP +"/drink/detail"; //show coffee option detail
     public static final String NOTICE = SERVER_IP + "/notice";
     public static final String ADMIN_ORDERS = SERVER_IP + "/admin/orders";
+    public static final String ADMIN_ORDERS_DETAIL = SERVER_IP + "/admin/orders/detail";
 
     public enum REQUEST_TYPE {
         FAILED,
@@ -25,7 +26,8 @@ public class RestAPI {
         ORDER_DETAIL,
         IMAGE_LOAD,
         NOTICE,
-        ADMIN_ORDERS
+        ADMIN_ORDERS,
+        ADMIN_ORDERS_DETAIL
     }
 
     public enum Method {

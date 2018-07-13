@@ -22,11 +22,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="24sp"
-                android:text="주문내역 관리 상세"
+                android:text="주문내역 관리 상세(사장님)"
                 android:textStyle="bold"
                 android:textColor="@color/colorAccent"
                 android:layout_gravity="center"
-                android:id="@+id/tv_toolbar_title" />
+                android:id="@+id/tv_toolbar_title_manage_detail" />
 
         </android.support.v7.widget.Toolbar>
 
@@ -36,419 +36,19 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
         <LinearLayout
+            android:layout_above="@id/footer"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_above="@id/footer">
-            <ScrollView
+            android:orientation="vertical">
+
+            <android.support.v7.widget.ListViewCompat
+                android:id="@+id/lv_order_receipt_manage_detail"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:padding="5dp">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:padding="8dp"
-                    android:orientation="vertical">
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:padding="12dp"
-                        android:orientation="vertical">
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:textColor="@color/black"
-                            android:textSize="16dp"
-                            android:text="주문정보"
-                            android:textStyle="bold"/>
-
-                        <View
-                            android:layout_width="match_parent"
-                            android:layout_height="2dp"
-                            android:layout_marginTop="8dp"
-                            android:layout_marginBottom="8dp"
-                            android:background="@color/black"/>
-
-                        <LinearLayout
-                            android:orientation="horizontal"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:padding="16dp">
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:textColor="@color/black"
-                                android:text="주문정보"/>
-                            <LinearLayout
-                                android:layout_width="fill_parent"
-                                android:layout_height="wrap_content"
-                                android:gravity="right">
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:gravity="right"
-                                    android:text="주문번호"/>
-                                <TextView
-                                    android:layout_marginLeft="4dp"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:gravity="right"
-                                    android:textSize="12dp"
-                                    android:textColor="@color/hotpink"
-                                    android:background="@color/darkGray"
-                                    android:text="배송완료"/>
-                            </LinearLayout>
-                        </LinearLayout>
-
-                        <View
-                            android:layout_width="match_parent"
-                            android:layout_height="1dp"
-                            android:layout_marginTop="8dp"
-                            android:layout_marginBottom="8dp"
-                            android:background="@color/lightGray"/>
-
-                        <LinearLayout
-                            android:orientation="horizontal"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:padding="16dp">
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:textColor="@color/black"
-                                android:text="주문시간"/>
-
-                            <TextView
-                                android:layout_width="fill_parent"
-                                android:layout_height="wrap_content"
-                                android:gravity="right"
-                                android:text="2018년 1월 2일 몇시"/>
-                        </LinearLayout>
-
-                        <View
-                            android:layout_width="match_parent"
-                            android:layout_height="1dp"
-                            android:layout_marginTop="8dp"
-                            android:layout_marginBottom="8dp"
-                            android:background="@color/lightGray"/>
-
-                        <LinearLayout
-                            android:orientation="horizontal"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:padding="16dp">
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:textColor="@color/black"
-                                android:text="주문금액"/>
-
-                            <TextView
-                                android:layout_width="fill_parent"
-                                android:layout_height="wrap_content"
-                                android:gravity="right"
-                                android:textColor="@color/hotpink"
-                                android:textStyle="bold"
-                                android:text="10원"/>
-                        </LinearLayout>
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:padding="12dp"
-                        android:orientation="vertical">
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:textColor="@color/black"
-                            android:textSize="16dp"
-                            android:text="배달정보"
-                            android:textStyle="bold"/>
-
-                        <View
-                            android:layout_width="match_parent"
-                            android:layout_height="2dp"
-                            android:layout_marginTop="8dp"
-                            android:layout_marginBottom="8dp"
-                            android:background="@color/black"/>
-
-                        <LinearLayout
-                            android:orientation="horizontal"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:padding="16dp">
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:textColor="@color/black"
-                                android:text="연락처"/>
-
-                            <TextView
-                                android:layout_width="fill_parent"
-                                android:layout_height="wrap_content"
-                                android:gravity="right"
-                                android:text="123-123-123"/>
-                        </LinearLayout>
-
-                        <View
-                            android:layout_width="match_parent"
-                            android:layout_height="1dp"
-                            android:layout_marginTop="8dp"
-                            android:layout_marginBottom="8dp"
-                            android:background="@color/lightGray"/>
-
-                        <LinearLayout
-                            android:orientation="horizontal"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:padding="16dp">
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:textColor="@color/black"
-                                android:text="배달주소"/>
-
-                            <TextView
-                                android:layout_width="fill_parent"
-                                android:layout_height="wrap_content"
-                                android:gravity="right"
-                                android:text="~시 ~구 ~동 123-1"/>
-                        </LinearLayout>
-
-                        <View
-                            android:layout_width="match_parent"
-                            android:layout_height="1dp"
-                            android:layout_marginTop="8dp"
-                            android:layout_marginBottom="8dp"
-                            android:background="@color/lightGray"/>
-
-                        <LinearLayout
-                            android:orientation="horizontal"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:padding="16dp">
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:textColor="@color/black"
-                                android:text="상세주소"/>
-
-                            <TextView
-                                android:layout_width="fill_parent"
-                                android:layout_height="wrap_content"
-                                android:gravity="right"
-                                android:text="태광이네집"/>
-                        </LinearLayout>
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:padding="12dp"
-                        android:orientation="vertical">
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:textColor="@color/black"
-                            android:textSize="16dp"
-                            android:text="주문내역"
-                            android:textStyle="bold"/>
-
-                        <View
-                            android:layout_width="match_parent"
-                            android:layout_height="2dp"
-                            android:layout_marginTop="8dp"
-                            android:layout_marginBottom="8dp"
-                            android:background="@color/black"/>
-
-                        <LinearLayout
-                            android:orientation="horizontal"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:padding="16dp">
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:textColor="@color/black"
-                                android:textStyle="bold"
-                                android:text="커피이름"/>
-
-                            <TextView
-                                android:layout_width="fill_parent"
-                                android:layout_height="wrap_content"
-                                android:gravity="right"
-                                android:textColor="@color/hotpink"
-                                android:textStyle="bold"
-                                android:text="246원"/>
-                        </LinearLayout>
-
-                        <View
-                            android:layout_width="match_parent"
-                            android:layout_height="1dp"
-                            android:layout_marginTop="8dp"
-                            android:layout_marginBottom="8dp"
-                            android:background="@color/lightGray"/>
-
-                        <LinearLayout
-                            android:orientation="horizontal"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:paddingVertical="4dp"
-                            android:paddingHorizontal="16dp">
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:textColor="@color/black"
-                                android:text="가격"/>
-
-                            <TextView
-                                android:layout_width="fill_parent"
-                                android:layout_height="wrap_content"
-                                android:gravity="right"
-                                android:text="123원"/>
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:orientation="horizontal"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:paddingVertical="4dp"
-                            android:paddingHorizontal="16dp">
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:textColor="@color/black"
-                                android:text="수량"/>
-
-                            <TextView
-                                android:layout_width="fill_parent"
-                                android:layout_height="wrap_content"
-                                android:gravity="right"
-                                android:text="2"/>
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:orientation="horizontal"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:paddingVertical="4dp"
-                            android:paddingHorizontal="16dp">
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:textColor="@color/black"
-                                android:text="옵션"/>
-
-                            <TextView
-                                android:layout_width="fill_parent"
-                                android:layout_height="wrap_content"
-                                android:gravity="right"
-                                android:text="상세보기"/>
-                        </LinearLayout>
-
-                        <View
-                            android:layout_width="match_parent"
-                            android:layout_height="1dp"
-                            android:layout_marginTop="8dp"
-                            android:layout_marginBottom="8dp"
-                            android:background="@color/shuttlesOrange"/>
-
-                        <LinearLayout
-                            android:orientation="horizontal"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:padding="16dp">
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:textColor="@color/black"
-                                android:textStyle="bold"
-                                android:text="커피이름"/>
-
-                            <TextView
-                                android:layout_width="fill_parent"
-                                android:layout_height="wrap_content"
-                                android:gravity="right"
-                                android:textColor="@color/hotpink"
-                                android:textStyle="bold"
-                                android:text="246원"/>
-                        </LinearLayout>
-
-                        <View
-                            android:layout_width="match_parent"
-                            android:layout_height="1dp"
-                            android:layout_marginTop="8dp"
-                            android:layout_marginBottom="8dp"
-                            android:background="@color/lightGray"/>
-
-                        <LinearLayout
-                            android:orientation="horizontal"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:paddingVertical="4dp"
-                            android:paddingHorizontal="16dp">
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:textColor="@color/black"
-                                android:text="가격"/>
-
-                            <TextView
-                                android:layout_width="fill_parent"
-                                android:layout_height="wrap_content"
-                                android:gravity="right"
-                                android:text="123원"/>
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:orientation="horizontal"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:paddingVertical="4dp"
-                            android:paddingHorizontal="16dp">
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:textColor="@color/black"
-                                android:text="수량"/>
-
-                            <TextView
-                                android:layout_width="fill_parent"
-                                android:layout_height="wrap_content"
-                                android:gravity="right"
-                                android:text="2"/>
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:orientation="horizontal"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:paddingVertical="4dp"
-                            android:paddingHorizontal="16dp">
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:textColor="@color/black"
-                                android:text="옵션"/>
-
-                            <TextView
-                                android:layout_width="fill_parent"
-                                android:layout_height="wrap_content"
-                                android:gravity="right"
-                                android:text="상세보기"/>
-                        </LinearLayout>
-
-                        <View
-                            android:layout_width="match_parent"
-                            android:layout_height="1dp"
-                            android:layout_marginTop="8dp"
-                            android:layout_marginBottom="8dp"
-                            android:background="@color/shuttlesOrange"/>
-
-                    </LinearLayout>
-                </LinearLayout>
-            </ScrollView>
+                android:dividerHeight="1dp"
+                android:divider="@color/lightGray"
+                android:scrollbars="vertical">
+            </android.support.v7.widget.ListViewCompat>
         </LinearLayout>
 
         <LinearLayout
@@ -466,54 +66,46 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="48dp"
+                android:gravity="center"
                 android:orientation="horizontal">
 
-                <Button
-                    android:layout_width="0dp"
+                <TextView
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="8dp"
-                    android:layout_marginRight="8dp"
-                    android:layout_marginTop="8dp"
-                    android:layout_weight="1"
-                    android:background="@drawable/bg_login_selector"
-                    android:clickable="true"
-                    android:padding="10dp"
-                    android:text="뭐집어넣지"
-                    android:textAllCaps="false"
-                    android:textColor="@color/colorAccent" />
+                    android:text="Total : "
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="20sp" />
 
-                <Button
-                    android:layout_width="0dp"
+                <TextView
+                    android:id="@+id/tv_product_total_price_manage_detail"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="8dp"
-                    android:layout_marginLeft="8dp"
-                    android:layout_marginTop="8dp"
-                    android:layout_weight="1"
-                    android:background="@drawable/bg_login_selector"
-                    android:clickable="true"
-                    android:padding="10dp"
-                    android:text="시발"
-                    android:textAllCaps="false"
-                    android:textColor="@color/colorAccent" />
+                    android:text=" ~~~~원"
+                    android:textColor="@color/hotpink"
+                    android:textSize="30sp"
+                    android:textStyle="bold" />
             </LinearLayout>
 
-            <Button
-                android:id="@+id/btn_order_accept"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"
-                android:layout_marginTop="8dp"
-                android:background="@drawable/bg_login_selector"
-                android:clickable="true"
-                android:padding="10dp"
-                android:text="주문 받기"
-                android:textAllCaps="false"
-                android:textColor="@color/colorAccent" />
+                android:gravity="center"
+                android:orientation="horizontal">
+                <Button
+                    android:id="@+id/btn_order_accept"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bg_login_selector"
+                    android:text="주문받기"
+                    android:textColor="@color/colorAccent"
+                    android:textAllCaps="false"
+                    android:padding="10dp"
+                    android:clickable="true"
+                    android:layout_marginTop="8dp"/>
+            </LinearLayout>
         </LinearLayout>
+
     </RelativeLayout>
-
-
-
 
 </LinearLayout>
