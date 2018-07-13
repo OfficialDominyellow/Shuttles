@@ -48,6 +48,7 @@ public class NoticeActivity extends AppCompatActivity implements ConnectionImpl{
             }
         });
 
+        /*
         ListViewCompat lvNotice = (ListViewCompat) findViewById(R.id.lv_notice);
 
         lvNotice.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -63,7 +64,7 @@ public class NoticeActivity extends AppCompatActivity implements ConnectionImpl{
                 startActivity(intent);
             }
         });
-
+        */
         loadAllNotice();
     }
 

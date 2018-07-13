@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.ListViewCompat;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,12 +15,24 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+import com.shuttles.shuttlesapp.ConnectionController.ConnectionImpl;
+import com.shuttles.shuttlesapp.ConnectionController.ConnectionResponse;
+import com.shuttles.shuttlesapp.ConnectionController.RequestData;
+import com.shuttles.shuttlesapp.ConnectionController.RequestHandler;
+import com.shuttles.shuttlesapp.ConnectionController.RestAPI;
+import com.shuttles.shuttlesapp.Utils.Constants;
+import com.shuttles.shuttlesapp.Utils.Utils;
+import com.shuttles.shuttlesapp.vo.NoticeListVO;
 import com.shuttles.shuttlesapp.vo.OrderManageListVO;
 import com.shuttles.shuttlesapp.vo.OrderManageListVO;
 
 import java.util.ArrayList;
+import java.util.List;
 
-public class OrderManageActivity extends AppCompatActivity {
+public class OrderManageActivity extends AppCompatActivity implements ConnectionImpl {
+    private String mOrderManageData;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,13 +67,65 @@ public class OrderManageActivity extends AppCompatActivity {
             }
         });
 
-        //add dummy data
+        /*add dummy data
         for(int i=0; i<15; i++){
             orderManageListViewAdapter.addItem("제육 외 " + i + "건", "AA"+i+"A"+i+"BB", i%4) ;
             orderManageListViewAdapter.addItem("커피 외 " + i + "건", "AA"+i+"A"+i+"BB", i%4) ;
         }
+        */
 
-        lvOrderManage.setAdapter(orderManageListViewAdapter);
+        loadAllOrder();
+    }
+
+    private void loadAllOrder() {
+        RequestData requestData = new RequestData(RestAPI.Method.GET, RestAPI.ADMIN_ORDER, RestAPI.REQUEST_TYPE.ADMIN_ORDER);
+        sendRequestData(requestData);
+    }
+
+    @Override
+    public void sendRequestData(RequestData requestData) {
+        new RequestHandler(this).execute(requestData);
+    }
+
+    @Override
+    public void requestCallback(ConnectionResponse connectionResponse) {
+        switch (connectionResponse.getRequestType()){
+            case FAILED:
+                Log.i(Constants.LOG_TAG,"callback failed");
+                break;
+            case ADMIN_ORDER:
+                Log.i(Constants.LOG_TAG,"ADMIN_ORDER response success");
+                ListViewCompat lvOrderManage = (ListViewCompat) findViewById(R.id.lv_order_manage);
+                final OrderManageListViewAdapter orderManageListViewAdapter = new OrderManageListViewAdapter();
+
+                lvOrderManage.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                        OrderManageListVO orderManageListVO = (OrderManageListVO) adapterView.getItemAtPosition(i);
+
+                        String title = orderManageListVO.getTitle();
+                        String orderSerial = orderManageListVO.getOrderSerial();
+                        int status = orderManageListVO.getStatus();
+                        String statusStatement = orderManageListVO.getStatusStatement();
+
+                        Toast.makeText(getApplicationContext(), "titlie : " + title + ", serial : " + orderSerial + ", status : " + status + ", statusStatement : " + statusStatement +", pos : " + i, Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(getApplicationContext(), OrderManageDetailActivity.class);
+                        startActivity(intent);
+                    }
+                });
+
+                Gson gson = new Gson();
+                mOrderManageData = connectionResponse.getResult();
+                //List<NoticeListVO> noticeList = gson.fromJson(mOrderManageData, new TypeToken<List<NoticeListVO>>(){}.getType());
+
+                //for(NoticeListVO e : noticeList) {
+                   // noticeListViewAdapter.addItem(e);
+                //}
+
+                lvOrderManage.setAdapter(orderManageListViewAdapter);
+
+                break;
+        }
     }
 }
 

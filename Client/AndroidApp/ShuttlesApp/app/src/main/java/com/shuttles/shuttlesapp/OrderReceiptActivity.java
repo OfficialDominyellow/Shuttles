@@ -85,8 +85,6 @@ public class OrderReceiptActivity extends AppCompatActivity implements Connectio
                 lvOrderReceipt.setAdapter(cartListViewAdapter);
 
                 ((TextView)findViewById(R.id.tv_product_total_price_receipt)).setText(orderRequestVO.getOrderPrice() + "원");
-
-
                 break;
         }
     }
