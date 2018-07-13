@@ -70,7 +70,7 @@ public class AddressNewActivity extends AppCompatActivity {
                 mAddressExtra = etAddressExtra.getText() + "";
                 mOrderComment = etOrderComment.getText() + "";
 
-                if(mZipcode.equals("") || mAddress1.equals("") || mAddress2.equals("") || mAddressExtra.equals("") || mOrderComment.equals("")){
+                if(mZipcode.equals("") || mAddress1.equals("")  || mAddressExtra.equals("") || mOrderComment.equals("")){
                     Toast.makeText(getApplicationContext(), "주소 입력이 부족합니다.", Toast.LENGTH_SHORT).show();
                     return;
                 }
