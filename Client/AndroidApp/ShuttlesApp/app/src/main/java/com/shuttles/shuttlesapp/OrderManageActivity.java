@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.ListViewCompat;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,12 +15,24 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+import com.shuttles.shuttlesapp.ConnectionController.ConnectionImpl;
+import com.shuttles.shuttlesapp.ConnectionController.ConnectionResponse;
+import com.shuttles.shuttlesapp.ConnectionController.RequestData;
+import com.shuttles.shuttlesapp.ConnectionController.RequestHandler;
+import com.shuttles.shuttlesapp.ConnectionController.RestAPI;
+import com.shuttles.shuttlesapp.vo.OrderHistoryListVO;
 import com.shuttles.shuttlesapp.vo.OrderManageListVO;
 import com.shuttles.shuttlesapp.vo.OrderManageListVO;
 
 import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
 
-public class OrderManageActivity extends AppCompatActivity {
+public class OrderManageActivity extends AppCompatActivity implements ConnectionImpl{
+    final private String TAG = "OrderManageActivity";
+    private String mOrderManageData;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,32 +48,67 @@ public class OrderManageActivity extends AppCompatActivity {
             }
         });
 
-        ListViewCompat lvOrderManage = (ListViewCompat) findViewById(R.id.lv_order_manage);
-        final OrderManageListViewAdapter orderManageListViewAdapter = new OrderManageListViewAdapter();
+        loadAdminOrderList();
+    }
 
-        lvOrderManage.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                OrderManageListVO orderManageListVO = (OrderManageListVO) adapterView.getItemAtPosition(i);
+    private void loadAdminOrderList(){
+        Log.i(TAG, "loadAdminOrderList");
+        RequestData requestData = new RequestData(RestAPI.Method.GET, RestAPI.ADMIN_ORDERS, RestAPI.REQUEST_TYPE.ADMIN_ORDERS);
+        sendRequestData(requestData);
+    }
 
-                String title = orderManageListVO.getTitle();
-                String orderSerial = orderManageListVO.getOrderSerial();
-                int status = orderManageListVO.getStatus();
-                String statusStatement = orderManageListVO.getStatusStatement();
+    @Override
+    public void sendRequestData(RequestData requestData) {
+        new RequestHandler(this).execute(requestData);
+    }
 
-                Toast.makeText(getApplicationContext(), "titlie : " + title + ", serial : " + orderSerial + ", status : " + status + ", statusStatement : " + statusStatement +", pos : " + i, Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(getApplicationContext(), OrderManageDetailActivity.class);
-                startActivity(intent);
-            }
-        });
+    @Override
+    public void requestCallback(ConnectionResponse connectionResponse) {
+        Log.i(TAG, "response : " + connectionResponse.getResult());
+        switch (connectionResponse.getRequestType()) {
+            case FAILED:
+                //failed
+                Log.i(TAG, "callback FAILED");
+                break;
+            case ADMIN_ORDERS:
+                Log.i(TAG, "callback ADMIN_ORDERS");
+                ListViewCompat lvOrderManage = (ListViewCompat) findViewById(R.id.lv_order_manage);
+                lvOrderManage.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                        OrderManageListVO orderManageListVO = (OrderManageListVO) adapterView.getItemAtPosition(i);
 
-        //add dummy data
-        for(int i=0; i<15; i++){
-            orderManageListViewAdapter.addItem("제육 외 " + i + "건", "AA"+i+"A"+i+"BB", i%4) ;
-            orderManageListViewAdapter.addItem("커피 외 " + i + "건", "AA"+i+"A"+i+"BB", i%4) ;
+                        int orderId = orderManageListVO.getOrderId();
+                        int orderPrice = orderManageListVO.getOrderPrice();
+                        int orderState = orderManageListVO.getOrderState();
+                        String orderStateString = orderManageListVO.getStatusStatement();
+
+                        Toast.makeText(getApplicationContext(), "order id : " + orderId + ", orderPrice : " + orderPrice + ", status : " + orderState + ", statusStatement : " + orderStateString +", pos : " + i, Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(getApplicationContext(), OrderManageDetailActivity.class);
+                        intent.putExtra("orderId", orderId);
+                        startActivity(intent);
+                    }
+                });
+
+                final OrderManageListViewAdapter orderManageListViewAdapter = new OrderManageListViewAdapter();
+                Gson gson = new Gson();
+                mOrderManageData = connectionResponse.getResult();
+                List<OrderManageListVO> orderManageList =  gson.fromJson(mOrderManageData, new TypeToken<List<OrderManageListVO>>(){}.getType());
+
+                orderManageList.sort(new Comparator<OrderManageListVO>() {
+                    @Override
+                    public int compare(OrderManageListVO o1, OrderManageListVO o2) {
+                        return o2.getOrderId() - o1.getOrderId();
+                    }
+                });
+
+                for(OrderManageListVO e : orderManageList) {
+                    orderManageListViewAdapter.addItem(e.getOrderId(), e.getOrderPrice(), e.getOrderState(), e.getOrderDate(), e.getOrderUserId());
+                }
+
+                lvOrderManage.setAdapter(orderManageListViewAdapter);
+                break;
         }
-
-        lvOrderManage.setAdapter(orderManageListViewAdapter);
     }
 }
 
@@ -93,18 +141,20 @@ class OrderManageListViewAdapter extends BaseAdapter {
 
         // 화면에 표시될 View(Layout이 inflate된)으로부터 위젯에 대한 참조 획득
         TextView tvOrderManageTitle = (TextView) convertView.findViewById(R.id.tv_order_manage_title);
-        TextView tvOrderManageSerial = (TextView) convertView.findViewById(R.id.tv_order_manage_serial);
+        TextView tvOrderManagePrice = (TextView) convertView.findViewById(R.id.tv_order_manage_price);
         TextView tvOrderManageStatus = (TextView) convertView.findViewById(R.id.tv_order_manage_status);
-
+        TextView tvOrderManageDate = (TextView) convertView.findViewById(R.id.tv_order_manage_date);
+        TextView tvOrderManageUserId = (TextView) convertView.findViewById(R.id.tv_order_manage_user_id);
 
         // Data Set(listViewItemList)에서 position에 위치한 데이터 참조 획득
         OrderManageListVO orderManageListVO = listViewItemList.get(position);
 
         // 아이템 내 각 위젯에 데이터 반영
-        tvOrderManageTitle.setText(orderManageListVO.getTitle());
-        tvOrderManageSerial.setText(orderManageListVO.getOrderSerial());
+        tvOrderManageTitle.setText(orderManageListVO.getOrderPrice() + "원");
+        tvOrderManagePrice.setText(orderManageListVO.getOrderPrice() + "원");
         tvOrderManageStatus.setText(orderManageListVO.getStatusStatement());
-
+        tvOrderManageDate.setText(orderManageListVO.getOrderDate());
+        tvOrderManageUserId.setText(orderManageListVO.getOrderUserId());
 
         return convertView;
     }
@@ -122,12 +172,14 @@ class OrderManageListViewAdapter extends BaseAdapter {
     }
 
     // 아이템 데이터 추가를 위한 함수. 개발자가 원하는대로 작성 가능.
-    public void addItem(String title, String orderSerial, int status) {
+    public void addItem(int orderId, int orderPrice, int orderState, String orderDate, String userId) {
         OrderManageListVO item = new OrderManageListVO();
 
-        item.setTitle(title);
-        item.setOrderSerial(orderSerial);
-        item.setStatus(status);
+        item.setOrderId(orderId);
+        item.setOrderPrice(orderPrice);
+        item.setOrderState(orderState);
+        item.setOrderDate(orderDate);
+        item.setOrderUserId(userId);
 
         listViewItemList.add(item);
     }

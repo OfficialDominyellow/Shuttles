@@ -33,18 +33,19 @@
             android:orientation="horizontal"
             android:gravity="center_vertical"
             android:layout_weight="1">
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="주문번호 : "
-                android:textSize="16dp"
+                android:gravity="center_vertical"
+                android:text="주문 총액 : "
                 android:textColor="@color/darkGray"
-                android:gravity="center_vertical" />
+                android:textSize="16dp" />
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="주문번호"
-                android:id="@+id/tv_order_manage_serial"
+                android:text="0원"
+                android:id="@+id/tv_order_manage_price"
                 android:textSize="16dp"
                 android:textColor="@color/darkGray"
                 android:gravity="center_vertical" />
@@ -63,7 +64,16 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="2018-02-02 오후 7시"
-            android:id="@+id/tv_order_date"
+            android:id="@+id/tv_order_manage_date"
+            android:textSize="12dp"
+            android:textColor="@color/darkGray"
+            android:gravity="center_vertical"
+            android:layout_weight="1" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="고광태@이대용.com"
+            android:id="@+id/tv_order_manage_user_id"
             android:textSize="12dp"
             android:textColor="@color/darkGray"
             android:gravity="center_vertical"

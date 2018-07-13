@@ -10,6 +10,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -77,10 +78,11 @@ public class DeliveryInfoActivity extends AppCompatActivity implements Connectio
 
                 int id = addressVO.getId();
                 String fullAddress = addressVO.getZipcode() + " " + addressVO.getAddress1() + " " + addressVO.getAddress2() + " " + addressVO.getAddressExtra();
+                String orderComment = addressVO.getOrderComment();
 
                 Toast.makeText(getApplicationContext(), "id : " + id + " pos : " + i + ", full address : " + fullAddress, Toast.LENGTH_SHORT).show();
 
-                showAlertDialog(fullAddress);
+                showAlertDialog(fullAddress, orderComment);
             }
         });
 
@@ -95,16 +97,21 @@ public class DeliveryInfoActivity extends AppCompatActivity implements Connectio
         lvAddressList.setAdapter(addressListViewAdapter);
     }
 
-    private void showAlertDialog(final String fullAddress){
+    private void showAlertDialog(final String fullAddress, final String orderComment){
         AlertDialog alertDialog = new AlertDialog.Builder(this).create();
-        alertDialog.setTitle("주소 선택");
-        alertDialog.setMessage("해당 주소로 배달하시겠습니까?\n\n" + fullAddress);
+        alertDialog.setTitle("배송 메세지");
+        alertDialog.setMessage("배송메세지를 입력해주세요.");
+
         //배송메세지 쓰는 곳이 추가되어야할 듯 하다.
+        final EditText et = new EditText(this);
+        et.setText(orderComment);
+        alertDialog.setView(et);
         alertDialog.setButton(DialogInterface.BUTTON_NEUTRAL, "확인", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 OrderRequestVO.getInstance().setOrder_address(fullAddress);
                 OrderRequestVO.getInstance().setUser_id(UserInfo.getInstance().getProfile().getEmail());
+                OrderRequestVO.getInstance().setOrder_comment(orderComment);
                 Log.i(TAG, OrderRequestVO.getInstance().toString());
                 orderRequest(OrderRequestVO.getInstance());
                 //refresh activity
@@ -138,13 +145,16 @@ public class DeliveryInfoActivity extends AppCompatActivity implements Connectio
     public void requestCallback(ConnectionResponse connectionResponse) {
         switch(connectionResponse.getRequestType()){
             case ORDER:
-                Log.e(TAG, "Order Request.");
+                Log.i(TAG, "Order Request.");
+                Intent intent = new Intent(getApplicationContext(), DashboardActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
                 break;
             case FAILED:
-                Log.e(TAG, "Request Fail.");
+                Log.i(TAG, "Request Fail.");
                 break;
             default:
-                Log.e(TAG, "There is no matched request type.");
+                Log.i(TAG, "There is no matched request type.");
                 break;
         }
     }

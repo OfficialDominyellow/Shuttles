@@ -23,6 +23,7 @@ public class OrderRequestVO {
 
     private String user_id;
     private String order_address;
+    private String order_comment;
     private int order_price;
 
     private List<DrinkElementVO> coffee = new ArrayList<>();
@@ -128,4 +129,11 @@ public class OrderRequestVO {
         return order_price;
     }
 
+    public String getOrder_comment() {
+        return order_comment;
+    }
+
+    public void setOrder_comment(String order_comment) {
+        this.order_comment = order_comment;
+    }
 }
