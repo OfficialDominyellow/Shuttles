@@ -14,36 +14,46 @@ import android.util.Log;
 
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.shuttles.shuttlesapp.OrderHistoryActivity;
 import com.shuttles.shuttlesapp.R;
 import com.shuttles.shuttlesapp.Utils.Constants;
+import com.shuttles.shuttlesapp.vo.OrderResponseVO;
 
 public class ShuttlesFirebaseMessagingService extends FirebaseMessagingService {
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
-        if(remoteMessage.getNotification() != null)
+        if (remoteMessage.getNotification() != null)
             sendNotification(remoteMessage.getNotification().getBody());
     }
 
     private void sendNotification(String messageBody) {
         //TODO:모든 메세지는 수신된지 10초 이내에 처리되어야 함
-        Log.i(Constants.LOG_TAG,"noti messagebody : "+messageBody);
+        Log.i(Constants.LOG_TAG, "noti messagebody : " + messageBody);
+
+        Gson gson = new Gson();
+        OrderResponseVO orderResponseVO = gson.fromJson(messageBody, new TypeToken<OrderResponseVO>() {
+        }.getType());
+
+        Log.i(Constants.LOG_TAG, "parse messagebody : " + orderResponseVO.getSubject() + orderResponseVO.getType());
 
         Intent intent = new Intent(this, OrderHistoryActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0 , intent,
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent,
                 PendingIntent.FLAG_ONE_SHOT);
 
-        Uri defaultSoundUri= RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+        Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
 
-        NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this,"notify_001")
+        NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this, "notify_001")
                 .setSmallIcon(R.mipmap.ic_launcher)
-                .setContentTitle("Shuttles Push Test")
+                .setContentTitle(orderResponseVO.getSubject())
                 .setTicker("Notify")
-                .setContentText(messageBody)
                 .setAutoCancel(true)
-                .setSound(defaultSoundUri)
-                .setContentIntent(pendingIntent);
+                .setSound(defaultSoundUri);
+
+        if (orderResponseVO.getType().equals("order_complete"))
+            notificationBuilder.setContentIntent(pendingIntent);
 
         NotificationManager notificationManager =
                 (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
@@ -55,8 +65,9 @@ public class ShuttlesFirebaseMessagingService extends FirebaseMessagingService {
             notificationManager.createNotificationChannel(channel);
         }
 
-        notificationManager.notify(0 , notificationBuilder.build());
-        Log.i(Constants.LOG_TAG,"notify");
+        notificationManager.notify(0, notificationBuilder.build());
+
+        Log.i(Constants.LOG_TAG, "notify");
     }
 
 }

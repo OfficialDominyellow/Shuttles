@@ -1,5 +1,7 @@
 package com.shuttles.shuttlesapp.vo;
 
+import com.google.gson.Gson;
+
 /**
  * Created by domin on 2018-05-27.
  */
@@ -57,6 +59,7 @@ public class OptionElementVO {
 
     @Override
     public String toString() {
+        /*
         String str = "";
         str += "option_id : " + getOption_id() + "\n";
         str += "option_name : " + getOption_name() + "\n";
@@ -64,5 +67,8 @@ public class OptionElementVO {
         str += "Addition : " + isAddition() + "\n";
         str += "resId : " + getResId() + "\n";
         return str;
+        */
+        Gson gson = new Gson();
+        return gson.toJson(this);
     }
 }
