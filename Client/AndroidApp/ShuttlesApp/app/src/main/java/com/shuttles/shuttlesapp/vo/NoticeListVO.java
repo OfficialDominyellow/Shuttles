@@ -1,9 +1,12 @@
 package com.shuttles.shuttlesapp.vo;
+
+import java.io.Serializable;
+
 /**
  * Created by domin on 2018-01-28.
  */
 
-public class NoticeListVO {
+public class NoticeListVO implements Serializable{
     private String notice_id;
     private String notice_subject;
     private String notice_date;

@@ -100,6 +100,7 @@ public class NoticeActivity extends AppCompatActivity implements ConnectionImpl{
 
                         Toast.makeText(getApplicationContext(), "titlie : " + subject + ", content : " + date + ", pos : " + i, Toast.LENGTH_SHORT).show();
                         Intent intent = new Intent(getApplicationContext(), NoticeDetailActivity.class);
+                        intent.putExtra("notice", noticeListVO);
                         startActivity(intent);
                     }
                 });
