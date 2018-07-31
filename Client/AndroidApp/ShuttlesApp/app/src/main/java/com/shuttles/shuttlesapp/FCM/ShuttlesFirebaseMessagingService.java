@@ -16,7 +16,7 @@ import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.shuttles.shuttlesapp.OrderHistoryActivity;
+import com.shuttles.shuttlesapp.View.OrderHistoryActivity;
 import com.shuttles.shuttlesapp.R;
 import com.shuttles.shuttlesapp.Utils.Constants;
 import com.shuttles.shuttlesapp.vo.OrderResponseVO;

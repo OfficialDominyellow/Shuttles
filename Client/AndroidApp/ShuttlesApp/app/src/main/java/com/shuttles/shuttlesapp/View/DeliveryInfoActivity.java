@@ -1,4 +1,4 @@
-package com.shuttles.shuttlesapp;
+package com.shuttles.shuttlesapp.View;
 
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -14,13 +14,13 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import com.google.gson.Gson;
 import com.shuttles.shuttlesapp.ConnectionController.ConnectionImpl;
 import com.shuttles.shuttlesapp.ConnectionController.ConnectionResponse;
 import com.shuttles.shuttlesapp.ConnectionController.RequestData;
 import com.shuttles.shuttlesapp.ConnectionController.RequestHandler;
 import com.shuttles.shuttlesapp.ConnectionController.RestAPI;
 import com.shuttles.shuttlesapp.ConnectionController.UserInfo;
+import com.shuttles.shuttlesapp.R;
 import com.shuttles.shuttlesapp.vo.AddressVO;
 import com.shuttles.shuttlesapp.vo.OrderRequestVO;
 

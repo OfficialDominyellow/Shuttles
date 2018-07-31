@@ -1,10 +1,12 @@
-package com.shuttles.shuttlesapp;
+package com.shuttles.shuttlesapp.View;
 
         import android.app.Activity;
         import android.os.Bundle;
         import android.os.Handler;
         import android.support.annotation.Nullable;
         import android.support.v7.app.AppCompatActivity;
+
+        import com.shuttles.shuttlesapp.R;
 
 /**
  * Created by domin on 2018-01-12.

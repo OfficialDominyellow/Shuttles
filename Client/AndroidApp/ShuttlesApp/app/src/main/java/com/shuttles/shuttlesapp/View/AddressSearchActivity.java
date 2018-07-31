@@ -1,4 +1,4 @@
-package com.shuttles.shuttlesapp;
+package com.shuttles.shuttlesapp.View;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -9,6 +9,8 @@ import android.webkit.JavascriptInterface;
 import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 import android.widget.TextView;
+
+import com.shuttles.shuttlesapp.R;
 
 /**
  * Created by domin on 2018-03-22.

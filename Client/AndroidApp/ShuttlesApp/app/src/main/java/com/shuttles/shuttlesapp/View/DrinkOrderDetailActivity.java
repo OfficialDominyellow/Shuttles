@@ -1,4 +1,4 @@
-package com.shuttles.shuttlesapp;
+package com.shuttles.shuttlesapp.View;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,6 +10,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.shuttles.shuttlesapp.GlobalApplication;
+import com.shuttles.shuttlesapp.R;
 import com.shuttles.shuttlesapp.vo.DrinkListVO;
 
 public class DrinkOrderDetailActivity extends AppCompatActivity {

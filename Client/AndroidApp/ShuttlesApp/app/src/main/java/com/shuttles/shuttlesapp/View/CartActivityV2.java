@@ -1,4 +1,4 @@
-package com.shuttles.shuttlesapp;
+package com.shuttles.shuttlesapp.View;
 
 import android.content.Context;
 import android.content.Intent;
@@ -15,6 +15,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.shuttles.shuttlesapp.R;
 import com.shuttles.shuttlesapp.vo.DrinkElementVO;
 import com.shuttles.shuttlesapp.vo.FoodElementVO;
 import com.shuttles.shuttlesapp.vo.OptionElementVO;

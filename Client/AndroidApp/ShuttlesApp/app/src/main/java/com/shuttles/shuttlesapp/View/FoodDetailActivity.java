@@ -1,21 +1,20 @@
-package com.shuttles.shuttlesapp;
+package com.shuttles.shuttlesapp.View;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 
-/**
- * Created by domin on 2018-03-22.
- */
+import com.shuttles.shuttlesapp.R;
 
-public class AddressViewActivity extends AppCompatActivity {
+public class FoodDetailActivity extends AppCompatActivity {
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.address_view_layout);
+        setContentView(R.layout.food_detail_layout);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.tb_address_view);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.tb_food_detail);
         toolbar.setNavigationIcon(R.drawable.ic_chevron_left_white_12dp); // your drawable
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
@@ -23,5 +22,7 @@ public class AddressViewActivity extends AppCompatActivity {
                 onBackPressed(); // Implemented by activity
             }
         });
+
     }
 }
+

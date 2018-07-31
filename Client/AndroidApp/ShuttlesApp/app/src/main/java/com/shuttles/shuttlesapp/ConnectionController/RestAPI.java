@@ -14,7 +14,7 @@ public class RestAPI {
     public static final String DRINK_OPTION = SERVER_IP +"/drink/detail"; //show coffee option detail
     public static final String NOTICE = SERVER_IP + "/notice";
     public static final String ADMIN_ORDERS = SERVER_IP + "/admin/orders";
-    public static final String ADMIN_ORDERS_DETAIL = SERVER_IP + ADMIN_ORDERS+"/detail";
+    public static final String ADMIN_ORDERS_DETAIL =  ADMIN_ORDERS+"/detail";
     public static final String ADMIN_ORDERS_VERIFY = ADMIN_ORDERS + "/verify";
 
     public enum REQUEST_TYPE {

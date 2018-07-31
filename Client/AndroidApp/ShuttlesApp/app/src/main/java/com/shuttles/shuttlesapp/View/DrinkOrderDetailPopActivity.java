@@ -1,4 +1,4 @@
-package com.shuttles.shuttlesapp;
+package com.shuttles.shuttlesapp.View;
 
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -27,10 +27,10 @@ import com.shuttles.shuttlesapp.ConnectionController.RequestData;
 import com.shuttles.shuttlesapp.ConnectionController.RequestHandler;
 import com.shuttles.shuttlesapp.ConnectionController.ConnectionResponse;
 import com.shuttles.shuttlesapp.ConnectionController.RestAPI;
+import com.shuttles.shuttlesapp.R;
 import com.shuttles.shuttlesapp.vo.OptionElementVO;
 import com.shuttles.shuttlesapp.vo.OrderRequestVO;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 

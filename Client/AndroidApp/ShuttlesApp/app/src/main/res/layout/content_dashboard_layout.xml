@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="com.shuttles.shuttlesapp.DashboardActivity"
+    tools:context="com.shuttles.shuttlesapp.View.DashboardActivity"
     tools:showIn="@layout/dashboard_layout">
 
     <LinearLayout
@@ -141,7 +141,7 @@
         <android.support.v7.widget.CardView
             android:id="@+id/cv_order"
             android:foreground="?android:attr/selectableItemBackground"
-            android:layout_width="340dp"
+            android:layout_width="160dp"
             android:layout_height="170dp"
             android:layout_margin="10dp">
             <LinearLayout
@@ -178,7 +178,49 @@
             </LinearLayout>
         </android.support.v7.widget.CardView>
 
+        <android.support.v7.widget.CardView
+            android:id="@+id/cv_order"
+            android:foreground="?android:attr/selectableItemBackground"
+            android:layout_width="160dp"
+            android:layout_height="170dp"
+            android:layout_margin="10dp">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:gravity="center">
+                <ImageView
+                    android:layout_width="64dp"
+                    android:layout_height="64dp"
+                    android:background="@drawable/bg_circle_primary"
+                    android:src="@drawable/ic_attach_money_white_48dp"
+                    android:padding="10dp"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textStyle="bold"
+                    android:textSize="16dp"
+                    android:textColor="@color/black"
+                    android:layout_marginTop="10dp"
+                    android:text="스페셜"/>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/lightGray"
+                    android:layout_margin="10dp"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="음료와 음식 주문하기\n음료만 주문하실 수 있습니다."
+                    android:padding="5dp"
+                    android:textColor="@color/darkGray"/>
+            </LinearLayout>
+        </android.support.v7.widget.CardView>
+
     </LinearLayout>
+
+
 
     <LinearLayout
         android:gravity="center_vertical"

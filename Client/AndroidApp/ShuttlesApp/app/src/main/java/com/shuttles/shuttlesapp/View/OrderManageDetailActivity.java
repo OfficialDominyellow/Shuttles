@@ -1,4 +1,4 @@
-package com.shuttles.shuttlesapp;
+package com.shuttles.shuttlesapp.View;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -16,6 +16,8 @@ import com.shuttles.shuttlesapp.ConnectionController.ConnectionResponse;
 import com.shuttles.shuttlesapp.ConnectionController.RequestData;
 import com.shuttles.shuttlesapp.ConnectionController.RequestHandler;
 import com.shuttles.shuttlesapp.ConnectionController.RestAPI;
+import com.shuttles.shuttlesapp.R;
+import com.shuttles.shuttlesapp.View.CartListViewAdapterV2;
 import com.shuttles.shuttlesapp.vo.DrinkElementVO;
 import com.shuttles.shuttlesapp.vo.FoodElementVO;
 import com.shuttles.shuttlesapp.vo.OptionElementVO;

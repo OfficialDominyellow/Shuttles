@@ -1,4 +1,4 @@
-package com.shuttles.shuttlesapp;
+package com.shuttles.shuttlesapp.View;
 /**
  * Created by daeyonglee on 2018. 1. 15..
  */
@@ -24,6 +24,7 @@ import com.shuttles.shuttlesapp.ConnectionController.ConnectionResponse;
 import com.shuttles.shuttlesapp.ConnectionController.RestAPI;
 import com.shuttles.shuttlesapp.ConnectionController.ConnectionImpl;
 import com.shuttles.shuttlesapp.ConnectionController.UserInfo;
+import com.shuttles.shuttlesapp.GlobalApplication;
 import com.shuttles.shuttlesapp.Utils.Constants;
 
 import org.json.JSONArray;

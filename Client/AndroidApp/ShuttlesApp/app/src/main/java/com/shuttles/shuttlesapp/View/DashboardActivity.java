@@ -1,4 +1,4 @@
-package com.shuttles.shuttlesapp;
+package com.shuttles.shuttlesapp.View;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -16,6 +16,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.shuttles.shuttlesapp.ConnectionController.UserInfo;
+import com.shuttles.shuttlesapp.R;
 import com.shuttles.shuttlesapp.Utils.Constants;
 
 public class DashboardActivity extends AppCompatActivity {
@@ -70,12 +71,14 @@ public class DashboardActivity extends AppCompatActivity {
         });
 
     }
+
     private boolean isOwner(){
         if(UserInfo.getInstance().getUserType() == UserInfo.Type.owner)
             return true;
         else
             return false;
     }
+
     public void initNavigationDrawer() {
 
         NavigationView navigationView = (NavigationView)findViewById(R.id.navigation_view);

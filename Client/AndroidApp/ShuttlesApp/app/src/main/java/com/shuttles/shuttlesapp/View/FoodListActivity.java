@@ -1,4 +1,4 @@
-package com.shuttles.shuttlesapp;
+package com.shuttles.shuttlesapp.View;
 
 import android.content.Context;
 import android.content.Intent;
@@ -9,7 +9,6 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
-import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.ListViewCompat;
@@ -23,7 +22,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.shuttles.shuttlesapp.vo.DrinkListVO;
+import com.shuttles.shuttlesapp.GlobalApplication;
+import com.shuttles.shuttlesapp.R;
 import com.shuttles.shuttlesapp.vo.FoodListVO;
 
 import java.util.ArrayList;

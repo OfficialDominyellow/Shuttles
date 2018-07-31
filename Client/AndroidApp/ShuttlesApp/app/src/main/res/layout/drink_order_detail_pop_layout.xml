@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@drawable/bg_border"
-    tools:context="com.shuttles.shuttlesapp.DrinkOrderDetailPopActivity">
+    tools:context="com.shuttles.shuttlesapp.View.DrinkOrderDetailPopActivity">
 
     <ScrollView
         android:layout_width="match_parent"

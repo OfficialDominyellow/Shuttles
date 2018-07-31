@@ -1,4 +1,4 @@
-package com.shuttles.shuttlesapp;
+package com.shuttles.shuttlesapp.View;
 
 import android.Manifest;
 import android.app.Activity;
@@ -12,12 +12,11 @@ import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.google.firebase.iid.FirebaseInstanceId;
 import com.kakao.auth.ISessionCallback;
 import com.kakao.auth.Session;
 import com.kakao.util.exception.KakaoException;
 import com.kakao.util.helper.log.Logger;
-import com.shuttles.shuttlesapp.ConnectionController.UserInfo;
+import com.shuttles.shuttlesapp.R;
 import com.shuttles.shuttlesapp.Utils.Constants;
 import com.shuttles.shuttlesapp.Utils.Utils;
 

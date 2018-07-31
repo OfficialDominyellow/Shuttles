@@ -1,10 +1,8 @@
-package com.shuttles.shuttlesapp;
+package com.shuttles.shuttlesapp.View;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.ListViewCompat;
 import android.support.v7.widget.Toolbar;
@@ -14,7 +12,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -25,6 +22,7 @@ import com.shuttles.shuttlesapp.ConnectionController.ConnectionResponse;
 import com.shuttles.shuttlesapp.ConnectionController.RequestData;
 import com.shuttles.shuttlesapp.ConnectionController.RequestHandler;
 import com.shuttles.shuttlesapp.ConnectionController.RestAPI;
+import com.shuttles.shuttlesapp.R;
 import com.shuttles.shuttlesapp.vo.NoticeListVO;
 
 import java.util.ArrayList;
@@ -48,23 +46,6 @@ public class NoticeActivity extends AppCompatActivity implements ConnectionImpl{
             }
         });
 
-        /*
-        ListViewCompat lvNotice = (ListViewCompat) findViewById(R.id.lv_notice);
-
-        lvNotice.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                NoticeListVO noticeListVO = (NoticeListVO) adapterView.getItemAtPosition(i);
-
-                String subject = noticeListVO.getNotice_subject();
-                String date = noticeListVO.getNotice_date();
-
-                Toast.makeText(getApplicationContext(), "subject : " + subject + ", date : " + date + ", pos : " + i, Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(getApplicationContext(), NoticeDetailActivity.class);
-                startActivity(intent);
-            }
-        });
-        */
         loadAllNotice();
     }
 
@@ -98,7 +79,7 @@ public class NoticeActivity extends AppCompatActivity implements ConnectionImpl{
                         String subject = noticeListVO.getNotice_subject();
                         String date = noticeListVO.getNotice_date();
 
-                        Toast.makeText(getApplicationContext(), "titlie : " + subject + ", content : " + date + ", pos : " + i, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(), "title : " + subject + ", content : " + date + ", pos : " + i, Toast.LENGTH_SHORT).show();
                         Intent intent = new Intent(getApplicationContext(), NoticeDetailActivity.class);
                         intent.putExtra("notice", noticeListVO);
                         startActivity(intent);

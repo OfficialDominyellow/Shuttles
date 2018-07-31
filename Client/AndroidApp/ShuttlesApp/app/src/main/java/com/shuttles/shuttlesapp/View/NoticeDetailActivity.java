@@ -1,4 +1,4 @@
-package com.shuttles.shuttlesapp;
+package com.shuttles.shuttlesapp.View;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -7,6 +7,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.TextView;
 
+import com.shuttles.shuttlesapp.R;
 import com.shuttles.shuttlesapp.vo.NoticeListVO;
 
 public class NoticeDetailActivity extends AppCompatActivity {
