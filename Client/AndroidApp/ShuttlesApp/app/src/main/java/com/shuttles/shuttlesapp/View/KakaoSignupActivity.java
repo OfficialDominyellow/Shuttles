@@ -4,15 +4,15 @@ package com.shuttles.shuttlesapp.View;
  */
 
 import android.app.Activity;
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import com.kakao.auth.ErrorCode;
+
 import com.kakao.network.ErrorResult;
 import com.kakao.usermgmt.UserManagement;
 import com.kakao.usermgmt.callback.MeResponseCallback;
@@ -24,17 +24,16 @@ import com.shuttles.shuttlesapp.ConnectionController.ConnectionResponse;
 import com.shuttles.shuttlesapp.ConnectionController.RestAPI;
 import com.shuttles.shuttlesapp.ConnectionController.ConnectionImpl;
 import com.shuttles.shuttlesapp.ConnectionController.UserInfo;
-import com.shuttles.shuttlesapp.GlobalApplication;
 import com.shuttles.shuttlesapp.Utils.Constants;
+import com.shuttles.shuttlesapp.Utils.LoadingDialog;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 public class KakaoSignupActivity extends Activity implements ConnectionImpl {
-    private GlobalApplication globalApplication;
-    private ProgressDialog dialog;
     private UserInfo userInfo;
+    private LoadingDialog loadingDialog;
 
     /**
      * Main으로 넘길지 가입 페이지를 그릴지 판단하기 위해 me를 호출한다.
@@ -46,8 +45,7 @@ public class KakaoSignupActivity extends Activity implements ConnectionImpl {
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         userInfo = UserInfo.getInstance();
-        dialog = new ProgressDialog(KakaoSignupActivity.this);
-        globalApplication = (GlobalApplication) getApplicationContext();
+
         requestMe();
     }
 
@@ -60,13 +58,7 @@ public class KakaoSignupActivity extends Activity implements ConnectionImpl {
             public void onFailure(ErrorResult errorResult) {
                 String message = "failed to get user info. msg=" + errorResult;
                 Log.d(Constants.LOG_TAG, message);
-
-                ErrorCode result = ErrorCode.valueOf(errorResult.getErrorCode());
-                if (result == ErrorCode.CLIENT_ERROR_CODE) {
-                    finish();
-                } else {
-                    redirectLoginActivity();
-                }
+                redirectLoginActivity();
             }
 
             @Override
@@ -79,6 +71,8 @@ public class KakaoSignupActivity extends Activity implements ConnectionImpl {
                 /* TODO
                 카카오톡 회원이 아닐 시 showSignup(); 호출해야함
                  */
+                Toast.makeText(getApplicationContext(), "카카오 회원이 아닙니다.", Toast.LENGTH_LONG).show();
+                finish();
             }
 
             @Override
@@ -105,6 +99,7 @@ public class KakaoSignupActivity extends Activity implements ConnectionImpl {
                 jsonArray.put(jsonObject);
 
                 RequestData postUserData = new RequestData(RestAPI.Method.POST, RestAPI.USER, RestAPI.REQUEST_TYPE.USER ,jsonObject);
+
                 sendRequestData(postUserData);
             }
         });
@@ -119,6 +114,7 @@ public class KakaoSignupActivity extends Activity implements ConnectionImpl {
     }
 
     protected void redirectLoginActivity() {
+        Toast.makeText(getApplicationContext(), "카카오 로그인 실패", Toast.LENGTH_SHORT).show();
         final Intent intent = new Intent(this, LoginActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
         startActivity(intent);
@@ -126,14 +122,15 @@ public class KakaoSignupActivity extends Activity implements ConnectionImpl {
     }
 
     public void sendRequestData(RequestData requestData) {
-        dialog.show();
+        loadingDialog = new LoadingDialog(KakaoSignupActivity.this);
+        loadingDialog.show();
         new RequestHandler(this).execute(requestData);
     }
 
     @Override
     public void requestCallback(ConnectionResponse connectionResponse) {
         Log.i(Constants.LOG_TAG,"requstCallback");
-        dialog.dismiss();
+        loadingDialog.dismiss();
 
         switch (connectionResponse.getRequestType()) {
             case FAILED:

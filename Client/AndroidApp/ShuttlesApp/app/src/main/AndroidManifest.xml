@@ -29,12 +29,12 @@
         </service>
 
         <activity
-            android:name=".SplashActivity"
+            android:name=".View.SplashActivity"
             android:label="@string/app_name"
             android:theme="@android:style/Theme.NoTitleBar.Fullscreen">
         </activity>
         <activity
-            android:name=".LoginActivity"
+            android:name=".View.LoginActivity"
             android:label="@string/app_name"
             android:theme="@android:style/Theme.NoTitleBar.Fullscreen">
 
@@ -44,117 +44,117 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".DashboardActivity"
+            android:name=".View.DashboardActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
 
         <activity
-            android:name=".DrinkListActivity"
+            android:name=".View.DrinkListActivity"
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
 
         <activity
-            android:name=".DrinkListVtcActivity"
+            android:name=".View.DrinkListVtcActivity"
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
 
         <activity
-            android:name=".DrinkOrderDetailActivity"
+            android:name=".View.DrinkOrderDetailActivity"
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
 
         <activity
-            android:name=".DrinkDetailActivity"
+            android:name=".View.DrinkDetailActivity"
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
 
         <activity
-            android:name=".DrinkOrderDetailPopActivity"
+            android:name=".View.DrinkOrderDetailPopActivity"
             android:theme="@style/AppTheme.Popup">
         </activity>
 
         <activity
-            android:name=".FoodListActivity"
+            android:name=".View.FoodListActivity"
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
 
         <activity
-            android:name=".FoodOrderDetailActivity"
+            android:name=".View.FoodOrderDetailActivity"
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
 
         <activity
-            android:name=".FoodDetailActivity"
+            android:name=".View.FoodDetailActivity"
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
 
         <activity
-            android:name=".ModifyPersonalActivity"
+            android:name=".View.ModifyPersonalActivity"
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
 
         <activity
-            android:name=".NoticeActivity"
+            android:name=".View.NoticeActivity"
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
 
         <activity
-            android:name=".NoticeDetailActivity"
+            android:name=".View.NoticeDetailActivity"
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
 
         <activity
-            android:name=".CartActivityV2"
+            android:name=".View.CartActivityV2"
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
 
         <activity
-            android:name=".DeliveryInfoActivity"
+            android:name=".View.DeliveryInfoActivity"
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
 
         <activity
-            android:name=".OrderHistoryActivity"
+            android:name=".View.OrderHistoryActivity"
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
 
         <activity
-            android:name=".OrderReceiptActivity"
+            android:name=".View.OrderReceiptActivity"
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
 
         <activity
-            android:name=".OrderManageActivity"
+            android:name=".View.OrderManageActivity"
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
 
         <activity
-            android:name=".OrderManageDetailActivity"
+            android:name=".View.OrderManageDetailActivity"
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
 
         <activity
-            android:name=".AddressListActivity"
+            android:name=".View.AddressListActivity"
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
 
         <activity
-            android:name=".AddressNewActivity"
+            android:name=".View.AddressNewActivity"
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
 
         <activity
-            android:name=".AddressViewActivity"
+            android:name=".View.AddressViewActivity"
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
 
         <activity
-            android:name=".AddressSearchActivity"
+            android:name=".View.AddressSearchActivity"
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
 
-        <activity android:name=".KakaoSignupActivity"/>
+        <activity android:name=".View.KakaoSignupActivity"/>
 
         <meta-data
             android:name="com.kakao.sdk.AppKey"

@@ -27,6 +27,7 @@ import com.shuttles.shuttlesapp.ConnectionController.ConnectionResponse;
 import com.shuttles.shuttlesapp.ConnectionController.RestAPI;
 import com.shuttles.shuttlesapp.R;
 import com.shuttles.shuttlesapp.Utils.Constants;
+import com.shuttles.shuttlesapp.Utils.LoadingDialog;
 import com.shuttles.shuttlesapp.vo.DrinkListVO;
 
 import java.util.ArrayList;
@@ -43,6 +44,7 @@ public class DrinkListVtcActivity extends AppCompatActivity implements Connectio
     private List<String> listHeader;
     private HashMap<String, List<DrinkListVO>> listHashMap;
 
+    private LoadingDialog loadingDialog;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -79,11 +81,14 @@ public class DrinkListVtcActivity extends AppCompatActivity implements Connectio
 
     @Override
     public void sendRequestData(RequestData requestData) {
+        loadingDialog = new LoadingDialog(DrinkListVtcActivity.this);
+        loadingDialog.show();
         new RequestHandler(this).execute(requestData);
     }
 
     @Override
     public void requestCallback(ConnectionResponse connectionResponse) {
+
         switch (connectionResponse.getRequestType()) {
             case FAILED:
                 //failed
@@ -159,6 +164,7 @@ public class DrinkListVtcActivity extends AppCompatActivity implements Connectio
 
                 listAdapter = new ExpandableListAdapter(this, listHeader, listHashMap);
                 elvDrinkList.setAdapter(listAdapter);
+                loadingDialog.dismiss();
 
                 break;
         }

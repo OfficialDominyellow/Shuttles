@@ -24,6 +24,7 @@ import com.shuttles.shuttlesapp.ConnectionController.RequestHandler;
 import com.shuttles.shuttlesapp.ConnectionController.RestAPI;
 import com.shuttles.shuttlesapp.ConnectionController.UserInfo;
 import com.shuttles.shuttlesapp.R;
+import com.shuttles.shuttlesapp.Utils.LoadingDialog;
 import com.shuttles.shuttlesapp.vo.OrderHistoryListVO;
 
 import java.util.ArrayList;
@@ -33,6 +34,8 @@ import java.util.List;
 public class OrderHistoryActivity extends AppCompatActivity implements ConnectionImpl{
     private String TAG = "OrderHistoryActivity";
     private String mOrderHistoryData;
+    private LoadingDialog loadingDialog;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,11 +62,15 @@ public class OrderHistoryActivity extends AppCompatActivity implements Connectio
 
     @Override
     public void sendRequestData(RequestData requestData) {
+        loadingDialog = new LoadingDialog(OrderHistoryActivity.this);
+        loadingDialog.show();
         new RequestHandler(this).execute(requestData);
     }
 
     @Override
     public void requestCallback(ConnectionResponse connectionResponse) {
+        loadingDialog.dismiss();
+
         Log.i(TAG, "response : " + connectionResponse.getResult());
         switch (connectionResponse.getRequestType()) {
             case FAILED:

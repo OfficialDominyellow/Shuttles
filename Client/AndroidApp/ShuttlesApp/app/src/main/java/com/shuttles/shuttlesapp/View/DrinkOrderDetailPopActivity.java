@@ -28,6 +28,7 @@ import com.shuttles.shuttlesapp.ConnectionController.RequestHandler;
 import com.shuttles.shuttlesapp.ConnectionController.ConnectionResponse;
 import com.shuttles.shuttlesapp.ConnectionController.RestAPI;
 import com.shuttles.shuttlesapp.R;
+import com.shuttles.shuttlesapp.Utils.LoadingDialog;
 import com.shuttles.shuttlesapp.vo.OptionElementVO;
 import com.shuttles.shuttlesapp.vo.OrderRequestVO;
 
@@ -53,6 +54,8 @@ public class DrinkOrderDetailPopActivity extends AppCompatActivity implements Co
     private int mOrderCount = 1;
     private int mTotalPrice;
     private List<OptionElementVO> mDrinkOptionList;
+
+    private LoadingDialog loadingDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -106,8 +109,10 @@ public class DrinkOrderDetailPopActivity extends AppCompatActivity implements Co
                 Toast.makeText(getApplicationContext(), "Click Add to cart", Toast.LENGTH_SHORT).show();
                 Log.i(TAG, "Click Add to cart");
                 addToCart();
+                finish();
             }
         });
+
         Button btnOrderNow = (Button)findViewById(R.id.btn_order_now);
         btnOrderNow.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -161,11 +166,15 @@ public class DrinkOrderDetailPopActivity extends AppCompatActivity implements Co
 
     @Override
     public void sendRequestData(RequestData requestData) {
+        loadingDialog = new LoadingDialog(DrinkOrderDetailPopActivity.this);
+        loadingDialog.show();
         new RequestHandler(this).execute(requestData);
     }
 
     @Override
     public void requestCallback(ConnectionResponse connectionResponse) {
+        loadingDialog.dismiss();
+
         switch(connectionResponse.getRequestType()){
             case DRINK_LIST_OPTION:
                 Log.i(TAG, "data : " + connectionResponse.getResult());

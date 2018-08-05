@@ -23,6 +23,7 @@ import com.shuttles.shuttlesapp.ConnectionController.RequestData;
 import com.shuttles.shuttlesapp.ConnectionController.RequestHandler;
 import com.shuttles.shuttlesapp.ConnectionController.RestAPI;
 import com.shuttles.shuttlesapp.R;
+import com.shuttles.shuttlesapp.Utils.LoadingDialog;
 import com.shuttles.shuttlesapp.vo.NoticeListVO;
 
 import java.util.ArrayList;
@@ -31,6 +32,7 @@ import java.util.List;
 public class NoticeActivity extends AppCompatActivity implements ConnectionImpl{
     private String TAG = "NoticeActivity";
     private String mNoticeData;
+    private LoadingDialog loadingDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,11 +58,15 @@ public class NoticeActivity extends AppCompatActivity implements ConnectionImpl{
 
     @Override
     public void sendRequestData(RequestData requestData) {
+        loadingDialog = new LoadingDialog(NoticeActivity.this);
+        loadingDialog.show();
         new RequestHandler(this).execute(requestData);
     }
 
     @Override
     public void requestCallback(ConnectionResponse connectionResponse) {
+        loadingDialog.dismiss();
+
         switch (connectionResponse.getRequestType()){
             case FAILED:
                 Log.i(TAG,"callback failed");

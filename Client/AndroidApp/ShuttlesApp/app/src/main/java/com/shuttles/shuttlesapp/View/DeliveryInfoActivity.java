@@ -21,6 +21,7 @@ import com.shuttles.shuttlesapp.ConnectionController.RequestHandler;
 import com.shuttles.shuttlesapp.ConnectionController.RestAPI;
 import com.shuttles.shuttlesapp.ConnectionController.UserInfo;
 import com.shuttles.shuttlesapp.R;
+import com.shuttles.shuttlesapp.Utils.LoadingDialog;
 import com.shuttles.shuttlesapp.vo.AddressVO;
 import com.shuttles.shuttlesapp.vo.OrderRequestVO;
 
@@ -33,9 +34,9 @@ import io.realm.RealmResults;
 public class DeliveryInfoActivity extends AppCompatActivity implements ConnectionImpl {
 
     private static String TAG = "DeliveryInfoActivity";
-
-    private RequestData requestData = null;
     private RequestData orderRequestData = null;
+
+    private LoadingDialog loadingDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -137,11 +138,15 @@ public class DeliveryInfoActivity extends AppCompatActivity implements Connectio
 
     @Override
     public void sendRequestData(RequestData requestData) {
+        loadingDialog = new LoadingDialog(DeliveryInfoActivity.this);
+        loadingDialog.show();
         new RequestHandler(this).execute(requestData);
     }
 
     @Override
     public void requestCallback(ConnectionResponse connectionResponse) {
+        loadingDialog.dismiss();
+
         switch(connectionResponse.getRequestType()){
             case ORDER:
                 Log.i(TAG, "Order Request.");

@@ -1,5 +1,6 @@
 package com.shuttles.shuttlesapp.ConnectionController;
 
+import android.app.AlertDialog;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
@@ -38,6 +39,7 @@ public class RequestHandler extends AsyncTask<RequestData, Void, ConnectionRespo
 
     @Override
     protected ConnectionResponse doInBackground(RequestData... params) {
+
         requestData = params[0];
         ConnectionResponse connectionResponse = new ConnectionResponse();
         connectionResponse.setRequestType(requestData.getRequestType());

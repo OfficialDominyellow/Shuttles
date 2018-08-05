@@ -81,7 +81,7 @@
                     android:id="@+id/tv_product_total_price_manage_detail"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text=" ~~~~원"
+                    android:text=" 원"
                     android:textColor="@color/hotpink"
                     android:textSize="30sp"
                     android:textStyle="bold" />
@@ -91,13 +91,35 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:orientation="horizontal">
+                android:orientation="vertical">
                 <Button
                     android:id="@+id/btn_order_accept"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@drawable/bg_login_selector"
                     android:text="주문받기"
+                    android:textColor="@color/colorAccent"
+                    android:textAllCaps="false"
+                    android:padding="10dp"
+                    android:clickable="true"
+                    android:layout_marginTop="8dp"/>
+                <Button
+                    android:id="@+id/btn_order_cancel"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bg_login_selector"
+                    android:text="주문취소"
+                    android:textColor="@color/colorAccent"
+                    android:textAllCaps="false"
+                    android:padding="10dp"
+                    android:clickable="true"
+                    android:layout_marginTop="8dp"/>
+                <Button
+                    android:id="@+id/btn_order_ready"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bg_login_selector"
+                    android:text="주문대기"
                     android:textColor="@color/colorAccent"
                     android:textAllCaps="false"
                     android:padding="10dp"

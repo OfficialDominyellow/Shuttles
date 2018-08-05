@@ -39,5 +39,10 @@ public class RestAPI {
         DELETE,
     }
 
+    public enum Verify {
+        ACCEPT,
+        CANCEL,
+        READY
+    }
 
 }

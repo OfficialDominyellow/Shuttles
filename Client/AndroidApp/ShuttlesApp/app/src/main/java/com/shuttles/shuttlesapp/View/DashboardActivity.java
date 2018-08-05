@@ -103,25 +103,13 @@ public class DashboardActivity extends AppCompatActivity {
                         Toast.makeText(getApplicationContext(),"홈",Toast.LENGTH_SHORT).show();
                         drawerLayout.closeDrawers();
                         break;
-                    case R.id.itm_order:
-                        Toast.makeText(getApplicationContext(),"주문하기",Toast.LENGTH_SHORT).show();
-                        drawerLayout.closeDrawers();
-                        intent = new Intent(getApplicationContext(), DrinkListVtcActivity.class);
-                        startActivity(intent);
-                        break;
-                    case R.id.itm_address:
-                        Toast.makeText(getApplicationContext(),"주소록",Toast.LENGTH_SHORT).show();
-                        drawerLayout.closeDrawers();
-                        intent = new Intent(getApplicationContext(), AddressListActivity.class);
-                        startActivity(intent);
-                        break;
-                    case R.id.itm_notice:
-                        Toast.makeText(getApplicationContext(),"공지사항",Toast.LENGTH_SHORT).show();
-                        intent = new Intent(getApplicationContext(), NoticeActivity.class);
-                        startActivity(intent);
-                        break;
                     case R.id.itm_introduce:
                         Toast.makeText(getApplicationContext(),"소개",Toast.LENGTH_SHORT).show();
+                        break;
+                    case R.id.itm_cart:
+                        drawerLayout.closeDrawers();
+                        intent = new Intent(getApplicationContext(), CartActivityV2.class);
+                        startActivity(intent);
                         break;
                     case R.id.itm_order_history:
                         Toast.makeText(getApplicationContext(),"주문내역조회",Toast.LENGTH_SHORT).show();

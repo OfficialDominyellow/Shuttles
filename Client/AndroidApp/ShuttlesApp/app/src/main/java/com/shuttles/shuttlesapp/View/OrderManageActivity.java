@@ -23,6 +23,7 @@ import com.shuttles.shuttlesapp.ConnectionController.RequestData;
 import com.shuttles.shuttlesapp.ConnectionController.RequestHandler;
 import com.shuttles.shuttlesapp.ConnectionController.RestAPI;
 import com.shuttles.shuttlesapp.R;
+import com.shuttles.shuttlesapp.Utils.LoadingDialog;
 import com.shuttles.shuttlesapp.vo.OrderManageListVO;
 
 import java.util.ArrayList;
@@ -32,6 +33,7 @@ import java.util.List;
 public class OrderManageActivity extends AppCompatActivity implements ConnectionImpl{
     final private String TAG = "OrderManageActivity";
     private String mOrderManageData;
+    private LoadingDialog loadingDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,11 +59,15 @@ public class OrderManageActivity extends AppCompatActivity implements Connection
 
     @Override
     public void sendRequestData(RequestData requestData) {
+        loadingDialog = new LoadingDialog(OrderManageActivity.this);
+        loadingDialog.show();
         new RequestHandler(this).execute(requestData);
     }
 
     @Override
     public void requestCallback(ConnectionResponse connectionResponse) {
+        loadingDialog.dismiss();
+
         Log.i(TAG, "response : " + connectionResponse.getResult());
         switch (connectionResponse.getRequestType()) {
             case FAILED:
