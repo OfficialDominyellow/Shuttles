@@ -14,6 +14,7 @@ import com.shuttles.shuttlesapp.GlobalApplication;
 public class Utils {
     public static boolean checkNetworkState(){
         ConnectivityManager connectivityManager = (ConnectivityManager) GlobalApplication.getGlobalApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+
         if(connectivityManager.getActiveNetworkInfo() == null) {
             Log.e(Constants.LOG_TAG,"Network Connection Failed");
             Toast.makeText(GlobalApplication.getGlobalApplicationContext(), "네트워크가 연결되어 있지 않습니다.", Toast.LENGTH_LONG).show();

@@ -5,7 +5,6 @@ package com.shuttles.shuttlesapp;
 import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
-import android.util.Log;
 
 import com.kakao.auth.ApprovalType;
 import com.kakao.auth.AuthType;
@@ -14,11 +13,8 @@ import com.kakao.auth.ISessionConfig;
 import com.kakao.auth.KakaoAdapter;
 import com.kakao.auth.KakaoSDK;
 import com.kakao.util.helper.log.Logger;
-import com.shuttles.shuttlesapp.Utils.Constants;
 import com.shuttles.shuttlesapp.vo.DrinkListVO;
 import com.shuttles.shuttlesapp.vo.FoodListVO;
-import com.shuttles.shuttlesapp.vo.OrderRequestVO;
-import com.shuttles.shuttlesapp.vo.Product;
 
 import java.util.List;
 
@@ -29,8 +25,8 @@ import java.util.List;
  * @author MJ
  */
 public class GlobalApplication extends Application {
-    private static volatile GlobalApplication instance = null;
-    private static volatile Activity currentActivity = null;
+    private static GlobalApplication instance = null;
+    private static Activity currentActivity = null;
 
     //public static OrderRequestVO orderRequestVO = new OrderRequestVO();
 
@@ -38,6 +34,7 @@ public class GlobalApplication extends Application {
     public static volatile List<DrinkListVO> drinkList = null;
     public static volatile List<FoodListVO> specialFoodList = null;
 
+    /*
     public void setCoffeList(List<DrinkListVO> drinkList) {
         this.drinkList = drinkList;
         for(DrinkListVO element : drinkList){
@@ -53,7 +50,7 @@ public class GlobalApplication extends Application {
             element.convertURLtoFileName();
         }
     }
-
+    */
 
     private static class KakaoSDKAdapter extends KakaoAdapter {
         /**
@@ -107,6 +104,7 @@ public class GlobalApplication extends Application {
         super.onCreate();
         instance = this;
         Logger.d("global app oncreate " );
+        //카카오 로그인을 위해 앱실행시 KakaoSDK 초기화
         KakaoSDK.init(new KakaoSDKAdapter());
     }
 

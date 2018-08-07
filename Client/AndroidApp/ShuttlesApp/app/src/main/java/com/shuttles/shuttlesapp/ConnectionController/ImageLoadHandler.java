@@ -29,7 +29,7 @@ import java.util.List;
 public class ImageLoadHandler extends AsyncTask<List<? extends Product>, Void, ConnectionResponse> {
     private ConnectionImpl delegate ;
     private Context context;
-    private List<Product> productList = null;
+    private List<Product> productList;
 
     private static SharedPreferences preferences = GlobalApplication.getGlobalApplicationContext().getSharedPreferences("image_cache", GlobalApplication.getGlobalApplicationContext().MODE_PRIVATE);
     private static SharedPreferences.Editor editor = preferences.edit();
@@ -43,13 +43,12 @@ public class ImageLoadHandler extends AsyncTask<List<? extends Product>, Void, C
     public boolean isCached(Product element) {
         String prefKey = element.getName() + element.getID();
         String prefValue = preferences.getString(prefKey, null);
-
         File file = context.getFileStreamPath(element.getPictureFileName());
-        if (file.exists() && prefValue != null) {
-            if (prefValue.equals(element.getPicture_version())) {
-                Log.i(Constants.LOG_TAG, "File exist, Name : " + element.getPictureFileName() + " prefKey : " +prefKey +" prefValue : "+prefValue + " == "+element.getPicture_version() );
-                return true;
-            }
+
+        if (file.exists() && prefValue.equals(element.getPicture_version()))
+        {
+            Log.i(Constants.LOG_TAG, "File exist, Name : " + element.getPictureFileName() + " prefKey : " +prefKey +" prefValue : "+prefValue + " == "+element.getPicture_version() );
+            return true;
         }
         return false;
     }
@@ -57,7 +56,6 @@ public class ImageLoadHandler extends AsyncTask<List<? extends Product>, Void, C
     public void savePreference(String key, String value) {
         editor.putString(key, value);
         editor.commit();
-
     }
 
     @Override
@@ -102,7 +100,6 @@ public class ImageLoadHandler extends AsyncTask<List<? extends Product>, Void, C
                 conn.disconnect();
             }
             catch (Exception e){
-                //connectionResponse.setRequestType(RestAPI.REQUEST_TYPE.FAILED);
                 e.printStackTrace();
                 Log.i(Constants.LOG_TAG, "exception " + e.getMessage());
             }
@@ -140,12 +137,11 @@ public class ImageLoadHandler extends AsyncTask<List<? extends Product>, Void, C
                 fis.close();
                 Bitmap bitmap = BitmapFactory.decodeByteArray(buf, 0, buf.length);
                 //convert bitmap to drwable
-                Drawable drawble = new BitmapDrawable(context.getResources(), bitmap);
-                element.setImg(drawble);
-
+                Drawable drawable = new BitmapDrawable(context.getResources(), bitmap);
+                element.setImg(drawable);
             } catch (IOException e) {
                 e.printStackTrace();
-                element.setImg(null);
+                element.setImg(null);//이미지가 서버에 없는 경우
             }
         }
         Log.i(Constants.LOG_TAG, "End Load Picture");

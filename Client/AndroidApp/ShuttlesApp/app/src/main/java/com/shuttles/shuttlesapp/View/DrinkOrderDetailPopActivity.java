@@ -43,8 +43,8 @@ public class DrinkOrderDetailPopActivity extends AppCompatActivity implements Co
 
     private final String TAG = "DrinkOrderDetailPopActivity";
 
-    private RequestData requestData = null;
-    private RequestData orderRequestData = null;
+    private RequestData requestData;
+    private RequestData orderRequestData;
 
     private String mCoffeeID;
     private String mCoffeeName;

@@ -21,7 +21,6 @@ public class DrinkOrderDetailActivity extends AppCompatActivity {
     private TextView drinkDescription = null;
     private ImageView drinkImageView = null;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

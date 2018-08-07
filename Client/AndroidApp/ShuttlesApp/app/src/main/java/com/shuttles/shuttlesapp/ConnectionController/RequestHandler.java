@@ -1,6 +1,5 @@
 package com.shuttles.shuttlesapp.ConnectionController;
 
-import android.app.AlertDialog;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
@@ -22,10 +21,10 @@ import java.net.URL;
 public class RequestHandler extends AsyncTask<RequestData, Void, ConnectionResponse> {
     private ConnectionImpl delegate;
     private Context context;
-    private HttpURLConnection conn = null;
-    private BufferedReader reader = null;
-    private RequestData requestData = null;
-    private String connectionResult = null;
+    private HttpURLConnection httpURLConnection;
+    private BufferedReader reader;
+    private RequestData requestData;
+    private String connectionResult;
 
     public RequestHandler(ConnectionImpl delegate) {
         this.context = GlobalApplication.getGlobalApplicationContext();
@@ -39,39 +38,39 @@ public class RequestHandler extends AsyncTask<RequestData, Void, ConnectionRespo
 
     @Override
     protected ConnectionResponse doInBackground(RequestData... params) {
-
         requestData = params[0];
         ConnectionResponse connectionResponse = new ConnectionResponse();
         connectionResponse.setRequestType(requestData.getRequestType());
 
         try {
             URL requestURL = new URL(requestData.getRestURL());
-            conn = (HttpURLConnection) requestURL.openConnection();
-            conn.setRequestMethod(requestData.getMethod());
-            conn.setRequestProperty("Content-Type", "Application/json");
+            httpURLConnection = (HttpURLConnection) requestURL.openConnection();
+            httpURLConnection.setRequestMethod(requestData.getMethod());
+            httpURLConnection.setRequestProperty("Content-Type", "Application/json");
+            httpURLConnection.setRequestProperty("Accept", "application/json");
 
             /*TODO: set detail options and timeout exception*/
-            conn.setReadTimeout(Constants.CONNECTION_TIME_OUT);
-            conn.setConnectTimeout(Constants.READ_TIME_OUT);
-            conn.setUseCaches(false);
-            conn.setDefaultUseCaches(false);
-            conn.setDoInput(true);
+            httpURLConnection.setReadTimeout(Constants.CONNECTION_TIME_OUT);
+            httpURLConnection.setConnectTimeout(Constants.READ_TIME_OUT);
+            httpURLConnection.setUseCaches(false);
+            httpURLConnection.setDefaultUseCaches(false);
+            httpURLConnection.setDoInput(true);
 
             if (requestData.getMethod().equals("POST") || requestData.getMethod().equals("PUT")) {
-                conn.setDoOutput(true); //only use post or put
-                OutputStream os = conn.getOutputStream();
+                httpURLConnection.setDoOutput(true); //only use post or put
+                OutputStream os = httpURLConnection.getOutputStream();
                 os.write(requestData.getPostData().getBytes("UTF-8"));
                 os.flush();
                 os.close();
                 Log.i(Constants.LOG_TAG, "upload : " + requestData.getPostData());
             } else
-                conn.setDoOutput(false);
+                httpURLConnection.setDoOutput(false);
             Log.i(Constants.LOG_TAG, "Method "+ requestData.getMethod() + " Use RESTAPI:" + requestData.getRestURL());
 
             StringBuilder builder = new StringBuilder();
             String line;
 
-            reader = new BufferedReader(new InputStreamReader(conn.getInputStream()
+            reader = new BufferedReader(new InputStreamReader(httpURLConnection.getInputStream()
                     , "UTF-8"));
 
             while ((line = reader.readLine()) != null) {
@@ -81,12 +80,13 @@ public class RequestHandler extends AsyncTask<RequestData, Void, ConnectionRespo
         } catch (Exception e) {
             e.printStackTrace();
             connectionResponse.setRequestType(RestAPI.REQUEST_TYPE.FAILED);
+            connectionResult = null;
             Toast.makeText(context,"연결에 오류가 발생했습니다.",Toast.LENGTH_LONG).show();
         } finally {
             connectionResponse.setResult(connectionResult);
 
-            if (conn != null)
-                conn.disconnect();
+            if (httpURLConnection != null)
+                httpURLConnection.disconnect();
             try {
                 if (reader != null)
                     reader.close();

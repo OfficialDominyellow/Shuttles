@@ -8,9 +8,9 @@ import com.shuttles.shuttlesapp.Utils.Constants;
 public class UserInfo {
     private static UserInfo userInfoInstance = new UserInfo();
 
-    private Type userType = null;
-    private String fcmToken = null;
-    private UserProfile profile = null;
+    private Type userType;
+    private String fcmToken;
+    private UserProfile profile;
 
     public String getFcmToken() {
         return fcmToken;

@@ -39,8 +39,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class DrinkListActivity extends AppCompatActivity implements ConnectionImpl {
-    public static List<DrinkListVO> drinkList = null;
-    private RequestData requestData = null;
+    public static List<DrinkListVO> drinkList;
+    private RequestData requestData;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

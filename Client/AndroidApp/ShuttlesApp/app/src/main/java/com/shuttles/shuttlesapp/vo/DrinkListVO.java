@@ -1,7 +1,5 @@
 package com.shuttles.shuttlesapp.vo;
 
-import android.graphics.drawable.Drawable;
-
 /**
  * Created by domin on 2018-01-28.
  */

@@ -10,7 +10,7 @@ import java.util.List;
  */
 
 public class OrderRequestVO {
-    private static OrderRequestVO instance = null;
+    private static OrderRequestVO instance;
 
     private OrderRequestVO(){}
 

@@ -22,7 +22,6 @@ public class LoadingDialog extends Dialog {
         getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
         setCanceledOnTouchOutside(false);
         setCancelable(false);
-
         this.context = context;
     }
 

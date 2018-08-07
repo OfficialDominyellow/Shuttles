@@ -1,6 +1,5 @@
 package com.shuttles.shuttlesapp.vo;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**

@@ -36,7 +36,7 @@ import java.util.List;
 
 public class DrinkListVtcActivity extends AppCompatActivity implements ConnectionImpl {
 
-    private RequestData requestData = null;
+    private RequestData requestData;
     private List<DrinkListVO> drinkList;
 
     private ExpandableListView elvDrinkList;

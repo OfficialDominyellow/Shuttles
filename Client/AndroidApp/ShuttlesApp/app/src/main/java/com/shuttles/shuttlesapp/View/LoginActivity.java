@@ -32,9 +32,8 @@ public class LoginActivity extends Activity {
         super.onCreate(savedInstanceState);
         Log.i(Constants.LOG_TAG,"onCreate");
 
-        if(!Utils.checkNetworkState()){
+        if(!Utils.checkNetworkState())
             finish();
-        }
 
         callback = new SessionCallback();
         Session.getCurrentSession().addCallback(callback);
