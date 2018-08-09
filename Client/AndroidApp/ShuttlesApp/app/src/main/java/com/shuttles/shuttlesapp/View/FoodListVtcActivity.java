@@ -28,7 +28,7 @@ import com.shuttles.shuttlesapp.ConnectionController.RestAPI;
 import com.shuttles.shuttlesapp.R;
 import com.shuttles.shuttlesapp.Utils.Constants;
 import com.shuttles.shuttlesapp.Utils.LoadingDialog;
-import com.shuttles.shuttlesapp.vo.DrinkListVO;
+import com.shuttles.shuttlesapp.vo.FoodListVO;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -37,23 +37,23 @@ import java.util.List;
 public class FoodListVtcActivity extends AppCompatActivity implements ConnectionImpl {
 
     private RequestData requestData;
-    private List<DrinkListVO> drinkList;
+    private List<FoodListVO> foodList;
 
-    private ExpandableListView elvDrinkList;
+    private ExpandableListView elvFoodList;
     private ExpandableListAdapterInFood listAdapter;
     private List<String> listHeader;
-    private HashMap<String, List<DrinkListVO>> listHashMap;
+    private HashMap<String, List<FoodListVO>> listHashMap;
 
     private LoadingDialog loadingDialog;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        requestData = new RequestData(RestAPI.Method.GET, RestAPI.DRINK_LIST, RestAPI.REQUEST_TYPE.DRINK_LIST);
+        requestData = new RequestData(RestAPI.Method.GET, RestAPI.FOOD_LIST, RestAPI.REQUEST_TYPE.FOOD_LIST);
         sendRequestData(requestData);
     }
 
     public void setCardView(){
-        CardView cvMenu1 = (CardView) findViewById(R.id.cv_menu1);
+        CardView cvMenu1 = (CardView) findViewById(R.id.cv_menu1_food);
         cvMenu1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -61,7 +61,7 @@ public class FoodListVtcActivity extends AppCompatActivity implements Connection
             }
         });
 
-        CardView cvMenu2 = (CardView) findViewById(R.id.cv_menu2);
+        CardView cvMenu2 = (CardView) findViewById(R.id.cv_menu2_food);
         cvMenu2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -69,7 +69,7 @@ public class FoodListVtcActivity extends AppCompatActivity implements Connection
             }
         });
 
-        CardView cvMenu3 = (CardView) findViewById(R.id.cv_menu3);
+        CardView cvMenu3 = (CardView) findViewById(R.id.cv_menu3_food);
         cvMenu3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -93,19 +93,19 @@ public class FoodListVtcActivity extends AppCompatActivity implements Connection
             case FAILED:
                 //failed
                 break;
-            case DRINK_LIST:
+            case FOOD_LIST:
                 //set VO class
                 Gson gson = new Gson();
 
-                drinkList = gson.fromJson(connectionResponse.getResult(), new TypeToken<List<DrinkListVO>>() {
+                foodList = gson.fromJson(connectionResponse.getResult(), new TypeToken<List<FoodListVO>>() {
                 }.getType());
 
-                for (DrinkListVO element : drinkList) {
-                    Log.i(Constants.LOG_TAG, element.getCoffee_id());
+                for (FoodListVO element : foodList) {
+                    Log.i(Constants.LOG_TAG, element.getFood_id());
                     element.convertURLtoFileName();
                 }
 
-                new ImageLoadHandler(this).execute(drinkList);
+                new ImageLoadHandler(this).execute(foodList);
                 break;
             case IMAGE_LOAD:
                 setContentView(R.layout.food_list_vtc_layout);
@@ -129,22 +129,22 @@ public class FoodListVtcActivity extends AppCompatActivity implements Connection
                     }
                 });
 
-                elvDrinkList = (ExpandableListView)findViewById(R.id.elv_food_list_vtc);
+                elvFoodList = (ExpandableListView)findViewById(R.id.elv_food_list_vtc);
 
-                elvDrinkList.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
+                elvFoodList.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
                     @Override
                     public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
-                        DrinkListVO drinkListVO = (DrinkListVO) listAdapter.getChild(groupPosition, childPosition);
+                        FoodListVO foodListVO = (FoodListVO) listAdapter.getChild(groupPosition, childPosition);
 
-                        String name = drinkListVO.getName();
-                        String url = drinkListVO.getPicture_url();
-                        String coffeeID = drinkListVO.getCoffee_id();
-                        String price = drinkListVO.getPrice();
-                        String description = drinkListVO.getDescription();
+                        String name = foodListVO.getName();
+                        String url = foodListVO.getPicture_url();
+                        String foodID = foodListVO.getFood_id();
+                        String price = foodListVO.getPrice();
+                        String description = foodListVO.getDescription();
 
                         Toast.makeText(getApplicationContext(), groupPosition + " " + childPosition + " " + name + " " + url, Toast.LENGTH_SHORT).show();
-                        Intent intent = new Intent(getApplicationContext(), DrinkOrderDetailPopActivity.class);
-                        intent.putExtra("coffee_id", coffeeID);
+                        Intent intent = new Intent(getApplicationContext(), FoodOrderDetailPopActivity.class);
+                        intent.putExtra("food_id", foodID);
                         intent.putExtra("name", name);
                         intent.putExtra("price", price);
                         intent.putExtra("description", description);
@@ -155,17 +155,17 @@ public class FoodListVtcActivity extends AppCompatActivity implements Connection
 
                 listHeader = new ArrayList<String>();
                 listHashMap = new HashMap<>();
-                for(DrinkListVO element : drinkList){
+                for(FoodListVO element : foodList){
                     String header = element.getState();
                     if(!listHeader.contains(header)){
                         listHeader.add(header);
-                        listHashMap.put(header, new ArrayList<DrinkListVO>());
+                        listHashMap.put(header, new ArrayList<FoodListVO>());
                     }
                     listHashMap.get(header).add(element);
                 }
 
                 listAdapter = new ExpandableListAdapterInFood(this, listHeader, listHashMap);
-                elvDrinkList.setAdapter(listAdapter);
+                elvFoodList.setAdapter(listAdapter);
                 loadingDialog.dismiss();
 
                 break;
@@ -176,9 +176,9 @@ public class FoodListVtcActivity extends AppCompatActivity implements Connection
 class ExpandableListAdapterInFood extends BaseExpandableListAdapter{
     private Context ctx;
     private List<String> listHeader;
-    private HashMap<String, List<DrinkListVO>> listHashMap;
+    private HashMap<String, List<FoodListVO>> listHashMap;
 
-    public ExpandableListAdapterInFood(Context ctx, List<String> listHeader, HashMap<String, List<DrinkListVO>> listHashMap) {
+    public ExpandableListAdapterInFood(Context ctx, List<String> listHeader, HashMap<String, List<FoodListVO>> listHashMap) {
         this.ctx = ctx;
         this.listHeader = listHeader;
         this.listHashMap = listHashMap;
@@ -225,9 +225,9 @@ class ExpandableListAdapterInFood extends BaseExpandableListAdapter{
 
         if(convertView == null){
             LayoutInflater inflater = (LayoutInflater) this.ctx.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            convertView = inflater.inflate(R.layout.drink_list_vtc_group, null);
+            convertView = inflater.inflate(R.layout.food_list_vtc_group, null);
         }
-        TextView tvHeader = (TextView)convertView.findViewById(R.id.tv_drink_list_vtc_header);
+        TextView tvHeader = (TextView)convertView.findViewById(R.id.tv_food_list_vtc_header);
         tvHeader.setTypeface(null, Typeface.BOLD);
         tvHeader.setText(headerStr);
 
@@ -236,22 +236,22 @@ class ExpandableListAdapterInFood extends BaseExpandableListAdapter{
 
     @Override
     public View getChildView(int groupPosition, int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
-        final DrinkListVO drinkListVO = (DrinkListVO) getChild(groupPosition, childPosition);
+        final FoodListVO foodListVO = (FoodListVO) getChild(groupPosition, childPosition);
 
         if(convertView == null){
             LayoutInflater inflater = (LayoutInflater) this.ctx.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            convertView = inflater.inflate(R.layout.drink_list_row, null);
+            convertView = inflater.inflate(R.layout.food_list_row, null);
         }
 
         // 화면에 표시될 View(Layout이 inflate된)으로부터 위젯에 대한 참조 획득
-        ImageView ivDrinkList = (ImageView) convertView.findViewById(R.id.iv_drink_list) ;
-        TextView tvDrinkName = (TextView) convertView.findViewById(R.id.tv_drink_name) ;
-        TextView tvDrinkPrice = (TextView) convertView.findViewById(R.id.tv_drink_price) ;
+        ImageView ivFoodList = (ImageView) convertView.findViewById(R.id.iv_food_list) ;
+        TextView tvFoodName = (TextView) convertView.findViewById(R.id.tv_food_name) ;
+        TextView tvFoodPrice = (TextView) convertView.findViewById(R.id.tv_food_price) ;
 
         // 아이템 내 각 위젯에 데이터 반영
-        ivDrinkList.setImageDrawable(drinkListVO.getImg());
-        tvDrinkName.setText(drinkListVO.getName());
-        tvDrinkPrice.setText(drinkListVO.getPrice() + "원");
+        ivFoodList.setImageDrawable(foodListVO.getImg());
+        tvFoodName.setText(foodListVO.getName());
+        tvFoodPrice.setText(foodListVO.getPrice() + "원");
 
         return convertView;
     }

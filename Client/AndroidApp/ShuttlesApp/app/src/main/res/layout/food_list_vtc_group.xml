@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="8dp"
+    android:background="@color/shuttlesGray"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/tv_food_list_vtc_header"
+        android:paddingLeft="?android:attr/expandableListPreferredItemPaddingLeft"
+        android:textSize="20dp"
+        android:textColor="@color/shuttlesOrange"
+        android:layout_width="match_parent"
+        android:gravity="center_vertical"
+        android:layout_height="36dp" />
+</LinearLayout>

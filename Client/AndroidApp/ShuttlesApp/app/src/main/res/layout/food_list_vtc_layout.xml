@@ -60,7 +60,7 @@
                 android:layout_weight="1">
 
                 <android.support.v7.widget.CardView
-                    android:id="@+id/cv_menu1"
+                    android:id="@+id/cv_menu1_food"
                     android:layout_width="match_parent"
                     android:layout_height="170dp"
                     android:layout_margin="10dp"
@@ -89,7 +89,7 @@
                 android:layout_weight="1">
 
                 <android.support.v7.widget.CardView
-                    android:id="@+id/cv_menu2"
+                    android:id="@+id/cv_menu2_food"
                     android:layout_width="match_parent"
                     android:layout_height="170dp"
                     android:layout_margin="10dp"
@@ -118,7 +118,7 @@
                 android:layout_weight="1">
 
                 <android.support.v7.widget.CardView
-                    android:id="@+id/cv_menu3"
+                    android:id="@+id/cv_menu3_food"
                     android:layout_width="match_parent"
                     android:layout_height="170dp"
                     android:layout_margin="10dp"
