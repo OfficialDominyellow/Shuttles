@@ -60,6 +60,11 @@
         </activity>
 
         <activity
+            android:name=".View.FoodListVtcActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+        </activity>
+
+        <activity
             android:name=".View.DrinkOrderDetailActivity"
             android:theme="@style/AppTheme.NoActionBar">
         </activity>

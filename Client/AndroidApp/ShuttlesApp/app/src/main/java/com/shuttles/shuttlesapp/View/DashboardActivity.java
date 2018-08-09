@@ -60,16 +60,25 @@ public class DashboardActivity extends AppCompatActivity {
             }
         });
 
-        CardView cvOrder = (CardView)findViewById(R.id.cv_order);
-        cvOrder.setOnClickListener(new View.OnClickListener() {
+        CardView cvOrderDrink = (CardView)findViewById(R.id.cv_order_drink);
+        cvOrderDrink.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(getApplicationContext(), "주문하기", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "음료 주문하기", Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(getApplicationContext(), DrinkListVtcActivity.class);
                 startActivity(intent);
             }
         });
 
+        CardView cvOrderFood = (CardView)findViewById(R.id.cv_order_food);
+        cvOrderFood.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(getApplicationContext(), "스페셜푸드 주문하기", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(getApplicationContext(), FoodListVtcActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
     private boolean isOwner(){

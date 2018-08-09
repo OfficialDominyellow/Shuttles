@@ -20,10 +20,10 @@ import android.widget.Toast;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.shuttles.shuttlesapp.ConnectionController.ConnectionImpl;
+import com.shuttles.shuttlesapp.ConnectionController.ConnectionResponse;
 import com.shuttles.shuttlesapp.ConnectionController.ImageLoadHandler;
 import com.shuttles.shuttlesapp.ConnectionController.RequestData;
 import com.shuttles.shuttlesapp.ConnectionController.RequestHandler;
-import com.shuttles.shuttlesapp.ConnectionController.ConnectionResponse;
 import com.shuttles.shuttlesapp.ConnectionController.RestAPI;
 import com.shuttles.shuttlesapp.R;
 import com.shuttles.shuttlesapp.Utils.Constants;
@@ -34,13 +34,13 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class DrinkListVtcActivity extends AppCompatActivity implements ConnectionImpl {
+public class FoodListVtcActivity extends AppCompatActivity implements ConnectionImpl {
 
     private RequestData requestData;
     private List<DrinkListVO> drinkList;
 
     private ExpandableListView elvDrinkList;
-    private ExpandableListAdapter listAdapter;
+    private ExpandableListAdapterInFood listAdapter;
     private List<String> listHeader;
     private HashMap<String, List<DrinkListVO>> listHashMap;
 
@@ -81,7 +81,7 @@ public class DrinkListVtcActivity extends AppCompatActivity implements Connectio
 
     @Override
     public void sendRequestData(RequestData requestData) {
-        loadingDialog = new LoadingDialog(DrinkListVtcActivity.this);
+        loadingDialog = new LoadingDialog(FoodListVtcActivity.this);
         loadingDialog.show();
         new RequestHandler(this).execute(requestData);
     }
@@ -108,9 +108,9 @@ public class DrinkListVtcActivity extends AppCompatActivity implements Connectio
                 new ImageLoadHandler(this).execute(drinkList);
                 break;
             case IMAGE_LOAD:
-                setContentView(R.layout.drink_list_vtc_layout);
+                setContentView(R.layout.food_list_vtc_layout);
 
-                Toolbar toolbar = (Toolbar) findViewById(R.id.tb_drink_list_vtc);
+                Toolbar toolbar = (Toolbar) findViewById(R.id.tb_food_list_vtc);
                 toolbar.setNavigationIcon(R.drawable.ic_chevron_left_white_12dp); // your drawable
                 toolbar.setNavigationOnClickListener(new View.OnClickListener() {
                     @Override
@@ -120,7 +120,7 @@ public class DrinkListVtcActivity extends AppCompatActivity implements Connectio
                 });
 
                 setCardView();
-                ImageView ivCart = (ImageView)findViewById(R.id.iv_cart_in_drink_list_vtc);
+                ImageView ivCart = (ImageView)findViewById(R.id.iv_cart_in_food_list_vtc);
                 ivCart.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -129,7 +129,7 @@ public class DrinkListVtcActivity extends AppCompatActivity implements Connectio
                     }
                 });
 
-                elvDrinkList = (ExpandableListView)findViewById(R.id.elv_drink_list_vtc);
+                elvDrinkList = (ExpandableListView)findViewById(R.id.elv_food_list_vtc);
 
                 elvDrinkList.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
                     @Override
@@ -164,7 +164,7 @@ public class DrinkListVtcActivity extends AppCompatActivity implements Connectio
                     listHashMap.get(header).add(element);
                 }
 
-                listAdapter = new ExpandableListAdapter(this, listHeader, listHashMap);
+                listAdapter = new ExpandableListAdapterInFood(this, listHeader, listHashMap);
                 elvDrinkList.setAdapter(listAdapter);
                 loadingDialog.dismiss();
 
@@ -173,12 +173,12 @@ public class DrinkListVtcActivity extends AppCompatActivity implements Connectio
     }
 }
 
-class ExpandableListAdapter extends BaseExpandableListAdapter{
+class ExpandableListAdapterInFood extends BaseExpandableListAdapter{
     private Context ctx;
     private List<String> listHeader;
     private HashMap<String, List<DrinkListVO>> listHashMap;
 
-    public ExpandableListAdapter(Context ctx, List<String> listHeader, HashMap<String, List<DrinkListVO>> listHashMap) {
+    public ExpandableListAdapterInFood(Context ctx, List<String> listHeader, HashMap<String, List<DrinkListVO>> listHashMap) {
         this.ctx = ctx;
         this.listHeader = listHeader;
         this.listHashMap = listHashMap;

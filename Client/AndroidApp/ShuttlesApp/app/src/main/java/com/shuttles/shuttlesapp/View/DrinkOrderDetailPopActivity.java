@@ -49,6 +49,7 @@ public class DrinkOrderDetailPopActivity extends AppCompatActivity implements Co
     private String mCoffeeID;
     private String mCoffeeName;
     private int mCoffeePrice;
+    private String mCoffeeDescription;
     private int mUnitPrice; // mCoffeePrice + options
 
     private int mOrderCount = 1;
@@ -76,10 +77,14 @@ public class DrinkOrderDetailPopActivity extends AppCompatActivity implements Co
         mCoffeeID = getIntent().getExtras().getString("coffee_id");
         mCoffeeName = getIntent().getExtras().getString("name");
         mCoffeePrice = Integer.parseInt(getIntent().getExtras().getString("price"));
+        mCoffeeDescription = getIntent().getExtras().getString("description");
 
         //initialize
         TextView tvDrinkTitle = (TextView)findViewById(R.id.tv_drink_title);
         tvDrinkTitle.setText(mCoffeeName);
+        TextView tvDrinkDescription = (TextView)findViewById(R.id.tv_drink_description);
+        tvDrinkDescription.setText("des : " + mCoffeeDescription);
+
         mUnitPrice = mTotalPrice = mCoffeePrice;
 
         EditText etDrinkOrderCount= (EditText)findViewById(R.id.et_drink_order_count);
