@@ -21,6 +21,7 @@ import com.shuttles.shuttlesapp.Utils.LoadingDialog;
 import com.shuttles.shuttlesapp.vo.DrinkElementVO;
 import com.shuttles.shuttlesapp.vo.FoodElementVO;
 import com.shuttles.shuttlesapp.vo.OptionElementVO;
+import com.shuttles.shuttlesapp.vo.OrderProductListVO;
 import com.shuttles.shuttlesapp.vo.OrderRequestVO;
 import com.shuttles.shuttlesapp.vo.OrderVerifyVO;
 
@@ -151,12 +152,12 @@ public class OrderManageDetailActivity extends AppCompatActivity implements Conn
                 final CartListViewAdapterV2 cartListViewAdapter = new CartListViewAdapterV2();
                 //add coffee
                 for(DrinkElementVO e : orderRequestVO.getCoffee()){
-                    cartListViewAdapter.addItem(e.getName(), e.getPrice() * e.getCount(), e.getPrice(), e.getCount(), (ArrayList<OptionElementVO>) e.getOption(), e.getOid());
+                    cartListViewAdapter.addItem(e.getName(), e.getPrice() * e.getCount(), e.getPrice(), e.getCount(), (ArrayList<OptionElementVO>) e.getOption(), OrderProductListVO.COFFEE, e.getOid());
                 }
 
                 //add drink
                 for(FoodElementVO e : orderRequestVO.getFood()){
-                    cartListViewAdapter.addItem(e.getName(), e.getPrice() * e.getCount(), e.getPrice(), e.getCount(), (ArrayList<OptionElementVO>) e.getOption(), e.getOid());
+                    cartListViewAdapter.addItem(e.getName(), e.getPrice() * e.getCount(), e.getPrice(), e.getCount(), (ArrayList<OptionElementVO>) e.getOption(), OrderProductListVO.SPECIAL_FOOD, e.getOid());
                 }
 
                 lvOrderReceipt.setAdapter(cartListViewAdapter);

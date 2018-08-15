@@ -1,5 +1,7 @@
 package com.shuttles.shuttlesapp.vo;
 
+import android.util.Log;
+
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
@@ -10,6 +12,7 @@ import java.util.List;
  */
 
 public class OrderRequestVO {
+    final private String TAG = "OrderRequestVO";
     private static OrderRequestVO instance;
 
     private OrderRequestVO(){}
@@ -35,6 +38,10 @@ public class OrderRequestVO {
         return user_id != null && order_address != null && order_price != 0 && (coffee.size() != 0 || food.size() != 0);
     }
 
+    public boolean isValidCart(){
+        return coffee.size() >= 1;
+    }
+
     @Override
     public String toString() {
         Gson gson = new Gson();
@@ -42,6 +49,7 @@ public class OrderRequestVO {
     }
 
     public void addCoffee(String coffeeName, int coffeeId, int coffeeCount, int coffeeOrgPrice, int coffeeUnitPrice, List<OptionElementVO> optionList){
+        Log.i(TAG, "add Coffee : " + coffeeName + ", " + coffeeId + ", " + coffeeCount + ", " + coffeeOrgPrice + ", " + coffeeUnitPrice );
         int price = coffeeUnitPrice;
         price *= coffeeCount;
         this.order_price += price;
@@ -49,8 +57,9 @@ public class OrderRequestVO {
     }
 
     public void addFood(String foodName, int foodId, int foodCount, int foodOrgPrice, int foodUnitPrice, List<OptionElementVO> optionList){
+        Log.i(TAG, "add Food : " + foodName + ", " + foodId + ", " + foodCount + ", " + foodOrgPrice + ", " + foodUnitPrice );
         int price = foodUnitPrice;
-        price *= foodUnitPrice;
+        price *= foodCount;
         this.order_price += price;
         getFood().add(new FoodElementVO(foodName, foodId, foodCount, foodOrgPrice, foodUnitPrice, foodObjectId++, optionList));
     }
@@ -64,6 +73,7 @@ public class OrderRequestVO {
             }
         }
         if(idx != -1) {
+            this.order_price -= coffee.get(idx).getCount() * coffee.get(idx).getPrice();
             coffee.remove(idx);
         }
     }
@@ -77,6 +87,7 @@ public class OrderRequestVO {
             }
         }
         if(idx != -1) {
+            this.order_price -= food.get(idx).getCount() * food.get(idx).getPrice();
             food.remove(idx);
         }
     }

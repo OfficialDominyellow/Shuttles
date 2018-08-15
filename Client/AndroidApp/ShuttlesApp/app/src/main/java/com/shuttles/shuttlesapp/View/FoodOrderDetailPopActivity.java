@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
+import android.text.InputFilter;
 import android.text.TextWatcher;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -29,6 +30,7 @@ import com.shuttles.shuttlesapp.ConnectionController.RequestHandler;
 import com.shuttles.shuttlesapp.ConnectionController.RestAPI;
 import com.shuttles.shuttlesapp.R;
 import com.shuttles.shuttlesapp.Utils.LoadingDialog;
+import com.shuttles.shuttlesapp.Utils.MinMaxFilter;
 import com.shuttles.shuttlesapp.vo.OptionElementVO;
 import com.shuttles.shuttlesapp.vo.OrderRequestVO;
 
@@ -43,7 +45,6 @@ public class FoodOrderDetailPopActivity extends AppCompatActivity implements Con
 
     private final String TAG = "FoodOrderDetailPopActivity";
 
-    private RequestData requestData;
     private RequestData orderRequestData;
 
     private String mFoodID;
@@ -85,8 +86,10 @@ public class FoodOrderDetailPopActivity extends AppCompatActivity implements Con
         tvFoodDescription.setText("des : " + mFoodDescription);
 
         mUnitPrice = mTotalPrice = mFoodPrice;
+        renewTotalPrice();
 
         EditText etFoodOrderCount= (EditText)findViewById(R.id.et_food_order_count);
+        etFoodOrderCount.setFilters(new InputFilter[]{ new MinMaxFilter("1", "999")});
         etFoodOrderCount.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -135,9 +138,7 @@ public class FoodOrderDetailPopActivity extends AppCompatActivity implements Con
     private boolean addToCart(){
         if(isValidForm()){
             Log.i(TAG, "Valid Form");
-            Toast.makeText(getApplicationContext(), "hoho", Toast.LENGTH_SHORT).show();
-            OrderRequestVO.getInstance().setUser_id("dominyellow@gmail.com");
-            OrderRequestVO.getInstance().setOrder_address("너네집");
+            Toast.makeText(getApplicationContext(), "add to cart", Toast.LENGTH_SHORT).show();
 
             ArrayList<OptionElementVO> selectedOptionList = new ArrayList<>();
             OrderRequestVO.getInstance().addFood(mFoodName, Integer.parseInt(mFoodID), mOrderCount, mFoodPrice, mUnitPrice, selectedOptionList);

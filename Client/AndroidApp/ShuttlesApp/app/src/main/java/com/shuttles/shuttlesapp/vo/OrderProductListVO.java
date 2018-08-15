@@ -23,12 +23,13 @@ public class OrderProductListVO {
 
     private int oid; //OrderRequestVO 에서 drink, food의 고유 id. 장바구니에서 삭제할 때 필요
 
-    public OrderProductListVO(String productName, int price, int unitPrice, int count, ArrayList<OptionElementVO> optionList, int oid) {
+    public OrderProductListVO(String productName, int price, int unitPrice, int count, ArrayList<OptionElementVO> optionList, int type, int oid) {
         this.productName = productName;
         this.price = price;
         this.unitPrice = unitPrice;
         this.count = count;
         this.optionList = optionList;
+        this.type = type;
         this.oid = oid;
     }
 

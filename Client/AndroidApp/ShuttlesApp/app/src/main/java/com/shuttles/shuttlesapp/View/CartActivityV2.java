@@ -19,6 +19,7 @@ import com.shuttles.shuttlesapp.R;
 import com.shuttles.shuttlesapp.vo.DrinkElementVO;
 import com.shuttles.shuttlesapp.vo.FoodElementVO;
 import com.shuttles.shuttlesapp.vo.OptionElementVO;
+import com.shuttles.shuttlesapp.vo.OrderHistoryListVO;
 import com.shuttles.shuttlesapp.vo.OrderProductListVO;
 import com.shuttles.shuttlesapp.vo.OrderRequestVO;
 
@@ -69,18 +70,21 @@ public class CartActivityV2 extends AppCompatActivity {
                 int type = orderProductListVO.getType();
                 int oid = orderProductListVO.getOid();
                 cartListViewAdapter.removeItemByPos(position, type, oid);
+                Intent intent = getIntent();
+                finish();
+                startActivity(intent);
                 return false;
             }
         });
 
         //add coffee
         for(DrinkElementVO e : OrderRequestVO.getInstance().getCoffee()){
-            cartListViewAdapter.addItem(e.getName(), e.getPrice() * e.getCount(), e.getPrice(), e.getCount(), (ArrayList<OptionElementVO>) e.getOption(), e.getOid());
+            cartListViewAdapter.addItem(e.getName(), e.getPrice() * e.getCount(), e.getPrice(), e.getCount(), (ArrayList<OptionElementVO>) e.getOption(), OrderProductListVO.COFFEE, e.getOid());
         }
 
         //add drink
         for(FoodElementVO e : OrderRequestVO.getInstance().getFood()){
-            cartListViewAdapter.addItem(e.getName(), e.getPrice() * e.getCount(), e.getPrice(), e.getCount(), (ArrayList<OptionElementVO>) e.getOption(), e.getOid());
+            cartListViewAdapter.addItem(e.getName(), e.getPrice() * e.getCount(), e.getPrice(), e.getCount(), (ArrayList<OptionElementVO>) e.getOption(), OrderProductListVO.SPECIAL_FOOD, e.getOid());
         }
 
         lvCart.setAdapter(cartListViewAdapter);
@@ -91,7 +95,12 @@ public class CartActivityV2 extends AppCompatActivity {
             public void onClick(View v) {
                 Toast.makeText(getApplicationContext(), "모두 주문하기", Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(getApplicationContext(), DeliveryInfoActivity.class);
-                startActivity(intent);
+                if(OrderRequestVO.getInstance().isValidCart()) {
+                    startActivity(intent);
+                }
+                else{
+                    Toast.makeText(getApplicationContext(), "커피를 한개이상 주문해야합니다.", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
@@ -161,8 +170,8 @@ class CartListViewAdapterV2 extends BaseAdapter {
     }
 
     // 아이템 데이터 추가를 위한 함수. 개발자가 원하는대로 작성 가능.
-    public void addItem(String productName, int price, int unitPrice, int count, ArrayList<OptionElementVO> optionList, int oid) {
-        OrderProductListVO item = new OrderProductListVO(productName, price, unitPrice, count, optionList, oid);
+    public void addItem(String productName, int price, int unitPrice, int count, ArrayList<OptionElementVO> optionList, int type, int oid) {
+        OrderProductListVO item = new OrderProductListVO(productName, price, unitPrice, count, optionList, type, oid);
 
         listViewItemList.add(item);
     }
@@ -173,12 +182,11 @@ class CartListViewAdapterV2 extends BaseAdapter {
 
         //그 pos의 oid를 찾아서 OrderRequestVO에서도 삭제
         if(type == OrderProductListVO.COFFEE){
-
+            OrderRequestVO.getInstance().removeDrinkByOid(oid);
         }
         else if(type == OrderProductListVO.SPECIAL_FOOD){
-
+            OrderRequestVO.getInstance().removeFoodByOid(oid);
         }
-
         notifyDataSetChanged();
     }
 }
