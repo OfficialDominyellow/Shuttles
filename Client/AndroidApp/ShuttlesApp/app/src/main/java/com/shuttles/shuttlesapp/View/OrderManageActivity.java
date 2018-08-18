@@ -49,6 +49,11 @@ public class OrderManageActivity extends AppCompatActivity implements Connection
             }
         });
 
+    }
+
+    protected void onResume(){
+        super.onResume();
+        Log.i(TAG, "onResume loadAdminOrderList");
         loadAdminOrderList();
     }
 

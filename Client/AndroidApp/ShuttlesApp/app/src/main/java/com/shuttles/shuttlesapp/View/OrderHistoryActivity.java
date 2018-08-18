@@ -49,7 +49,11 @@ public class OrderHistoryActivity extends AppCompatActivity implements Connectio
                 onBackPressed(); // Implemented by activity
             }
         });
+    }
 
+    protected void onResume(){
+        super.onResume();
+        Log.i(TAG, "onResume loadOrderHistory");
         loadOrderHistory();
     }
 

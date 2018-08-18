@@ -2,7 +2,7 @@ package com.shuttles.shuttlesapp;
 /**
  * Created by daeyonglee on 2018. 1. 15..
  */
-import android.app.Activity;
+
 import android.app.Application;
 import android.content.Context;
 
@@ -13,10 +13,6 @@ import com.kakao.auth.ISessionConfig;
 import com.kakao.auth.KakaoAdapter;
 import com.kakao.auth.KakaoSDK;
 import com.kakao.util.helper.log.Logger;
-import com.shuttles.shuttlesapp.vo.DrinkListVO;
-import com.shuttles.shuttlesapp.vo.FoodListVO;
-
-import java.util.List;
 
 /**
  * 이미지를 캐시를 앱 수준에서 관리하기 위한 애플리케이션 객체이다.
@@ -26,31 +22,6 @@ import java.util.List;
  */
 public class GlobalApplication extends Application {
     private static GlobalApplication instance = null;
-    private static Activity currentActivity = null;
-
-    //public static OrderRequestVO orderRequestVO = new OrderRequestVO();
-
-    //Todo: Delete drinkList and specialFoodList
-    public static volatile List<DrinkListVO> drinkList = null;
-    public static volatile List<FoodListVO> specialFoodList = null;
-
-    /*
-    public void setCoffeList(List<DrinkListVO> drinkList) {
-        this.drinkList = drinkList;
-        for(DrinkListVO element : drinkList){
-            Log.i(Constants.LOG_TAG,element.toString());
-            element.convertURLtoFileName();
-        }
-    }
-
-    public void setSpecialFoodList(List<FoodListVO> specialFoodLsit) {
-        this.specialFoodList = specialFoodLsit;
-        for(FoodListVO element : specialFoodLsit){
-            Log.i(Constants.LOG_TAG,element.toString());
-            element.convertURLtoFileName();
-        }
-    }
-    */
 
     private static class KakaoSDKAdapter extends KakaoAdapter {
         /**
@@ -106,14 +77,6 @@ public class GlobalApplication extends Application {
         Logger.d("global app oncreate " );
         //카카오 로그인을 위해 앱실행시 KakaoSDK 초기화
         KakaoSDK.init(new KakaoSDKAdapter());
-    }
-
-    public static Activity getCurrentActivity() {
-        return currentActivity;
-    }
-
-    public static void setCurrentActivity(Activity currentActivity) {
-        GlobalApplication.currentActivity = currentActivity;
     }
 
     /**
