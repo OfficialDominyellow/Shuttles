@@ -21,7 +21,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.shuttles.shuttlesapp.ConnectionController.ConnectionImpl;
 import com.shuttles.shuttlesapp.ConnectionController.ConnectionResponse;
-import com.shuttles.shuttlesapp.ConnectionController.ImageLoadHandler;
+import com.shuttles.shuttlesapp.ConnectionController.ProductImageLoadHandler;
 import com.shuttles.shuttlesapp.ConnectionController.RequestData;
 import com.shuttles.shuttlesapp.ConnectionController.RequestHandler;
 import com.shuttles.shuttlesapp.ConnectionController.RestAPI;
@@ -105,7 +105,7 @@ public class FoodListVtcActivity extends AppCompatActivity implements Connection
                     element.convertURLtoFileName();
                 }
 
-                new ImageLoadHandler(this).execute(foodList);
+                new ProductImageLoadHandler(this).execute(foodList);
                 break;
             case IMAGE_LOAD:
                 setContentView(R.layout.food_list_vtc_layout);

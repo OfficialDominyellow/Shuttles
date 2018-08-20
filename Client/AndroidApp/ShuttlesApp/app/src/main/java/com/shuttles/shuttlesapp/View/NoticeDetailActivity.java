@@ -5,18 +5,18 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.util.Linkify;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
-import com.shuttles.shuttlesapp.ConnectionController.ConnectionImpl;
-import com.shuttles.shuttlesapp.ConnectionController.ConnectionResponse;
-import com.shuttles.shuttlesapp.ConnectionController.RequestData;
 import com.shuttles.shuttlesapp.R;
+import com.shuttles.shuttlesapp.Utils.Constants;
 import com.shuttles.shuttlesapp.vo.NoticeListVO;
 
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class NoticeDetailActivity extends AppCompatActivity implements ConnectionImpl{
+public class NoticeDetailActivity extends AppCompatActivity {
     private NoticeListVO noticeVO;
     private TextView noticeSubject;
     private TextView noticeDate;
@@ -42,12 +42,23 @@ public class NoticeDetailActivity extends AppCompatActivity implements Connectio
         noticeContent = (TextView)findViewById(R.id.notice_content);
         noticeContent.setText(noticeVO.getNotice_content());
 
-        if(noticeVO.getNotice_picturl() != null) {
+        if(noticeVO.getNotice_picture() != null) {
+            Log.i(Constants.LOG_TAG, noticeVO.getNotice_picture());
             notice_url = (TextView)findViewById(R.id.notice_url);
             notice_url.setText(linkText);
+
+            Linkify.TransformFilter mTransform = new Linkify.TransformFilter() {
+                @Override
+                public String transformUrl(Matcher match, String url) {
+                    return noticeVO.getNotice_picture();
+                }
+            };
+
             Pattern pattern = Pattern.compile(linkText);
-            Linkify.addLinks(notice_url, pattern, noticeVO.getNotice_picturl());
+            Linkify.addLinks(notice_url, pattern, "", null, mTransform);
         }
+        else
+            Log.i(Constants.LOG_TAG, "null");
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.tb_notice_detail);
         toolbar.setNavigationIcon(R.drawable.ic_chevron_left_white_12dp); // your drawable
@@ -59,16 +70,6 @@ public class NoticeDetailActivity extends AppCompatActivity implements Connectio
                 onBackPressed(); // Implemented by activity
             }
         });
-    }
-
-    @Override
-    public void sendRequestData(RequestData requestData) {
-
-    }
-
-    @Override
-    public void requestCallback(ConnectionResponse connectionResponse) {
-
     }
 }
 

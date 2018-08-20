@@ -10,7 +10,7 @@ public class NoticeListVO implements Serializable {
     private String notice_id;
     private String notice_subject;
     private String notice_content;
-    private String notice_picturl;
+    private String notice_picture;
     private String notice_date;
 
     public String getNotice_id() {
@@ -45,11 +45,11 @@ public class NoticeListVO implements Serializable {
         this.notice_content = notice_content;
     }
 
-    public String getNotice_picturl() {
-        return notice_picturl;
+    public String getNotice_picture() {
+        return notice_picture;
     }
 
-    public void setNotice_picturl(String notice_picturl) {
-        this.notice_picturl = notice_picturl;
+    public void setNotice_picture(String notice_picture) {
+        this.notice_picture = notice_picture;
     }
 }

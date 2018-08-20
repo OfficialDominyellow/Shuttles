@@ -20,7 +20,7 @@ import android.widget.Toast;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.shuttles.shuttlesapp.ConnectionController.ConnectionImpl;
-import com.shuttles.shuttlesapp.ConnectionController.ImageLoadHandler;
+import com.shuttles.shuttlesapp.ConnectionController.ProductImageLoadHandler;
 import com.shuttles.shuttlesapp.ConnectionController.RequestData;
 import com.shuttles.shuttlesapp.ConnectionController.RequestHandler;
 import com.shuttles.shuttlesapp.ConnectionController.ConnectionResponse;
@@ -105,7 +105,7 @@ public class DrinkListVtcActivity extends AppCompatActivity implements Connectio
                     element.convertURLtoFileName();
                 }
 
-                new ImageLoadHandler(this).execute(drinkList);
+                new ProductImageLoadHandler(this).execute(drinkList);
                 break;
             case IMAGE_LOAD:
                 setContentView(R.layout.drink_list_vtc_layout);
