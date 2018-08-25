@@ -116,11 +116,8 @@ public class ProductImageLoadHandler extends AsyncTask<List<? extends Product>, 
     @Override
     protected void onPostExecute(ConnectionResponse connectionResponse) {
         super.onPostExecute(connectionResponse);
-        Log.i(Constants.LOG_TAG, "Load image result " + connectionResponse.getRequestType());
+        loadImageToProductList();
 
-        if (connectionResponse.getRequestType() == RestAPI.REQUEST_TYPE.IMAGE_LOAD) {
-            loadImageToProductList();
-        }
         delegate.requestCallback(connectionResponse);
     }
 

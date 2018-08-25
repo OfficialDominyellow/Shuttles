@@ -1,5 +1,6 @@
 package com.shuttles.shuttlesapp.ConnectionController;
 
+
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
@@ -11,6 +12,7 @@ import android.util.Log;
 
 import com.shuttles.shuttlesapp.GlobalApplication;
 import com.shuttles.shuttlesapp.Utils.Constants;
+import com.shuttles.shuttlesapp.Utils.Utils;
 import com.shuttles.shuttlesapp.vo.Product;
 
 import java.io.File;
@@ -22,11 +24,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.List;
 
-/**
- * Created by daeyonglee on 2018. 2. 11..
- */
-
-public class ImageLoadHandler extends AsyncTask<List<? extends Product>, Void, ConnectionResponse> {
+public class ImageLoadHandler extends AsyncTask<String, Void, ConnectionResponse> {
     private ConnectionImpl delegate ;
     private Context context;
     private List<Product> productList;
@@ -40,14 +38,14 @@ public class ImageLoadHandler extends AsyncTask<List<? extends Product>, Void, C
         this.delegate = delegate;
     }
 
-    public boolean isCached(Product element) {
-        String prefKey = element.getName() + element.getID();
+    public boolean isCached(String filenName) {
+        String prefKey = filenName;
         String prefValue = preferences.getString(prefKey, null);
-        File file = context.getFileStreamPath(element.getPictureFileName());
+        File file = context.getFileStreamPath(filenName);
 
-        if (file.exists() && prefValue.equals(element.getPicture_version()))
+        if (file.exists() && prefValue.equals(filenName))
         {
-            Log.i(Constants.LOG_TAG, "File exist, Name : " + element.getPictureFileName() + " prefKey : " +prefKey +" prefValue : "+prefValue + " == "+element.getPicture_version() );
+            Log.i(Constants.LOG_TAG, "File exist, Name : " + filenName);
             return true;
         }
         return false;
@@ -64,45 +62,36 @@ public class ImageLoadHandler extends AsyncTask<List<? extends Product>, Void, C
     }
 
     @Override
-    protected ConnectionResponse doInBackground(List<? extends Product>... params) {
-        productList = (List<Product>) params[0];
+    protected ConnectionResponse doInBackground(String... params) {
         ConnectionResponse connectionResponse = new ConnectionResponse();
         connectionResponse.setRequestType(RestAPI.REQUEST_TYPE.IMAGE_LOAD);
-        Log.i(Constants.LOG_TAG, "start download file count : " + productList.size());
-        //Download picture
-        for(Product element : productList)
-        {
-            try {
-                if (isCached(element))
-                    continue;
+        String fileName = Utils.convertURLtoFileName(params[0]);
 
-                Log.i(Constants.LOG_TAG, "not cached");
+        try {
+            if(isCached(fileName))
+                return connectionResponse;
 
-                URL imgURL = new URL(element.getPicture_url());
-                HttpURLConnection conn = (HttpURLConnection) imgURL.openConnection();
+            URL imageURL = new URL(params[0]);
+            HttpURLConnection conn = (HttpURLConnection)imageURL.openConnection();
 
-                //Download Product's picture from server
-                byte[] buf = new byte[1024];
-                InputStream is = conn.getInputStream();
-                FileOutputStream fos = context.openFileOutput(element.getPictureFileName(), Context.MODE_PRIVATE);
+            byte[] buf = new byte[1024];
+            InputStream is = conn.getInputStream();
+            FileOutputStream fos = context.openFileOutput(fileName, Context.MODE_PRIVATE);
 
-                Log.i(Constants.LOG_TAG, "Start Download " + element.getPictureFileName());
-                int len;
-                while ((len = is.read(buf)) > 0) {
-                    Log.i(Constants.LOG_TAG, "Now downloading... " + len);
-                    fos.write(buf, 0, len);
-                }
-
-                savePreference(element.getName() + element.getID(), element.getPicture_version());
-
-                is.close();
-                fos.close();
-                conn.disconnect();
+            int len;
+            while ((len = is.read(buf)) > 0) {
+                Log.i(Constants.LOG_TAG, "Now downloading... " + len);
+                fos.write(buf, 0, len);
             }
-            catch (Exception e){
-                e.printStackTrace();
-                Log.i(Constants.LOG_TAG, "exception " + e.getMessage());
-            }
+
+            savePreference(fileName, fileName);
+
+            is.close();
+            fos.close();
+            conn.disconnect();
+        } catch (Exception e) {
+            e.printStackTrace();
+            Log.i(Constants.LOG_TAG, "exception " + e.getMessage());
         }
 
         return connectionResponse;
@@ -118,10 +107,10 @@ public class ImageLoadHandler extends AsyncTask<List<? extends Product>, Void, C
         super.onPostExecute(connectionResponse);
         Log.i(Constants.LOG_TAG, "Load image result " + connectionResponse.getRequestType());
 
-        if (connectionResponse.getRequestType() == RestAPI.REQUEST_TYPE.IMAGE_LOAD) {
-            loadImageToProductList();
-        }
+        //loadImageToProductList();
+
         delegate.requestCallback(connectionResponse);
+
     }
 
     private void loadImageToProductList(){

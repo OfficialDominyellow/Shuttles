@@ -4,6 +4,7 @@ import android.graphics.drawable.Drawable;
 import android.util.Log;
 
 import com.shuttles.shuttlesapp.Utils.Constants;
+import com.shuttles.shuttlesapp.Utils.Utils;
 
 /**
  * Created by daeyonglee on 2018. 2. 11..
@@ -21,11 +22,9 @@ public abstract  class Product {
     private Drawable img;
 
     public void convertURLtoFileName(){
-        if(picture_url!=null) {
-            pictureFileName = picture_url.substring(picture_url.lastIndexOf('/') + 1, picture_url.length());
-            Log.i(Constants.LOG_TAG,"convertURLtoFileName : "+pictureFileName);
-        }
+        pictureFileName = Utils.convertURLtoFileName(picture_url);
     }
+
     public abstract String getID();
 
     public String getPicture_url() {

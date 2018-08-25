@@ -12,6 +12,7 @@ import com.shuttles.shuttlesapp.GlobalApplication;
  */
 
 public class Utils {
+
     public static boolean checkNetworkState(){
         ConnectivityManager connectivityManager = (ConnectivityManager) GlobalApplication.getGlobalApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
 
@@ -22,5 +23,16 @@ public class Utils {
         }
         else
             return true;
+    }
+
+    public static String convertURLtoFileName(String picture_url){
+        String pictureFileName = null;
+
+        if(picture_url!=null) {
+            pictureFileName = picture_url.substring(picture_url.lastIndexOf('/') + 1, picture_url.length());
+            Log.i(Constants.LOG_TAG,"convertURLtoFileName : "+pictureFileName);
+        }
+
+        return pictureFileName;
     }
 }
