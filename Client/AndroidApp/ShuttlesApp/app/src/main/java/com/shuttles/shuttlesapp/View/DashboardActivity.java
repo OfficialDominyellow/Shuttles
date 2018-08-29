@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.view.MenuItem;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -22,7 +23,7 @@ import com.shuttles.shuttlesapp.Utils.Constants;
 public class DashboardActivity extends AppCompatActivity {
     private DrawerLayout drawerLayout;
     private Toolbar toolbar;
-
+    private ImageView ivCart;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,6 +36,16 @@ public class DashboardActivity extends AppCompatActivity {
         TextView tvDashBoardEmail = (TextView)findViewById(R.id.tv_dashboard_email);
         tvDashboardName.setText(UserInfo.getInstance().getProfile().getNickname());
         tvDashBoardEmail.setText(UserInfo.getInstance().getProfile().getEmail());
+
+        ivCart = (ImageView)findViewById(R.id.iv_cart_in_drink_list_vtc);
+        ivCart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), CartActivityV2.class);
+                startActivity(intent);
+            }
+        });
+
         initNavigationDrawer();
         setCardView();
     }

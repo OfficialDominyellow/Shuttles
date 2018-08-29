@@ -26,7 +26,7 @@ public class UserInfo {
 
     private UserInfo()
     {
-
+        //Singleton implement
     }
 
     public static UserInfo getInstance() {

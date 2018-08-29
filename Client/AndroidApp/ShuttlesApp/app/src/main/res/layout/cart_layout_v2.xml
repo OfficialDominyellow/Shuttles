@@ -97,7 +97,9 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
+                <!--
                 <Button
+                    android:id = "@+id/btn_add_drink"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="8dp"
@@ -112,6 +114,7 @@
                     android:textColor="@color/colorAccent" />
 
                 <Button
+                    android:id = "@+id/btn_add_food"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="8dp"
@@ -124,6 +127,7 @@
                     android:text="스페셜푸드 추가"
                     android:textAllCaps="false"
                     android:textColor="@color/colorAccent" />
+                    -->
             </LinearLayout>
 
             <Button

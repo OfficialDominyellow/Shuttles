@@ -66,8 +66,6 @@ public class ShuttlesFirebaseMessagingService extends FirebaseMessagingService {
         }
 
         notificationManager.notify(0, notificationBuilder.build());
-
-        Log.i(Constants.LOG_TAG, "notify");
     }
 
 }

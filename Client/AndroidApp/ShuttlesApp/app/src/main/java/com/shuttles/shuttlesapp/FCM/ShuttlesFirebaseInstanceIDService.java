@@ -71,10 +71,11 @@ public class ShuttlesFirebaseInstanceIDService extends FirebaseInstanceIdService
     public void requestCallback(ConnectionResponse connectionResponse) {
         switch (connectionResponse.getRequestType()){
             case FAILED:
+                /*TODO : fail handling*/
                 Log.e(Constants.LOG_TAG, "request failed!");
                 break;
             case USER:
-                Log.e(Constants.LOG_TAG, "request success!");
+                Log.i(Constants.LOG_TAG, "request success!");
                 break;
 
             default:

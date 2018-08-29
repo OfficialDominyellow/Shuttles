@@ -106,33 +106,6 @@ public class ImageLoadHandler extends AsyncTask<String, Void, ConnectionResponse
     protected void onPostExecute(ConnectionResponse connectionResponse) {
         super.onPostExecute(connectionResponse);
         Log.i(Constants.LOG_TAG, "Load image result " + connectionResponse.getRequestType());
-
-        //loadImageToProductList();
-
         delegate.requestCallback(connectionResponse);
-
-    }
-
-    private void loadImageToProductList(){
-        for (Product element : productList) {
-            //Load image to VO class
-            try {
-                FileInputStream fis = context.openFileInput(element.getPictureFileName());
-                int len;
-                byte buf[] = new byte[fis.available()];
-                while ((len = fis.read(buf)) != -1) {
-                    Log.i(Constants.LOG_TAG, "Load image from storage " + len);
-                }
-                fis.close();
-                Bitmap bitmap = BitmapFactory.decodeByteArray(buf, 0, buf.length);
-                //convert bitmap to drwable
-                Drawable drawable = new BitmapDrawable(context.getResources(), bitmap);
-                element.setImg(drawable);
-            } catch (IOException e) {
-                e.printStackTrace();
-                element.setImg(null);//이미지가 서버에 없는 경우
-            }
-        }
-        Log.i(Constants.LOG_TAG, "End Load Picture");
     }
 }
