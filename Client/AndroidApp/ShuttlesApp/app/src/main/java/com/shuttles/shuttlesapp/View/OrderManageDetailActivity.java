@@ -1,13 +1,19 @@
 package com.shuttles.shuttlesapp.View;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.ListViewCompat;
 import android.support.v7.widget.Toolbar;
+import android.text.Editable;
+import android.text.InputFilter;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -18,6 +24,7 @@ import com.shuttles.shuttlesapp.ConnectionController.RequestHandler;
 import com.shuttles.shuttlesapp.ConnectionController.RestAPI;
 import com.shuttles.shuttlesapp.R;
 import com.shuttles.shuttlesapp.Utils.LoadingDialog;
+import com.shuttles.shuttlesapp.Utils.MinMaxFilter;
 import com.shuttles.shuttlesapp.vo.DrinkElementVO;
 import com.shuttles.shuttlesapp.vo.FoodElementVO;
 import com.shuttles.shuttlesapp.vo.OptionElementVO;
@@ -38,15 +45,18 @@ public class OrderManageDetailActivity extends AppCompatActivity implements Conn
     private Button orderCancelButton;
     private Button orderReadyButton;
 
+    private EditText deliveryVerifyTime;
+
     private LoadingDialog loadingDialog;
 
+    private int orderRequiredTime = 0;
     private int orderId;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.order_manage_detail_layout);
 
-        setOrderButtons();
+        setLayoutObjects();
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.tb_order_manage_detail);
         toolbar.setNavigationIcon(R.drawable.ic_chevron_left_white_12dp); // your drawable
@@ -60,12 +70,19 @@ public class OrderManageDetailActivity extends AppCompatActivity implements Conn
         loadOrderManageDetail();
     }
 
-    private void setOrderButtons() {
+    @SuppressLint("ResourceAsColor")
+    private void setLayoutObjects() {
         orderAcceptButton = findViewById(R.id.btn_order_accept);
         orderAcceptButton.setOnClickListener(new Button.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.i(TAG, "onClick orderAcceptButton");
+                Log.i(TAG, "onClick orderAcceptButton" + orderRequiredTime);
+
+                if(orderRequiredTime == 0) {
+                    Toast.makeText(getApplicationContext(),"예상 소요시간을 입력해 주세요.",Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
                 setOrderOnclick(RestAPI.Verify.ACCEPT);
             }
         });
@@ -88,6 +105,27 @@ public class OrderManageDetailActivity extends AppCompatActivity implements Conn
             }
         });
 
+        deliveryVerifyTime = findViewById(R.id.et_delivery_time);
+        deliveryVerifyTime.setFilters(new InputFilter[]{ new MinMaxFilter("1", "1440")});
+        deliveryVerifyTime.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if(s.length()>0) {
+                    orderRequiredTime = Integer.parseInt(s + "");
+                    Log.i(TAG, "orderRequiredTime : " + orderRequiredTime);
+                }
+                else
+                    orderRequiredTime = 0;
+            }
+        });
     }
 
     private void setOrderOnclick(RestAPI.Verify verifyType) {
@@ -95,7 +133,7 @@ public class OrderManageDetailActivity extends AppCompatActivity implements Conn
         OrderVerifyVO orderVerifyVO = null;
         switch (verifyType){
             case ACCEPT:
-                orderVerifyVO = new OrderVerifyVO("receive",orderId);
+                orderVerifyVO = new OrderVerifyVO("receive",orderId, orderRequiredTime);
                 break;
             case CANCEL:
                 orderVerifyVO = new OrderVerifyVO("cancel",orderId);

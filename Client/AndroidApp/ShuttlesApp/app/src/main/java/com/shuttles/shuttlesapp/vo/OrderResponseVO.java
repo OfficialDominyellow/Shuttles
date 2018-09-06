@@ -3,6 +3,7 @@ package com.shuttles.shuttlesapp.vo;
 public class OrderResponseVO {
     private String type;
     private String subject;
+    private int deliveryTime;
 
     public String getType() {
         return type;
@@ -18,5 +19,13 @@ public class OrderResponseVO {
 
     public void setSubject(String subject) {
         this.subject = subject;
+    }
+
+    public int getDeliveryTime() {
+        return deliveryTime;
+    }
+
+    public void setDeliveryTime(int deliveryTime) {
+        this.deliveryTime = deliveryTime;
     }
 }
