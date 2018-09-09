@@ -153,6 +153,21 @@ class CartListViewAdapterV2 extends BaseAdapter {
         tvProductCnt.setText(orderProductListVO.getCount()+"");
         tvOptions.setText(orderProductListVO.getOptionString());
 
+        //button action
+        Button btnDecreaseCnt = (Button)convertView.findViewById(R.id.btn_decrease_cnt);
+        btnDecreaseCnt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+        Button btnIncreaseCnt = (Button)convertView.findViewById(R.id.btn_increase_cnt);
+        btnIncreaseCnt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
 
         return convertView;
     }
@@ -188,6 +203,16 @@ class CartListViewAdapterV2 extends BaseAdapter {
             OrderRequestVO.getInstance().removeFoodByOid(oid);
         }
         notifyDataSetChanged();
+    }
+
+    //개수 올리기
+    public void increaseCntofItemByPos(int pos, int type, int oid){
+
+    }
+
+    //개수 내리기
+    public void decreaseCntofItemByPos(int pos, int type, int oid){
+
     }
 }
 

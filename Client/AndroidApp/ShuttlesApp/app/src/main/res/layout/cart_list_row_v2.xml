@@ -62,18 +62,41 @@
         android:layout_height="wrap_content"
         android:paddingVertical="4dp"
         android:paddingHorizontal="16dp">
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/black"
-            android:text="수량"/>
+            android:layout_gravity="center_vertical"
+            android:text="수량"
+            />
 
-        <TextView
-            android:id="@+id/tv_product_cnt"
+        <RelativeLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:gravity="right"
-            android:text="2"/>
+            android:orientation="horizontal">
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true">
+                <Button
+                    android:id="@+id/btn_decrease_cnt"
+                    android:layout_width="32dp"
+                    android:layout_height="wrap_content"
+                    android:text="-"/>
+                <TextView
+                    android:id="@+id/tv_product_cnt"
+                    android:layout_width="32dp"
+                    android:layout_height="wrap_content"
+                    android:textAlignment="center"
+                    android:text="2"/>
+                <Button
+                    android:id="@+id/btn_increase_cnt"
+                    android:layout_width="32dp"
+                    android:layout_height="wrap_content"
+                    android:text="+"/>
+            </LinearLayout>
+        </RelativeLayout>
     </LinearLayout>
 
     <LinearLayout
