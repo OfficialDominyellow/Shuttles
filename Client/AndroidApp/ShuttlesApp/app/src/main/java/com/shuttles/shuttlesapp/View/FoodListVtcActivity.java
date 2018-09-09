@@ -53,6 +53,7 @@ public class FoodListVtcActivity extends AppCompatActivity implements Connection
     }
 
     public void setCardView(){
+        /*
         CardView cvMenu1 = (CardView) findViewById(R.id.cv_menu1_food);
         cvMenu1.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -76,7 +77,7 @@ public class FoodListVtcActivity extends AppCompatActivity implements Connection
                 Toast.makeText(getApplicationContext(), "33333", Toast.LENGTH_SHORT).show();
             }
         });
-
+        */
     }
 
     @Override
