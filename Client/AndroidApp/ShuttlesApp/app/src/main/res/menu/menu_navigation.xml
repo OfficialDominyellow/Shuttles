@@ -12,6 +12,10 @@
             android:title="장바구니"
             />
         <item
+            android:id="@+id/itm_contacts"
+            android:title="주소록"
+            />
+        <item
             android:id="@+id/itm_order_history"
             android:title="주문내역조회"/>
         <!--admin menu item -->

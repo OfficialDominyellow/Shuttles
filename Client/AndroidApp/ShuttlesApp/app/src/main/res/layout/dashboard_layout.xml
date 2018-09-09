@@ -31,7 +31,7 @@
                     android:layout_height="wrap_content"
                     android:textSize="24sp"
                     android:textStyle="bold"
-                    android:text="SHUTTLES"
+                    android:text="SHUTTLE'S"
                     android:textColor="@color/colorAccent"
                     android:layout_gravity="center"
                     android:id="@+id/tv_toolbar_title" />

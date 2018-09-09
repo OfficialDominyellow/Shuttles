@@ -51,12 +51,12 @@ public class DashboardActivity extends AppCompatActivity {
     }
 
     public void setCardView(){
-        CardView cvModifyPersonal = (CardView) findViewById(R.id.cv_modify_personal);
-        cvModifyPersonal.setOnClickListener(new View.OnClickListener() {
+        CardView cvOrderList = (CardView) findViewById(R.id.cv_order_list);
+        cvOrderList.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getApplicationContext(), "주소록", Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(getApplicationContext(), AddressListActivity.class);
+                Toast.makeText(getApplicationContext(), "주문내역", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(getApplicationContext(), OrderHistoryActivity.class);
                 startActivity(intent);
             }
         });
@@ -131,6 +131,12 @@ public class DashboardActivity extends AppCompatActivity {
                         intent = new Intent(getApplicationContext(), CartActivityV2.class);
                         startActivity(intent);
                         break;
+                    case R.id.itm_contacts:
+                        Toast.makeText(getApplicationContext(),"주소록",Toast.LENGTH_SHORT).show();
+                        drawerLayout.closeDrawers();
+                        intent = new Intent(getApplicationContext(), AddressListActivity.class);
+                        startActivity(intent);
+                    break;
                     case R.id.itm_order_history:
                         Toast.makeText(getApplicationContext(),"주문내역조회",Toast.LENGTH_SHORT).show();
                         drawerLayout.closeDrawers();
