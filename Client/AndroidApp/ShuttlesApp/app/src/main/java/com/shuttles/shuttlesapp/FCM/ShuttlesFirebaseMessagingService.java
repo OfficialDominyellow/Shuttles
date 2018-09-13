@@ -58,18 +58,19 @@ public class ShuttlesFirebaseMessagingService extends FirebaseMessagingService {
         } else
             notificationBuilder.setContentText("");
 
+        NotificationManager notificationManager =
+                (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             Log.i(Constants.LOG_TAG, "Over than Android version Oreao");
-            NotificationManager notificationManager =
-                    (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 
             NotificationChannel channel = new NotificationChannel("notify_shuttles",
-                    "Channel human readable title",
+                    "Shuttles Channel",
                     NotificationManager.IMPORTANCE_DEFAULT);
             notificationManager.createNotificationChannel(channel);
-
-            notificationManager.notify(0, notificationBuilder.build());
         }
+
+        notificationManager.notify(0, notificationBuilder.build());
     }
 
 }
