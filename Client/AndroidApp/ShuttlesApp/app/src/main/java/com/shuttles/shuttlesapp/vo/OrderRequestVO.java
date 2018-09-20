@@ -64,6 +64,54 @@ public class OrderRequestVO {
         getFood().add(new FoodElementVO(foodName, foodId, foodCount, foodOrgPrice, foodUnitPrice, foodObjectId++, optionList));
     }
 
+    public void increaseProductByTypeAndOid(int type, int oid){
+        if(type == OrderProductListVO.COFFEE){
+            for(int i=0; i<coffee.size(); i++){
+                if(coffee.get(i).getOid() == oid){
+                    coffee.get(i).increaseCnt();
+                    order_price += coffee.get(i).getPrice();
+                    break;
+                }
+            }
+        }
+        else if(type == OrderProductListVO.SPECIAL_FOOD){
+            for(int i=0; i<food.size(); i++){
+                if(food.get(i).getOid() == oid){
+                    food.get(i).increaseCnt();
+                    order_price += food.get(i).getPrice();
+                    break;
+                }
+            }
+        }
+        else{
+            Log.e(TAG, "Invalid type");
+        }
+    }
+
+    public void decreaseProductByTypeAndOid(int type, int oid){
+        if(type == OrderProductListVO.COFFEE){
+            for(int i=0; i<coffee.size(); i++){
+                if(coffee.get(i).getOid() == oid){
+                    coffee.get(i).decreaseCnt();
+                    order_price -= coffee.get(i).getPrice();
+                    break;
+                }
+            }
+        }
+        else if(type == OrderProductListVO.SPECIAL_FOOD){
+            for(int i=0; i<food.size(); i++){
+                if(food.get(i).getOid() == oid){
+                    food.get(i).decreaseCnt();
+                    order_price -= food.get(i).getPrice();
+                    break;
+                }
+            }
+        }
+        else{
+            Log.e(TAG, "Invalid type");
+        }
+    }
+
     public void removeDrinkByOid(int oid){
         int idx = -1;
         for(int i=0; i<coffee.size(); i++){

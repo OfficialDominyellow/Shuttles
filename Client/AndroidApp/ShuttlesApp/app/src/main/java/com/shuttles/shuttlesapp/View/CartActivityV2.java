@@ -45,6 +45,12 @@ public class CartActivityV2 extends AppCompatActivity {
             }
         });
 
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
         ListViewCompat lvCart = (ListViewCompat) findViewById(R.id.lv_cart_v2);
         final CartListViewAdapterV2 cartListViewAdapter = new CartListViewAdapterV2();
 
@@ -109,6 +115,7 @@ public class CartActivityV2 extends AppCompatActivity {
     }
 }
 
+
 class CartListViewAdapterV2 extends BaseAdapter {
     // Adapter에 추가된 데이터를 저장하기 위한 ArrayList
     private ArrayList<OrderProductListVO> listViewItemList = new ArrayList<OrderProductListVO>() ;
@@ -126,11 +133,11 @@ class CartListViewAdapterV2 extends BaseAdapter {
 
     // position에 위치한 데이터를 화면에 출력하는데 사용될 View를 리턴. : 필수 구현
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(int position, View convertView, final ViewGroup parent) {
         final int pos = position;
         final Context context = parent.getContext();
 
-        // "listview_item" Layout을 inflate하여 convertView 참조 획득.
+        //"listview_item" Layout을 inflate하여 convertView 참조 획득.
         if (convertView == null) {
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = inflater.inflate(R.layout.cart_list_row_v2, parent, false);
@@ -140,11 +147,11 @@ class CartListViewAdapterV2 extends BaseAdapter {
         TextView tvProductName = (TextView)convertView.findViewById(R.id.tv_product_name);
         TextView tvProductPrice = (TextView)convertView.findViewById(R.id.tv_product_price);
         TextView tvProductUnitPrice = (TextView)convertView.findViewById(R.id.tv_product_unit_price);
-        TextView tvProductCnt = (TextView)convertView.findViewById(R.id.tv_product_cnt);
+        final TextView tvProductCnt = (TextView)convertView.findViewById(R.id.tv_product_cnt);
         TextView tvOptions = (TextView)convertView.findViewById(R.id.tv_options);
 
         // Data Set(listViewItemList)에서 position에 위치한 데이터 참조 획득
-        OrderProductListVO orderProductListVO = listViewItemList.get(position);
+        final OrderProductListVO orderProductListVO = listViewItemList.get(position);
 
         // 아이템 내 각 위젯에 데이터 반영
         tvProductName.setText(orderProductListVO.getProductName());
@@ -153,19 +160,34 @@ class CartListViewAdapterV2 extends BaseAdapter {
         tvProductCnt.setText(orderProductListVO.getCount()+"");
         tvOptions.setText(orderProductListVO.getOptionString());
 
+
         //button action
         Button btnDecreaseCnt = (Button)convertView.findViewById(R.id.btn_decrease_cnt);
         btnDecreaseCnt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                int cnt = Integer.parseInt(tvProductCnt.getText() + "");
+                Toast.makeText(context, "- " + orderProductListVO.getType() + " name : " + orderProductListVO.getProductName() + ", oid : "  + orderProductListVO.getOid() ,Toast.LENGTH_SHORT).show();
+                if(cnt <= 1){
+                    Toast.makeText(context, "remove ? ", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                OrderRequestVO.getInstance().decreaseProductByTypeAndOid(orderProductListVO.getType(), orderProductListVO.getOid());
+                ((CartActivityV2)context).onResume();
             }
         });
         Button btnIncreaseCnt = (Button)convertView.findViewById(R.id.btn_increase_cnt);
         btnIncreaseCnt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                int cnt = Integer.parseInt(tvProductCnt.getText() + "");
+                Toast.makeText(context, "+ " + orderProductListVO.getType() + " name : " + orderProductListVO.getProductName() + ", oid : "  + orderProductListVO.getOid() ,Toast.LENGTH_SHORT).show();
+                if(cnt >= 99){
+                    Toast.makeText(context, "Can not add", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                OrderRequestVO.getInstance().increaseProductByTypeAndOid(orderProductListVO.getType(), orderProductListVO.getOid());
+                ((CartActivityV2)context).onResume();
             }
         });
 
@@ -192,7 +214,7 @@ class CartListViewAdapterV2 extends BaseAdapter {
     }
 
     //아이템 삭제 해야하는 일이 있다.
-    public void removeItemByPos(int pos, int type, int oid){
+        public void removeItemByPos(int pos, int type, int oid){
         listViewItemList.remove(pos);
 
         //그 pos의 oid를 찾아서 OrderRequestVO에서도 삭제

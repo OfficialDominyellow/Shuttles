@@ -74,4 +74,11 @@ abstract public class ProductElementVO {
     public void setOption(List<OptionElementVO> option) {
         this.option = option;
     }
+
+    public void decreaseCnt(){
+        this.count -= 1;
+    }
+    public void increaseCnt(){
+        this.count += 1;
+    }
 }
