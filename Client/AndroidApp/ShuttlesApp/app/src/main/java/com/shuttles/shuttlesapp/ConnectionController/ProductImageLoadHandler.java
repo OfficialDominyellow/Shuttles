@@ -40,20 +40,20 @@ public class ProductImageLoadHandler extends AsyncTask<List<? extends Product>, 
         this.delegate = delegate;
     }
 
-    public boolean isCached(Product element) {
+    private boolean isCached(Product element) {
         String prefKey = element.getName() + element.getID();
         String prefValue = preferences.getString(prefKey, null);
         File file = context.getFileStreamPath(element.getPictureFileName());
 
-        if (file.exists() && prefValue.equals(element.getPicture_version()))
+        if (file.exists() && (prefValue != null && prefValue.equals(element.getPicture_version())))
         {
-            Log.i(Constants.LOG_TAG, "File exist, Name : " + element.getPictureFileName() + " prefKey : " +prefKey +" prefValue : "+prefValue + " == "+element.getPicture_version() );
+            Log.i(Constants.LOG_TAG, "Cached File exist, Name : " + element.getPictureFileName() + " prefKey : " +prefKey +" prefValue : "+prefValue + " == "+element.getPicture_version() );
             return true;
         }
         return false;
     }
 
-    public void savePreference(String key, String value) {
+    private void savePreference(String key, String value) {
         editor.putString(key, value);
         editor.commit();
     }

@@ -143,6 +143,11 @@ public class FoodListVtcActivity extends AppCompatActivity implements Connection
                         String price = foodListVO.getPrice();
                         String description = foodListVO.getDescription();
 
+                        if(foodListVO.getIsAvailable() != 0) {
+                            Toast.makeText(getApplicationContext(), "현재 " + name + "은 품절입니다.", Toast.LENGTH_LONG).show();
+                            return true;
+                        }
+
                         Toast.makeText(getApplicationContext(), groupPosition + " " + childPosition + " " + name + " " + url, Toast.LENGTH_SHORT).show();
                         Intent intent = new Intent(getApplicationContext(), FoodOrderDetailPopActivity.class);
                         intent.putExtra("food_id", foodID);
@@ -251,7 +256,12 @@ class ExpandableListAdapterInFood extends BaseExpandableListAdapter{
 
         // 아이템 내 각 위젯에 데이터 반영
         ivFoodList.setImageDrawable(foodListVO.getImg());
-        tvFoodName.setText(foodListVO.getName());
+
+        if(foodListVO.getIsAvailable() == 0)
+            tvFoodName.setText(foodListVO.getName());
+        else
+            tvFoodName.setText(foodListVO.getName() + " (품절)");
+
         tvFoodPrice.setText(foodListVO.getPrice() + "원");
 
         return convertView;
