@@ -1,9 +1,6 @@
 package com.shuttles.shuttlesapp.vo;
 
 import android.graphics.drawable.Drawable;
-import android.util.Log;
-
-import com.shuttles.shuttlesapp.Utils.Constants;
 import com.shuttles.shuttlesapp.Utils.Utils;
 
 /**
@@ -20,6 +17,7 @@ public abstract  class Product {
     private String type;
     private String pictureFileName;
     private Drawable img;
+    private int isAvailable;//0 is available
 
     public void convertURLtoFileName(){
         pictureFileName = Utils.convertURLtoFileName(picture_url);
@@ -97,5 +95,13 @@ public abstract  class Product {
 
     public void setType(String type) {
         this.type = type;
+    }
+
+    public int getIsAvailable() {
+        return isAvailable;
+    }
+
+    public void setIsAvailable(int isAvailable) {
+        this.isAvailable = isAvailable;
     }
 }

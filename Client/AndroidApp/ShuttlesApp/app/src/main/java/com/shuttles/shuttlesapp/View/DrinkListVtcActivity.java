@@ -2,6 +2,7 @@ package com.shuttles.shuttlesapp.View;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -143,6 +144,13 @@ public class DrinkListVtcActivity extends AppCompatActivity implements Connectio
                         String price = drinkListVO.getPrice();
                         String description = drinkListVO.getDescription();
 
+                        if(drinkListVO.getIsAvailable() != 0) // if not 0 then sold out
+                        {
+                            Toast.makeText(getApplicationContext(), "현재 " + name + "은 품절입니다.", Toast.LENGTH_LONG).show();
+                            return true;
+                        }
+
+
                         Toast.makeText(getApplicationContext(), groupPosition + " " + childPosition + " " + name + " " + url, Toast.LENGTH_SHORT).show();
                         Intent intent = new Intent(getApplicationContext(), DrinkOrderDetailPopActivity.class);
                         intent.putExtra("coffee_id", coffeeID);
@@ -251,7 +259,13 @@ class ExpandableListAdapter extends BaseExpandableListAdapter{
 
         // 아이템 내 각 위젯에 데이터 반영
         ivDrinkList.setImageDrawable(drinkListVO.getImg());
-        tvDrinkName.setText(drinkListVO.getName());
+        Log.i(Constants.LOG_TAG,drinkListVO.getName() + " isAvailable " + drinkListVO.getIsAvailable());
+
+        if(drinkListVO.getIsAvailable() == 0)
+            tvDrinkName.setText(drinkListVO.getName());
+        else
+            tvDrinkName.setText(drinkListVO.getName() + " (품절)");
+
         tvDrinkPrice.setText(drinkListVO.getPrice() + "원");
 
         return convertView;
