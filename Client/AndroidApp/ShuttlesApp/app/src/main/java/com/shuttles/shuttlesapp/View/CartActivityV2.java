@@ -64,14 +64,14 @@ public class CartActivityV2 extends AppCompatActivity {
                 int type = orderProductListVO.getType();
                 int oid = orderProductListVO.getOid();
 
-                Toast.makeText(getApplicationContext(), "name : " + name + ", price : " + price + ", pos : " + i + ", type : " + type + ", oid : " + oid, Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getApplicationContext(), "name : " + name + ", price : " + price + ", pos : " + i + ", type : " + type + ", oid : " + oid, Toast.LENGTH_SHORT).show();
             }
         });
 
         lvCart.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(getApplicationContext(), "Long click. 삭제 pos : " + position, Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getApplicationContext(), "Long click. 삭제 pos : " + position, Toast.LENGTH_SHORT).show();
                 OrderProductListVO orderProductListVO = (OrderProductListVO) cartListViewAdapter.getItem(position);
                 int type = orderProductListVO.getType();
                 int oid = orderProductListVO.getOid();
@@ -167,9 +167,9 @@ class CartListViewAdapterV2 extends BaseAdapter {
             @Override
             public void onClick(View v) {
                 int cnt = Integer.parseInt(tvProductCnt.getText() + "");
-                Toast.makeText(context, "- " + orderProductListVO.getType() + " name : " + orderProductListVO.getProductName() + ", oid : "  + orderProductListVO.getOid() ,Toast.LENGTH_SHORT).show();
+                //Toast.makeText(context, "- " + orderProductListVO.getType() + " name : " + orderProductListVO.getProductName() + ", oid : "  + orderProductListVO.getOid() ,Toast.LENGTH_SHORT).show();
                 if(cnt <= 1){
-                    Toast.makeText(context, "Delete", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context, "삭제되었습니다.", Toast.LENGTH_SHORT).show();
                     //그 pos의 oid를 찾아서 OrderRequestVO에서도 삭제
                     int type = orderProductListVO.getType();
                     int oid = orderProductListVO.getOid();
@@ -191,7 +191,7 @@ class CartListViewAdapterV2 extends BaseAdapter {
             @Override
             public void onClick(View v) {
                 int cnt = Integer.parseInt(tvProductCnt.getText() + "");
-                Toast.makeText(context, "+ " + orderProductListVO.getType() + " name : " + orderProductListVO.getProductName() + ", oid : "  + orderProductListVO.getOid() ,Toast.LENGTH_SHORT).show();
+                //Toast.makeText(context, "+ " + orderProductListVO.getType() + " name : " + orderProductListVO.getProductName() + ", oid : "  + orderProductListVO.getOid() ,Toast.LENGTH_SHORT).show();
                 if(cnt >= 99){
                     Toast.makeText(context, "Can not add", Toast.LENGTH_SHORT).show();
                     return;

@@ -73,7 +73,7 @@ public class AddressListActivity extends AppCompatActivity {
 
                 int id = addressVO.getId();
 
-                Toast.makeText(getApplicationContext(), "id : " + id + " pos : " + i, Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getApplicationContext(), "id : " + id + " pos : " + i, Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -84,7 +84,7 @@ public class AddressListActivity extends AppCompatActivity {
 
                 int addressVOId = addressVO.getId();
 
-                Toast.makeText(getApplicationContext(), "LONG id : " + position + " pos : " + addressVOId, Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getApplicationContext(), "LONG id : " + position + " pos : " + addressVOId, Toast.LENGTH_SHORT).show();
                 showAlertDialog(addressVOId);
 
                 return false;

@@ -114,7 +114,7 @@ public class DrinkOrderDetailPopActivity extends AppCompatActivity implements Co
         btnAddToCart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getApplicationContext(), "Click Add to cart", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getApplicationContext(), "Click Add to cart", Toast.LENGTH_SHORT).show();
                 Log.i(TAG, "Click Add to cart");
                 addToCart();
                 finish();
@@ -125,7 +125,7 @@ public class DrinkOrderDetailPopActivity extends AppCompatActivity implements Co
         btnOrderNow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getApplicationContext(), "Click Order Now", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getApplicationContext(), "Click Order Now", Toast.LENGTH_SHORT).show();
                 Log.i(TAG, "Click Order Now");
                 if(addToCart()){
                     //orderRequest(OrderRequestVO.getInstance());
@@ -142,7 +142,7 @@ public class DrinkOrderDetailPopActivity extends AppCompatActivity implements Co
     private boolean addToCart(){
         if(isValidForm()){
             Log.i(TAG, "Valid Form");
-            Toast.makeText(getApplicationContext(), "add to cart", Toast.LENGTH_SHORT).show();
+            //Toast.makeText(getApplicationContext(), "add to cart", Toast.LENGTH_SHORT).show();
 
             ArrayList<OptionElementVO> selectedOptionList = new ArrayList<>();
             for(OptionElementVO e : mDrinkOptionList){

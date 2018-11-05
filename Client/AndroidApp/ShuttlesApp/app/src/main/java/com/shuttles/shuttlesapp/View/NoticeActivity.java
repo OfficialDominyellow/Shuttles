@@ -85,7 +85,7 @@ public class NoticeActivity extends AppCompatActivity implements ConnectionImpl{
                         String subject = noticeListVO.getNotice_subject();
                         String date = noticeListVO.getNotice_date();
 
-                        Toast.makeText(getApplicationContext(), "title : " + subject + ", content : " + date + ", pos : " + i, Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(getApplicationContext(), "title : " + subject + ", content : " + date + ", pos : " + i, Toast.LENGTH_SHORT).show();
                         Intent intent = new Intent(getApplicationContext(), NoticeDetailActivity.class);
                         intent.putExtra("notice", noticeListVO);
                         startActivity(intent);

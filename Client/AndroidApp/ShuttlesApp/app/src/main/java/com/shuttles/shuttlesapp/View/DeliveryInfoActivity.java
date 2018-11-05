@@ -81,7 +81,7 @@ public class DeliveryInfoActivity extends AppCompatActivity implements Connectio
                 String fullAddress = addressVO.getZipcode() + " " + addressVO.getAddress1() + " " + addressVO.getAddress2() + " " + addressVO.getAddressExtra();
                 String orderComment = addressVO.getOrderComment();
 
-                Toast.makeText(getApplicationContext(), "id : " + id + " pos : " + i + ", full address : " + fullAddress, Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getApplicationContext(), "id : " + id + " pos : " + i + ", full address : " + fullAddress, Toast.LENGTH_SHORT).show();
 
                 showAlertDialog(fullAddress, orderComment);
             }

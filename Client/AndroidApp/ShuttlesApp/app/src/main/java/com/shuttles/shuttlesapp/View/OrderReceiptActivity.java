@@ -104,7 +104,7 @@ public class OrderReceiptActivity extends AppCompatActivity implements Connectio
                 btnOrderAgain.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Toast.makeText(getApplicationContext(), "To Cart ", Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(getApplicationContext(), "To Cart ", Toast.LENGTH_SHORT).show();
 
                         OrderRequestVO.getInstance().clearOrderRequestVO();
                         OrderRequestVO.getInstance().setInstance(orderRequestVO);

@@ -153,7 +153,7 @@ public class DrinkListVtcActivity extends AppCompatActivity implements Connectio
                         }
 
 
-                        Toast.makeText(getApplicationContext(), groupPosition + " " + childPosition + " " + name + " " + url, Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(getApplicationContext(), groupPosition + " " + childPosition + " " + name + " " + url, Toast.LENGTH_SHORT).show();
                         Intent intent = new Intent(getApplicationContext(), DrinkOrderDetailPopActivity.class);
                         intent.putExtra("coffee_id", coffeeID);
                         intent.putExtra("name", name);
