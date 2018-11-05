@@ -46,6 +46,8 @@ public class DrinkListVtcActivity extends AppCompatActivity implements Connectio
     private HashMap<String, List<DrinkListVO>> listHashMap;
 
     private LoadingDialog loadingDialog;
+
+    private static final String TAG = "DrinkListVtcActivity";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -164,6 +166,17 @@ public class DrinkListVtcActivity extends AppCompatActivity implements Connectio
 
                 listHeader = new ArrayList<String>();
                 listHashMap = new HashMap<>();
+
+                String todayHeader = "Today's Menu";
+                listHeader.add(todayHeader);
+                listHashMap.put(todayHeader, new ArrayList<DrinkListVO>());
+                for(DrinkListVO element : drinkList){
+                    if(element.isTodayMenu() == 1){
+                        Log.i(TAG, "Today : " + element.getName());
+                        listHashMap.get(todayHeader).add(element);
+                    }
+                }
+
                 for(DrinkListVO element : drinkList){
                     String header = element.getState();
                     if(!listHeader.contains(header)){
@@ -175,6 +188,7 @@ public class DrinkListVtcActivity extends AppCompatActivity implements Connectio
 
                 listAdapter = new ExpandableListAdapter(this, listHeader, listHashMap);
                 elvDrinkList.setAdapter(listAdapter);
+                elvDrinkList.expandGroup(0);
                 loadingDialog.dismiss();
 
                 break;

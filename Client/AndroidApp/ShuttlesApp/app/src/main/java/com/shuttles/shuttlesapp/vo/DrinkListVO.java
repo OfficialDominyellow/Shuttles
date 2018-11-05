@@ -6,6 +6,7 @@ package com.shuttles.shuttlesapp.vo;
 
 public class DrinkListVO extends Product{
     private String coffee_id;
+    private int isTodayMenu;
 
     public String getCoffee_id() {
         return coffee_id;
@@ -18,5 +19,13 @@ public class DrinkListVO extends Product{
     @Override
     public String getID() {
         return coffee_id;
+    }
+
+    public int isTodayMenu() {
+        return isTodayMenu;
+    }
+
+    public void setTodayMenu(int todayMenu) {
+        isTodayMenu = todayMenu;
     }
 }
