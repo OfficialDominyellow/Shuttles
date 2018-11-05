@@ -193,7 +193,7 @@ class CartListViewAdapterV2 extends BaseAdapter {
                 int cnt = Integer.parseInt(tvProductCnt.getText() + "");
                 //Toast.makeText(context, "+ " + orderProductListVO.getType() + " name : " + orderProductListVO.getProductName() + ", oid : "  + orderProductListVO.getOid() ,Toast.LENGTH_SHORT).show();
                 if(cnt >= 99){
-                    Toast.makeText(context, "Can not add", Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(context, "Can not add", Toast.LENGTH_SHORT).show();
                     return;
                 }
 

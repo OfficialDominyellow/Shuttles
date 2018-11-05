@@ -94,7 +94,7 @@ public class AddressNewActivity extends AppCompatActivity {
                 });
                 realm.commitTransaction();
 
-                Toast.makeText(getApplicationContext(), "zipcode : " + mZipcode + ", add1 : " + mAddress1 + ", add2 : " + mAddress2 + ", addressExtra : " + mAddressExtra + ", orderComment : " + mOrderComment, Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getApplicationContext(), "zipcode : " + mZipcode + ", add1 : " + mAddress1 + ", add2 : " + mAddress2 + ", addressExtra : " + mAddressExtra + ", orderComment : " + mOrderComment, Toast.LENGTH_SHORT).show();
                 finish();
             }
         });

@@ -94,7 +94,7 @@ public class OrderHistoryActivity extends AppCompatActivity implements Connectio
                         int orderState = orderHistoryListVO.getOrderState();
                         String orderStateString = orderHistoryListVO.getStatusStatement();
 
-                        Toast.makeText(getApplicationContext(), "order id : " + orderId + ", orderPrice : " + orderPrice + ", status : " + orderState + ", statusStatement : " + orderStateString +", pos : " + i, Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(getApplicationContext(), "order id : " + orderId + ", orderPrice : " + orderPrice + ", status : " + orderState + ", statusStatement : " + orderStateString +", pos : " + i, Toast.LENGTH_SHORT).show();
                         Intent intent = new Intent(getApplicationContext(), OrderReceiptActivity.class);
                         intent.putExtra("orderId", orderId);
                         startActivity(intent);

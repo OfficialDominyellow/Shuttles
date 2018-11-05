@@ -92,7 +92,7 @@ public class OrderManageActivity extends AppCompatActivity implements Connection
                         int orderState = orderManageListVO.getOrderState();
                         String orderStateString = orderManageListVO.getStatusStatement();
 
-                        Toast.makeText(getApplicationContext(), "order id : " + orderId + ", orderPrice : " + orderPrice + ", status : " + orderState + ", statusStatement : " + orderStateString +", pos : " + i, Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(getApplicationContext(), "order id : " + orderId + ", orderPrice : " + orderPrice + ", status : " + orderState + ", statusStatement : " + orderStateString +", pos : " + i, Toast.LENGTH_SHORT).show();
                         Intent intent = new Intent(getApplicationContext(), OrderManageDetailActivity.class);
                         intent.putExtra("orderId", orderId);
                         startActivity(intent);
