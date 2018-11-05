@@ -1,6 +1,7 @@
 package com.shuttles.shuttlesapp.View;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.ListViewCompat;
@@ -9,7 +10,10 @@ import android.text.Editable;
 import android.text.InputFilter;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -187,18 +191,18 @@ public class OrderManageDetailActivity extends AppCompatActivity implements Conn
                 OrderRequestVO orderRequestVO = gson.fromJson(mOrderManageDetailData, new TypeToken<OrderRequestVO>(){}.getType());
 
                 ListViewCompat lvOrderReceipt = (ListViewCompat) findViewById(R.id.lv_order_receipt_manage_detail);
-                final CartListViewAdapterV2 cartListViewAdapter = new CartListViewAdapterV2();
+                final ReceiptListViewAdapter receiptListViewAdapter = new ReceiptListViewAdapter();
                 //add coffee
                 for(DrinkElementVO e : orderRequestVO.getCoffee()){
-                    cartListViewAdapter.addItem(e.getName(), e.getPrice() * e.getCount(), e.getPrice(), e.getCount(), (ArrayList<OptionElementVO>) e.getOption(), OrderProductListVO.COFFEE, e.getOid());
+                    receiptListViewAdapter.addItem(e.getName(), e.getPrice() * e.getCount(), e.getPrice(), e.getCount(), (ArrayList<OptionElementVO>) e.getOption(), OrderProductListVO.COFFEE, e.getOid());
                 }
 
                 //add drink
                 for(FoodElementVO e : orderRequestVO.getFood()){
-                    cartListViewAdapter.addItem(e.getName(), e.getPrice() * e.getCount(), e.getPrice(), e.getCount(), (ArrayList<OptionElementVO>) e.getOption(), OrderProductListVO.SPECIAL_FOOD, e.getOid());
+                    receiptListViewAdapter.addItem(e.getName(), e.getPrice() * e.getCount(), e.getPrice(), e.getCount(), (ArrayList<OptionElementVO>) e.getOption(), OrderProductListVO.SPECIAL_FOOD, e.getOid());
                 }
 
-                lvOrderReceipt.setAdapter(cartListViewAdapter);
+                lvOrderReceipt.setAdapter(receiptListViewAdapter);
 
                 ((TextView)findViewById(R.id.tv_product_total_price_manage_detail)).setText(orderRequestVO.getOrderPrice() + "원");
                 break;
@@ -209,4 +213,5 @@ public class OrderManageDetailActivity extends AppCompatActivity implements Conn
         }
     }
 }
+
 

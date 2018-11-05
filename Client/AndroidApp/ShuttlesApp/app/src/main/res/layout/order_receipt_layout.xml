@@ -66,6 +66,25 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:paddingVertical="4dp">
+                <Button
+                    android:id="@+id/btn_order_again"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bg_login_selector"
+                    android:text="재주문"
+                    android:textColor="@color/colorAccent"
+                    android:textAllCaps="false"
+                    android:padding="10dp"
+                    android:clickable="true"
+                    android:layout_marginTop="8dp"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="48dp"
                 android:gravity="center"
                 android:orientation="horizontal">

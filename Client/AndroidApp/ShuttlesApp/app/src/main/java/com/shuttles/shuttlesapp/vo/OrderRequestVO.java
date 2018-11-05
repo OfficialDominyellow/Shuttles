@@ -48,6 +48,10 @@ public class OrderRequestVO {
         return gson.toJson(this);
     }
 
+    public void setInstance(OrderRequestVO o){
+        instance = o;
+    }
+
     public void addCoffee(String coffeeName, int coffeeId, int coffeeCount, int coffeeOrgPrice, int coffeeUnitPrice, List<OptionElementVO> optionList){
         Log.i(TAG, "add Coffee : " + coffeeName + ", " + coffeeId + ", " + coffeeCount + ", " + coffeeOrgPrice + ", " + coffeeUnitPrice );
         int price = coffeeUnitPrice;

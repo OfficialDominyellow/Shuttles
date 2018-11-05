@@ -169,7 +169,17 @@ class CartListViewAdapterV2 extends BaseAdapter {
                 int cnt = Integer.parseInt(tvProductCnt.getText() + "");
                 Toast.makeText(context, "- " + orderProductListVO.getType() + " name : " + orderProductListVO.getProductName() + ", oid : "  + orderProductListVO.getOid() ,Toast.LENGTH_SHORT).show();
                 if(cnt <= 1){
-                    Toast.makeText(context, "remove ? ", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context, "Delete", Toast.LENGTH_SHORT).show();
+                    //그 pos의 oid를 찾아서 OrderRequestVO에서도 삭제
+                    int type = orderProductListVO.getType();
+                    int oid = orderProductListVO.getOid();
+                    if(type == OrderProductListVO.COFFEE){
+                        OrderRequestVO.getInstance().removeDrinkByOid(oid);
+                    }
+                    else if(type == OrderProductListVO.SPECIAL_FOOD){
+                        OrderRequestVO.getInstance().removeFoodByOid(oid);
+                    }
+                    ((CartActivityV2)context).onResume();
                     return;
                 }
                 OrderRequestVO.getInstance().decreaseProductByTypeAndOid(orderProductListVO.getType(), orderProductListVO.getOid());
@@ -186,6 +196,7 @@ class CartListViewAdapterV2 extends BaseAdapter {
                     Toast.makeText(context, "Can not add", Toast.LENGTH_SHORT).show();
                     return;
                 }
+
                 OrderRequestVO.getInstance().increaseProductByTypeAndOid(orderProductListVO.getType(), orderProductListVO.getOid());
                 ((CartActivityV2)context).onResume();
             }
